@@ -16,6 +16,7 @@ stationListAll = stationListAllRaw |>
          type = pluck(., "station", "type"),
          station_id = pluck(., "station","id"),
          station_type = interaction(type_of_area, type))
+
 validSites = stationListAll |>
   filter(stringr::str_detect(station_type, "urban"),
          sampling_frequency == "hourly") |>
@@ -42,4 +43,21 @@ nSites = tibble(date = seq(firstSite, lastSite,"1 month")) |>
 ggplot(nSites)+
   geom_point(aes(date, nSites, colour = station_type))+
   geom_vline(aes(xintercept = ymd_hm("2000-01-01 00:00")))+
-  facet_wrap(~country, scales = "free_y")
+  facet_wrap(~country, scales = "free_y")+
+  AQVisR::AQvis_plotTheme()
+
+nSites |>
+  filter(country == "United States of America") |>
+  ggplot()+
+  geom_point(aes(date, nSites, colour = station_type))+
+  geom_vline(aes(xintercept = ymd_hm("2000-01-01 00:00")))+
+  facet_wrap(~country, scales = "free_y")+
+  AQVisR::AQvis_plotTheme()
+
+nSites |>
+  filter(country %in% c("Brazil","Chile")) |>
+  ggplot()+
+  geom_point(aes(date, nSites, colour = station_type))+
+  geom_vline(aes(xintercept = ymd_hm("2000-01-01 00:00")))+
+  facet_wrap(~country, scales = "free_y")+
+  AQVisR::AQvis_plotTheme()
