@@ -58,7 +58,7 @@ for(i in 1:nrow(toDo)){
     # so try again unless its the last attempt.
     if(!"tbl_df" %in% class(response)){
       if(j == 5){
-        requestStatus$status[requestStatus$cc == c] = "failed"
+        requestStatus$status[requestStatus$cc == cc] = "failed"
         write.csv(requestStatus, statusPath, row.names = F)
       }
 
@@ -74,9 +74,9 @@ for(i in 1:nrow(toDo)){
       break
     }
 
-    # Otherwise we have a succesful request, save it, log it and move on
+    # Otherwise we have a successful request, save it, log it and move on
     # Using RDS because we end up with a nested tibble.
-    filePath = paste0(outputDir,"/stationList_",cc,".RDS")
+    filePath = here(outputDir,psate0("stationList_",cc,".RDS"))
     saveRDS(response, filePath)
 
     requestStatus$status[requestStatus$cc == cc] = "completed"
