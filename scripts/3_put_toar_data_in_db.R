@@ -30,7 +30,9 @@ if(!file.exists(statusPath)){
       collect()
 
   }else{
-    completed = tibble(timeseries_id = NULL)
+    completed = tribble(
+      ~timeseries_id
+      )
   }
 
   requestStatus = tibble(timeseries_id = toarMeta$timeseries_id) |>
