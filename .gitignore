@@ -51,3 +51,7 @@ rsconnect/
 # data folder
 data/
 data_old/
+tmp/
+
+# old scripts
+scripts_old/
