@@ -44,12 +44,12 @@ ts = tibble(date = seq(ymd_hm("2000-01-01 00:00"), ymd_hm("2021-12-31 00:00"), "
 
 datMonth = tbl(con,"all_data") |>
   mutate(date = floor_date(date,"month")) |>
-  group_by(date, name, station_id, region) |>
+  group_by(date, name, station_id, station_type) |>
   summarise(value = median(value, na.rm = T)) |>
   ungroup() |>
   mutate(m = month(date)) |>
   ungroup() |>
-  left_join(tbl(con, "coverage"))
+  left_join(tbl(con, "coverage"), by = c("name", "station_id"))
 
 # coverage = tbl(con, "coverage") |>
 #   filter(perc >= 90) |>
@@ -66,7 +66,7 @@ dat = datMonth |>
   filter(perc > 90) |>
   arrange(station_id, date) |>
   collect() |>
-  nest_by(name, station_id, region, perc) |>
+  nest_by(name, station_id, station_type, perc) |>
   rowwise() |>
   mutate(seasonality = tibble(m = 1:12,
                               season = predict(lm(seasonModel,data = data),
