@@ -4,12 +4,12 @@ library(dplyr)
 library(purrr)
 library(lubridate)
 
-inputDir = here("data","toar","stations")
+inputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 
 stationFiles = list.files(inputDir)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here("data","db.duckdb"),
+                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 for(i in 1:length(stationFiles)){

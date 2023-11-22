@@ -4,7 +4,7 @@ library(dplyr)
 library(lubridate)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here("data","db.duckdb"), read_only = FALSE)
+                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = FALSE)
 
 
 ts = tibble(date = seq(ymd_hm("2000-01-01 00:00"), ymd_hm("2022-01-01 00:00"), "hour"))

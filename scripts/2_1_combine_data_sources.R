@@ -19,7 +19,7 @@ insert_tbl_into_db = function(con, query, table){
 
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here("data","db.duckdb"),
+                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 # Lookup existing sites ---------------------------------------------------

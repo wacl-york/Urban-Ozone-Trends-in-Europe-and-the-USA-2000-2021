@@ -7,7 +7,7 @@ library(lubridate)
 
 # -------------------------------------------------------------------------
 
-outputDir = here("data","toar","stations")
+outputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 
 countryCode = list_controlled_vocabulary("Country Code") |>
   filter(flag >= 0)
@@ -17,7 +17,7 @@ completed = tibble(path = list.files(outputDir)) |>
            str_remove("stationList_") |>
            str_remove(".RDS"))
 
-statusPath = here("data","toar","station_request_status.csv")
+statusPath = here(readLines("data_config.txt",n = 1),"data","toar","station_request_status.csv")
 
 if(!file.exists(statusPath)){
 

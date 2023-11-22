@@ -6,7 +6,7 @@ library(stringr)
 library(lubridate)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here("data","db.duckdb"),
+                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 toarMeta = tbl(con,"toarMeta") |>
@@ -17,7 +17,7 @@ toarMeta = tbl(con,"toarMeta") |>
   collect()
 
 
-statusPath = here("data","toar","toarDB_request_status.csv")
+statusPath = here(readLines("data_config.txt",n = 1),"data","toar","toarDB_request_status.csv")
 
 if(!file.exists(statusPath)){
   # if for some reason we have data in the db, but we have lost the request status file
