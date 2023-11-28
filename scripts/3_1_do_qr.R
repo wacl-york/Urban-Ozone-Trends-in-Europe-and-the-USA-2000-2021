@@ -38,7 +38,7 @@ mbfun = function(formula,
 # -------------------------------------------------------------------------
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here("data","db.duckdb"), read_only = FALSE)
+                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = FALSE)
 
 ts = tibble(date = seq(ymd_hm("2000-01-01 00:00"), ymd_hm("2021-12-31 00:00"), "month"))
 
@@ -63,10 +63,10 @@ seasonModel = value~sin(2*pi*m/12)+cos(2*pi*m/12)+ sin(2*pi*m/6)+cos(2*pi*m/6)
 
 dat = datMonth |>
   #filter(station_id %in% stationsWithCoverage) |>
-  filter(perc > 90) |>
+  filter(coverage_check) |>
   arrange(station_id, date) |>
   collect() |>
-  nest_by(name, station_id, station_type, perc) |>
+  nest_by(name, station_id, station_type) |>
   rowwise() |>
   mutate(seasonality = tibble(m = 1:12,
                               season = predict(lm(seasonModel,data = data),
@@ -84,6 +84,8 @@ dat$fit = NA
 dat$fit_se = NA
 dat$fit_pv = NA
 
+saveRDS(dat, here(readLines("data_config.txt",n = 1),"data","dataBeforeStat.RDS"))
+
 pb = progress::progress_bar$new(total = nrow(dat))
 
 tau = c(0.05, 0.50, 0.95)
@@ -99,7 +101,7 @@ for(i in 1:nrow(dat)){
   )
 
   dat$fit_se[i] = tryCatch({
-    mbfun(value~x,
+    mbfun(anom~x,
           data = dat$data[[i]],
           tau = tau) |>
       replicate(1000, expr = _) |>
