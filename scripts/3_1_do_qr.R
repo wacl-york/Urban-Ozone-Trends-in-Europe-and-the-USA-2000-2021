@@ -6,8 +6,8 @@ library(ggplot2)
 library(quantreg)
 library(lubridate)
 
-# Take bootstrap samples of the timeseries and return quantile regression coeficients.
-# used to test significance of the trend in the measuered timeseries.
+# Take bootstrap samples of the timeseries and return quantile regression coefficients.
+# used to test significance of the trend in the measured timeseries.
 mbfun = function(formula,
                  data,
                  tau # the quantile to do qr on.
@@ -86,28 +86,38 @@ dat$fit_pv = NA
 
 saveRDS(dat, here(readLines("data_config.txt",n = 1),"data","dataBeforeStat.RDS"))
 
+dat = readRDS(here(readLines("data_config.txt",n = 1),"data","dataBeforeStat.RDS"))
+
 pb = progress::progress_bar$new(total = nrow(dat))
 
 tau = c(0.05, 0.50, 0.95)
 
+# Calculating the fit and p values
+
 for(i in 1:nrow(dat)){
-  pb$tick()
+  # pb$tick()
   dat$fit[i] = tryCatch({
-    rq(anom~x, data = dat$data[[i]], tau = tau) |>
-      coef() |>
-      list()
+    foo <- rq(anom~x, data = dat$data[[i]], tau = tau) |>
+      coef()
+    list(foo)
   },
   error = function(e){list(e)}
   )
 
   dat$fit_se[i] = tryCatch({
-    mbfun(anom~x,
-          data = dat$data[[i]],
-          tau = tau) |>
-      replicate(1000, expr = _) |>
-      apply(2,sd, na.rm = T) |>
-      list()},
-    error = function(e){list(e)}
+    bs_results <- mbfun(anom~x,
+                        data = dat$data[[i]],
+                        tau = tau) |>
+      replicate(1000, expr = _)
+    if (length(dim(bs_results)) == 3) {
+      margins <- 1:2
+    } else if (length(dim(bs_results)) == 2) {
+      margins <- 2
+    }
+    apply(bs_results, margins,sd, na.rm = T) |>
+      list()
+  },
+  error = function(e){list(e)}
   )
 
   dat$fit_pv[i] = tryCatch({ (pt(q = abs(dat$fit[[i]]/dat$fit_se[[i]]),
@@ -120,6 +130,6 @@ for(i in 1:nrow(dat)){
 }
 
 
-saveRDS(dat, here("data","dataWithStat.RDS"))
+saveRDS(dat, here(readLines("data_config.txt",n = 1),"data","dataWithStat.RDS"))
 
 dbDisconnect(con, shutdown = T)
