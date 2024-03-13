@@ -8,128 +8,139 @@ library(lubridate)
 
 # Take bootstrap samples of the timeseries and return quantile regression coefficients.
 # used to test significance of the trend in the measured timeseries.
-mbfun = function(formula,
-                 data,
-                 tau # the quantile to do qr on.
-){
 
-  n = nrow(data) # length of timeseries
-  b = ceiling(n^0.25) # block length
-  nblocks = ceiling(n/b)
+source(here::here('functions','mbfun.R'))
 
-  # create a list of sequences that are the length of a block, and overlap with the subsequent block for b-1 of the values
-  # the values in the sequences correspond to row ids in the data. eventually used to select values from the data
-  # the list contains enough elements such that the last sequence in the list has its final value == n
-  # (n-b+1, but the values in the sequence run to b-1, so the final value == n)
-  blocks = lapply(seq_len(n-b+1), function(i) seq(i, i+b-1))
-
-  # create a vector of randomly sampled block ids - i.e. values between 1 and nblocks.
-  bn = sample(1:length(blocks), nblocks, replace = T)
-
-  # blocks[bn] randomly sample (with replacement) the blocks of data.
-  # unlisting this produces a vector that will rearrange the "blocks" of the timeseries
-
-  samp_data = data[unlist(blocks[bn]),]
-  mod = rq(formula, data = samp_data, tau = tau)
-
-  coef(mod)
+clean_qr_coef = function(fit){
+  fit |>
+    as_tibble() |>
+    mutate(stat = c("intercept", "slope")) |>
+    pivot_longer(-stat, names_to = "tau") |>
+    mutate(tau = tau |>
+             stringr::str_remove("tau= ") |>
+             as.numeric())
 }
 
 # -------------------------------------------------------------------------
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = FALSE)
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
-ts = tibble(date = seq(ymd_hm("2000-01-01 00:00"), ymd_hm("2021-12-31 00:00"), "month"))
+dat = tbl(con, "monthly_anom")
 
-datMonth = tbl(con,"all_data") |>
-  mutate(date = floor_date(date,"month")) |>
-  group_by(date, name, station_id, station_type) |>
-  summarise(value = median(value, na.rm = T)) |>
-  ungroup() |>
-  mutate(m = month(date)) |>
-  ungroup() |>
-  left_join(tbl(con, "coverage"), by = c("name", "station_id"))
-
-# coverage = tbl(con, "coverage") |>
-#   filter(perc >= 90) |>
-#   collect()
-
-# assign into a vector as the db interface doesn't like filtering to a column here.
-# I think using local(coverage$station_id) would achieve the same goal, but I'm not sure so I'll stick with this
-#stationsWithCoverage = coverage$station_id
-
-seasonModel = value~sin(2*pi*m/12)+cos(2*pi*m/12)+ sin(2*pi*m/6)+cos(2*pi*m/6)
-
-dat = datMonth |>
-  #filter(station_id %in% stationsWithCoverage) |>
-  filter(coverage_check) |>
-  arrange(station_id, date) |>
-  collect() |>
-  nest_by(name, station_id, station_type) |>
-  rowwise() |>
-  mutate(seasonality = tibble(m = 1:12,
-                              season = predict(lm(seasonModel,data = data),
-                                               newdata = data.frame(m = 1:12))) |>
-           list()) |>
-  mutate(data = ts |>
-           left_join(data, by = "date") |>
-           left_join(seasonality, by = "m") |>
-           mutate(
-             x = row_number(),
-             anom = value-season) |>
-           list())
-
-dat$fit = NA
-dat$fit_se = NA
-dat$fit_pv = NA
-
-saveRDS(dat, here(readLines("data_config.txt",n = 1),"data","dataBeforeStat.RDS"))
-
-dat = readRDS(here(readLines("data_config.txt",n = 1),"data","dataBeforeStat.RDS"))
-
-pb = progress::progress_bar$new(total = nrow(dat))
-
-tau = c(0.05, 0.50, 0.95)
+tau = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95)
 
 # Calculating the fit and p values
 
-for(i in 1:nrow(dat)){
-  # pb$tick()
-  dat$fit[i] = tryCatch({
-    foo <- rq(anom~x, data = dat$data[[i]], tau = tau) |>
-      coef()
-    list(foo)
-  },
-  error = function(e){list(e)}
-  )
+name_station = tbl(con, "name_station") |>
+  collect()
 
-  dat$fit_se[i] = tryCatch({
-    bs_results <- mbfun(anom~x,
-                        data = dat$data[[i]],
-                        tau = tau) |>
-      replicate(1000, expr = _)
-    if (length(dim(bs_results)) == 3) {
-      margins <- 1:2
-    } else if (length(dim(bs_results)) == 2) {
-      margins <- 2
-    }
-    apply(bs_results, margins,sd, na.rm = T) |>
-      list()
-  },
-  error = function(e){list(e)}
-  )
+tables = dbListTables(con)
 
-  dat$fit_pv[i] = tryCatch({ (pt(q = abs(dat$fit[[i]]/dat$fit_se[[i]]),
-                                 df = nrow(dat$data[[i]])-2,
-                                 lower.tail = F)*2) |>
-      list()},
-      error = function(e){list(e)}
-  )
+if("qr_stat" %in% tables){
+
+  complete_name_stations = tbl(con, "qr_stat") |>
+    select(name, station_id) |>
+    distinct()
+  collect()
+
+  toDo = anti_join(name_station, complete_name_stations, by = c("name", "station_id"))
+
+}else{
+
+  toDo = name_station
 
 }
 
+pb = progress::progress_bar$new(total = nrow(toDo))
 
-saveRDS(dat, here(readLines("data_config.txt",n = 1),"data","dataWithStat.RDS"))
+for(i in 1:nrow(toDo)){
+
+  pb$tick()
+
+  id = name_station$station_id[i]
+  nm = name_station$name[i]
+
+  tempDat = dat |>
+    filter(station_id == id,
+           name == nm) |>
+    arrange(date) |>
+    collect()
+
+  ts = tibble(date = seq(min(tempDat$date), max(tempDat$date), "month"))
+
+  tempDat = ts |>
+    left_join(tempDat, by = "date") |>
+    mutate(date = round_date(date, "day")) |>
+    group_by(date, name, station_id, station_type) |>
+    summarise_all(mean, na.rm = T) |>
+    ungroup() |>
+    mutate(x = row_number())
+
+  if(nrow(tempDat) > 0){
+
+    tempFit = tryCatch({
+      foo <- rq(anom~x, data = tempDat, tau = tau) |>
+        coef()
+    },
+    error = function(e){list(e)}
+    )
+
+    cleanTempFit = tempFit |>
+      clean_qr_coef() |>
+      mutate(type = "fit")
+
+    tempSe = tryCatch({
+      bs_results <- mbfun(anom~x,
+                          data = tempDat,
+                          tau = tau) |>
+        replicate(1000, expr = _)
+      if (length(dim(bs_results)) == 3) {
+        margins <- 1:2
+      } else if (length(dim(bs_results)) == 2) {
+        margins <- 2
+      }
+      apply(bs_results, margins,sd, na.rm = T)
+    },
+    error = function(e){list(e)}
+    )
+
+    cleanTempSe = tempSe |>
+      clean_qr_coef() |>
+      mutate(type = "se")
+
+    tempPv = tryCatch({ (pt(q = abs(tempFit/tempSe),
+                            df = nrow(tempDat)-2,
+                            lower.tail = F)*2)},
+                      error = function(e){list(e)}
+    )
+
+    cleanTempPv = tempPv |>
+      clean_qr_coef() |>
+      mutate(type = "pv")
+
+    tempStat = bind_rows(
+      cleanTempFit,
+      cleanTempSe,
+      cleanTempPv
+    ) |>
+      mutate(station_id = id,
+             name = nm)
+
+    if("qr_stat" %in% tables){
+
+      dbAppendTable(con, "qr_stat", tempStat)
+
+    }else{
+
+      dbWriteTable(con, "qr_stat", tempStat)
+      tables = dbListTables(con)
+
+    }
+
+  }else{
+    next
+  }
+}
 
 dbDisconnect(con, shutdown = T)
