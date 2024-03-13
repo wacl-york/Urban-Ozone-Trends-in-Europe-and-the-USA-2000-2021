@@ -41,8 +41,8 @@ if("qr_stat" %in% tables){
 
   complete_name_stations = tbl(con, "qr_stat") |>
     select(name, station_id) |>
-    distinct()
-  collect()
+    distinct() |>
+    collect()
 
   toDo = anti_join(name_station, complete_name_stations, by = c("name", "station_id"))
 
@@ -58,24 +58,14 @@ for(i in 1:nrow(toDo)){
 
   pb$tick()
 
-  id = name_station$station_id[i]
-  nm = name_station$name[i]
+  id = toDo$station_id[i]
+  nm = toDo$name[i]
 
   tempDat = dat |>
     filter(station_id == id,
            name == nm) |>
     arrange(date) |>
     collect()
-
-  ts = tibble(date = seq(min(tempDat$date), max(tempDat$date), "month"))
-
-  tempDat = ts |>
-    left_join(tempDat, by = "date") |>
-    mutate(date = round_date(date, "day")) |>
-    group_by(date, name, station_id, station_type) |>
-    summarise_all(mean, na.rm = T) |>
-    ungroup() |>
-    mutate(x = row_number())
 
   if(nrow(tempDat) > 0){
 
