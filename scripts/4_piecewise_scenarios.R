@@ -24,10 +24,11 @@ name_station = tbl(con, "name_station") |>
 
 dbDisconnect(con, shutdown = T)
 
-dateRange = seq.Date(ymd("2002-01-01"), ymd("2020-01-01"), "6 month")
+dateRange = seq.Date(ymd("2002-01-01"), ymd("2020-01-01"), "12 month")
 
 scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |>
   bind_rows(tibble(cp1 = dateRange, cp2 = NA)) |>
-  mutate(data = list(name_station)) |>
+  mutate(data = list(name_station),
+         scenario_idx = row_number()) |>
   unnest(data)
 
