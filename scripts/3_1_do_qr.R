@@ -10,6 +10,7 @@ library(lubridate)
 # used to test significance of the trend in the measured timeseries.
 
 source(here::here('functions','mbfun.R'))
+source(here::here('functions', 'qr_fun.R'))
 
 clean_qr_coef = function(fit){
   fit |>

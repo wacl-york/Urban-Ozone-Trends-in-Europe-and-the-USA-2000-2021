@@ -25,6 +25,16 @@ mbfun = function(formula,
   coef(mod)
 }
 
+clean_qr_coef = function(fit){
+  fit |>
+    as_tibble() |>
+    mutate(stat = c("intercept", "slope")) |>
+    pivot_longer(-stat, names_to = "tau") |>
+    mutate(tau = tau |>
+             stringr::str_remove("tau= ") |>
+             as.numeric())
+}
+
 do_qr_sub = function(dat,
                      years = c(2000,2021)){
 
@@ -107,7 +117,7 @@ cp1 = scenarios$cp1[scenarioNumber]
 cp2 = scenarios$cp2[scenarioNumber]
 idx = scenarios$scenario_idx[scenarioNumber]
 id = scenarios$station_id[scenarioNumber]
-mn = scenarios$name[scenarioNumber]
+nm = scenarios$name[scenarioNumber]
 
 con = dbConnect()
 
