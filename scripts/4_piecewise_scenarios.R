@@ -17,7 +17,7 @@ create_scenario = function(cp1, dateRange){
 
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
-                read_only = FALSE)
+                read_only = TRUE)
 
 name_station = tbl(con, "name_station") |>
   collect()
