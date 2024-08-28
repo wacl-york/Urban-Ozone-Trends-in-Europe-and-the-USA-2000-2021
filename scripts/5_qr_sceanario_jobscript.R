@@ -111,7 +111,8 @@ args = commandArgs(trailingOnly = TRUE)
 
 scenarioNumber = args[1]+args[2]
 fileOutRoot = args[3]
-scenarios = readRDS(here::here("data/regression_scenarios.RDS","data"))
+#scenarios = readRDS(here(readLines("data_config.txt",n = 1),"data","regression_scenarios.RDS"))
+scenarios = readRDS("/mnt/scratch/users/bsn502/TOAR/regression_scenarios.RDS")
 
 cp1 = scenarios$cp1[scenarioNumber]
 cp2 = scenarios$cp2[scenarioNumber]
