@@ -138,6 +138,8 @@ dat = tbl(con, "all_data") |>
   arrange(date) |>
   collect()
 
+dbDisconnect(con, shutdown = T)
+
 if(is.na(cp2)){
   # single cp case, so only need to fit two qrs
   parts = tribble(
