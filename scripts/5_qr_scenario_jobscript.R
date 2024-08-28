@@ -117,7 +117,7 @@ args = commandArgs(trailingOnly = TRUE)
 
 # arg three is the output path so we can test this locally
 
-scenarioNumber = args[1]+args[2]
+scenarioNumber = as.numeric(args[1])+as.numeric(args[2])
 fileOutRoot = args[3]
 #scenarios = readRDS(here(readLines("data_config.txt",n = 1),"data","regression_scenarios.RDS"))
 scenarios = readRDS("/mnt/scratch/users/bsn502/TOAR/regression_scenarios.RDS")
