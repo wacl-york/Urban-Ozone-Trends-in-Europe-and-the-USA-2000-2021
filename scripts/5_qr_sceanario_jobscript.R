@@ -111,7 +111,7 @@ args = commandArgs(trailingOnly = TRUE)
 
 scenarioNumber = args[1]+args[2]
 fileOutRoot = args[3]
-scenarios = readRDS(scenarios)
+scenarios = readRDS(here::here("data/regression_scenarios.RDS","data"))
 
 cp1 = scenarios$cp1[scenarioNumber]
 cp2 = scenarios$cp2[scenarioNumber]
@@ -149,12 +149,14 @@ if(is.na(cp2)){
 regList = list()
 for(i in 1:nrow(parts)){
   regList[[i]] = do_qr_sub(dat, c(parts$startYear[i], parts$endYear[i])) |>
-    mutate(scenario_idx = idx)
+    mutate(scenario_idx = idx,
+           startYear = parts$startYear[i],
+           endYear = parts$endYear[i])
 }
 
 regressions = bind_rows(regList)
 
-fileOutName = paste0(paste("reg", nm, station_id, idx, sep = "_"), ".csv")
+fileOutName = paste0(paste("reg", nm, id, idx, sep = "_"), ".csv")
 fileOutPath = paste0(fileOutRoot, id)
 
 if(!dir.exists(fileOutPath)){
