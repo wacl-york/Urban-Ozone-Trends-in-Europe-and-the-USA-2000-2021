@@ -1,3 +1,11 @@
+# Load libraries
+
+library(dplyr)
+library(tidyr)
+library(DBI)
+library(quantreg)
+library(lubridate)
+
 mbfun = function(formula,
                  data,
                  tau # the quantile to do qr on.
@@ -120,7 +128,9 @@ idx = scenarios$scenario_idx[scenarioNumber]
 id = scenarios$station_id[scenarioNumber]
 nm = scenarios$name[scenarioNumber]
 
-con = dbConnect()
+con = dbConnect(duckdb::duckdb(),
+                dbdir = "/mnt/scratch/users/bsn502/TOAR/db.duckdb",
+                read_only = TRUE)
 
 dat = tbl(con, "all_data") |>
   filter(station_id == id,
