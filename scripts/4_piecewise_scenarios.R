@@ -32,3 +32,5 @@ scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |>
          scenario_idx = row_number()) |>
   unnest(data)
 
+#write.csv(scenarios, file = "Z:/Global_AQ_Data/TOAR_paper/data/regression_scenarios.csv", row.names = F)
+saveRDS(scenarios, file = here(readLines("data_config.txt",n = 1),"data","regression_scenarios.RDS"))
