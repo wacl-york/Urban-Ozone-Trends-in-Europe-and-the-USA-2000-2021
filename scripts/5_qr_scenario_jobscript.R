@@ -132,7 +132,7 @@ con = dbConnect(duckdb::duckdb(),
                 dbdir = "/mnt/scratch/users/bsn502/TOAR/db.duckdb",
                 read_only = TRUE)
 
-dat = tbl(con, "all_data") |>
+dat = tbl(con, "monthly_anom") |>
   filter(station_id == id,
          name == nm) |>
   arrange(date) |>
