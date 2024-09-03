@@ -51,8 +51,8 @@ for(i in 1:nrow(qr_regressions)){
 
 dbDisconnect(con, shutdown = T)
 
-# library(ggplot2)
 # For testing purposes only:
+# library(ggplot2)
 # ggplot(dat)+
 #   geom_point(aes(x = x, y = qr_y_component), colour = "red")+
 #   geom_point(aes(x = x, y = anom))+
