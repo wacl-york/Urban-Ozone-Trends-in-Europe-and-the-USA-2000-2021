@@ -17,12 +17,11 @@ create_scenario = function(cp1, dateRange){
 
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
-                read_only = TRUE)
+                read_only = FALSE)
 
 name_station = tbl(con, "name_station") |>
   collect()
 
-dbDisconnect(con, shutdown = T)
 
 dateRange = seq.Date(ymd("2002-01-01"), ymd("2020-01-01"), "12 month")
 
@@ -31,6 +30,10 @@ scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |>
   mutate(data = list(name_station),
          scenario_idx = row_number()) |>
   unnest(data)
+
+dbWriteTable(con, "regression_scenarios", scenarios, overwrite = T)
+
+dbDisconnect(con, shutdown = T)
 
 back_up = scenarios
 
