@@ -4,22 +4,22 @@ library(dplyr)
 library(toarR)
 library(saqgetr)
 
-insert_tbl_into_db = function(con, query, table){
-  queryText = dbplyr::db_sql_render(query$src$con, query, table) |>
-    as.character()
-
-  if("all_data" %in% dbListTables(con)){
-    dbExecute(con, paste0("INSERT INTO ",table," (",queryText,")"))
-  }else{
-    dbExecute(con, paste0("CREATE TABLE ",table," AS (", queryText,")"))
-  }
-}
+# insert_tbl_into_db = function(con, query, table){
+#   queryText = dbplyr::db_sql_render(query$src$con, query) |>
+#     as.character()
+#
+#   if("all_data" %in% dbListTables(con)){
+#     dbExecute(con, paste0("INSERT INTO ",table," (",queryText,")"))
+#   }else{
+#     dbExecute(con, paste0("CREATE TABLE ",table," AS (", queryText,")"))
+#   }
+# }
 
 # -------------------------------------------------------------------------
 
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 # Lookup existing sites ---------------------------------------------------
@@ -71,12 +71,12 @@ toarData = tbl(con, "toarData") |>
          lat,
          lng) |>
   mutate(station_id = as.character(station_id)) |>
-  anti_join(added, "station_id")
+  anti_join(added, "station_id") |>
+  collect()
 
+dbWriteTable(con, "all_data", toarData, overwrite = TRUE)
 
-if(nrow(toarData) > 0){
-  insert_tbl_into_db(con, toarData, "all_data")
-}
+# insert_tbl_into_db(con, toarData, "all_data")
 
 # EEA ---------------------------------------------------------------------
 
@@ -97,14 +97,13 @@ eeaData = tbl(con, "eeaData") |>
          value,
          lat,
          lng) |>
-  anti_join(added, "station_id")
+  anti_join(added, "station_id") |>
+  collect()
 
-if(nrow(eeaData) > 0 ){
-  insert_tbl_into_db(con, eeaData, "all_data")
-}
+dbAppendTable(con, "all_data", eeaData)
 
+# insert_tbl_into_db(con, eeaData, "all_data")
 
 # -------------------------------------------------------------------------
-
 
 dbDisconnect(con, shutdown = TRUE)

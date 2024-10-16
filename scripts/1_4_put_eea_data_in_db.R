@@ -5,11 +5,11 @@ library(saqgetr)
 library(lubridate)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 start = "2000-01-01"
-end = "2021-12-31"
+end = "2023-12-31"
 
 eeaMeta = get_saq_sites() |>
   filter(site_area == "urban",

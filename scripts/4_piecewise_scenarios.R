@@ -23,10 +23,11 @@ name_station = tbl(con, "name_station") |>
   collect()
 
 
-dateRange = seq.Date(ymd("2002-01-01"), ymd("2020-01-01"), "12 month")
+dateRange = seq.Date(ymd("2002-01-01"), ymd("2022-01-01"), "12 month")
 
-scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |>
-  bind_rows(tibble(cp1 = dateRange, cp2 = NA)) |>
+scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |> # 2 change points
+  bind_rows(tibble(cp1 = dateRange, cp2 = NA)) |> # 1 change point
+  bind_rows(tibble(cp1 = NA, cp2 = NA)) |> # 0 change points
   mutate(data = list(name_station),
          scenario_idx = row_number()) |>
   unnest(data)
@@ -34,8 +35,3 @@ scenarios = map_df(dateRange, ~create_scenario(.x, dateRange)) |>
 dbWriteTable(con, "regression_scenarios", scenarios, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
-
-back_up = scenarios
-
-#write.csv(scenarios, file = "Z:/Global_AQ_Data/TOAR_paper/data/regression_scenarios.csv", row.names = F)
-#saveRDS(scenarios, file = here(readLines("data_config.txt",n = 1),"data","regression_scenarios.RDS"))

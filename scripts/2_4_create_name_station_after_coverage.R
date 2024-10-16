@@ -3,7 +3,7 @@ library(here)
 library(dplyr)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = FALSE)
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
 name_station = tbl(con,"all_data") |>
   select(name, station_id) |>

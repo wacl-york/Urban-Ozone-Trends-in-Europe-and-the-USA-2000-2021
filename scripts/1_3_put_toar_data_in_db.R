@@ -6,7 +6,7 @@ library(stringr)
 library(lubridate)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
                 read_only = FALSE)
 
 toarMeta = tbl(con,"toarMeta") |>
@@ -17,7 +17,7 @@ toarMeta = tbl(con,"toarMeta") |>
   collect()
 
 
-statusPath = here(readLines("data_config.txt",n = 1),"data","toar","toarDB_request_status.csv")
+statusPath = here(readLines(here("data_config.txt"),n = 1),"data","toar","toarDB_request_status.csv")
 
 if(!file.exists(statusPath)){
   # if for some reason we have data in the db, but we have lost the request status file
@@ -51,8 +51,10 @@ toDo = requestStatus |>
 for(i in 1:nrow(toDo)){
 
   ts_id = toDo$timeseries_id[i]
-
+  cat("\r",ts_id, sep = "")
   for(j in 1:5){
+
+    cat(paste0(".."),j, sep = "")
 
     # inc attempts
     requestStatus$attempts[requestStatus$timeseries_id == ts_id] = requestStatus$attempts[requestStatus$timeseries_id == ts_id]+1
@@ -90,7 +92,8 @@ for(i in 1:nrow(toDo)){
       mutate(date = ymd_hms(datetime)) |>
       select(-datetime) |>
       relocate(date) |>
-      filter(between(date, ymd_hms("2000-01-01 00:00:00"), ymd_hms("2021-12-31 00:00:00")))
+      #  filter(between(date, ymd_hms("2000-01-01 00:00:00"), ymd_hms("2021-12-31 00:00:00")))
+      filter(date >= ymd_hms("2000-01-01 00:00:00"))
 
     if("toarData" %in% dbListTables(con)){
       dbAppendTable(con, "toarData", dat)

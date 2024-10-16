@@ -104,6 +104,8 @@ do_qr_sub = function(dat,
 
     tempStat
 
+  }else{
+    NULL
   }
 }
 
@@ -113,14 +115,22 @@ args = commandArgs(trailingOnly = TRUE)
 # args are: slurm array id, offset and fileoutput path root
 # slurm array jobs are limited to max 10,000, we need to do ~ 130,000
 # so run 13 array jobs, changing the offset by 10,000 each time (0, 10,000, ...)
-# args[1]+ args[2] = sceanario number unique to job.
+# args[1]+ args[2] = scenario number unique to job.
+# scenarioNumber just refers to the row of the regression_scenarios table and
+# is not related to scenario_idx. scenarioNumber is a unique combination of
+# name station_id and scenario_idx
 
 # arg three is the output path so we can test this locally
 
 scenarioNumber = as.numeric(args[1])+as.numeric(args[2])
 fileOutRoot = args[3]
-#scenarios = readRDS(here(readLines("data_config.txt",n = 1),"data","regression_scenarios.RDS"))
-scenarios = readRDS("/mnt/scratch/users/bsn502/TOAR/regression_scenarios.RDS")
+
+con = dbConnect(duckdb::duckdb(),
+                dbdir =  here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
+                read_only = TRUE)
+
+scenarios = tbl(con, "regression_scenarios") |>
+  collect()
 
 cp1 = scenarios$cp1[scenarioNumber]
 cp2 = scenarios$cp2[scenarioNumber]
@@ -128,9 +138,6 @@ idx = scenarios$scenario_idx[scenarioNumber]
 id = scenarios$station_id[scenarioNumber]
 nm = scenarios$name[scenarioNumber]
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = "/mnt/scratch/users/bsn502/TOAR/db.duckdb",
-                read_only = TRUE)
 
 dat = tbl(con, "monthly_anom") |>
   filter(station_id == id,
@@ -140,24 +147,32 @@ dat = tbl(con, "monthly_anom") |>
 
 dbDisconnect(con, shutdown = T)
 
-if(is.na(cp2)){
-  # single cp case, so only need to fit two qrs
-  parts = tribble(
-    ~startYear, ~endYear,
-    year(min(dat$date)), year(cp1),
-    year(cp1), year(max(dat$date))
-  )
+# resolves to 1 if no change points, 2 if only cp2 is NA and 3 both cps are present.
+# there is no case where cp1 is NA and cp2 isn't
 
-}else{
-  # this is the dual cp case so need to do three qrs
-  parts = tribble(
-    ~startYear, ~endYear,
-    year(min(dat$date)), year(cp1),
-    year(cp1), year(cp2),
-    year(cp2), year(max(dat$date))
-  )
-
-}
+switch(
+  sum(!is.na(cp1), !is.na(cp2))+1,
+  {
+    parts = tribble(
+      ~startYear, ~endYear,
+      year(min(dat$date)), year(max(dat$date)))
+  },
+  {
+    parts = tribble(
+      ~startYear, ~endYear,
+      year(min(dat$date)), year(cp1),
+      year(cp1), year(max(dat$date))
+    )
+  },
+  {
+    parts = tribble(
+      ~startYear, ~endYear,
+      year(min(dat$date)), year(cp1),
+      year(cp1), year(cp2),
+      year(cp2), year(max(dat$date))
+    )
+  }
+)
 
 regList = list()
 for(i in 1:nrow(parts)){

@@ -9,6 +9,10 @@ library(lubridate)
 
 outputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 
+if(!dir.exists(outputDir)){
+  dir.create(outputDir, recursive = T)
+}
+
 countryCode = list_controlled_vocabulary("Country Code") |>
   filter(flag >= 0)
 
@@ -76,7 +80,7 @@ for(i in 1:nrow(toDo)){
 
     # Otherwise we have a successful request, save it, log it and move on
     # Using RDS because we end up with a nested tibble.
-    filePath = here(outputDir,psate0("stationList_",cc,".RDS"))
+    filePath = here(outputDir,paste0("stationList_",cc,".RDS"))
     saveRDS(response, filePath)
 
     requestStatus$status[requestStatus$cc == cc] = "completed"
