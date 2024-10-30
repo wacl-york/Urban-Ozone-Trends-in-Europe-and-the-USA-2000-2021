@@ -6,13 +6,13 @@ library(lubridate)
 
 # Connect to database
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = FALSE)
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
 name_station = tbl(con, "name_station") |>
   collect()
 
 regression_scenarios = tbl(con, "regression_scenarios") |>
-  filter(cp2 > cp1 | is.na(cp2)) |>
+  filter(cp2 > cp1 | is.na(cp2) | is.na(cp1) & is.na(cp2)) |>
   select(cp1, cp2, scenario_idx) |>
   distinct() |>
   collect()
@@ -61,15 +61,22 @@ for(i in 1:nrow(name_station)){
                 bounds = "[)"),
         "name",
         "station_id")) |>
-      mutate(piecewise = ((slope*x) + intercept)) |>
-      arrange(x) |>
-      select(x, tau, piecewise, scenario_idx, station_id, name) |>
       collect()
 
-    if("piecewise" %in% dbListTables(con)){
-      dbAppendTable(con, "piecewise", pieceDat)
+    if(nrow(pieceDat) == 0){
+      next
     }else{
-      dbWriteTable(con,"piecewise",pieceDat)
+      pieceDat = pieceDat |>
+        mutate(piecewise = ((slope*x) + intercept)) |>
+        arrange(x) |>
+        select(x, tau, piecewise, scenario_idx, station_id, name) |>
+        collect()
+
+      if("piecewise" %in% dbListTables(con)){
+        dbAppendTable(con, "piecewise", pieceDat)
+      }else{
+        dbWriteTable(con,"piecewise",pieceDat)
+      }
     }
 
   }
