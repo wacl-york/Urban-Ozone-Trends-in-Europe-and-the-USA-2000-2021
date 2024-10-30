@@ -5,6 +5,7 @@ library(tidyr)
 library(DBI)
 library(quantreg)
 library(lubridate)
+library(here)
 
 mbfun = function(formula,
                  data,
@@ -185,7 +186,7 @@ for(i in 1:nrow(parts)){
 regressions = bind_rows(regList)
 
 fileOutName = paste0(paste("reg", nm, id, idx, sep = "_"), ".csv")
-fileOutPath = paste0(fileOutRoot, id)
+fileOutPath = file.path(fileOutRoot, id)
 
 if(!dir.exists(fileOutPath)){
   dir.create(fileOutPath, recursive = TRUE)

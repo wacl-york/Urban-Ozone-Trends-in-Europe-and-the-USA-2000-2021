@@ -1,12 +1,41 @@
-write_batch = function(i){
-  array_idx_offset = ((i-1)*10000)+1
+library(DBI)
+library(here)
+library(dplyr)
+library(duckdb)
+
+args = commandArgs(trailingOnly = TRUE)
+
+con = dbConnect(duckdb::duckdb(),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+
+scenarios = tbl(con, "regression_scenarios") |>
+  collect()
+
+dbDisconnect(con, shutdown = T)
+
+maxJobsPerBatch = 4999
+
+fullArray = nrow(scenarios) %/% maxJobsPerBatch
+arrayRemain = (nrow(scenarios) %% maxJobsPerBatch)-1
+
+if(!dir.exists("reg_batch")){
+  dir.create("reg_batch")
+}
+
+# Make Individual Jobs ----------------------------------------------------
+
+fileNameList = list()
+
+for(i in 1:(fullArray+1)){
+  array_idx_offset = ((i-1)*maxJobsPerBatch)+1
 
   fileOut = file.path("reg_batch", paste0("toar_regression_",array_idx_offset,".sbatch"))
 
-  data_file = file(fileOut, open = "wt")
-  on.exit(close(data_file))
+  fileNameList[[i]] = fileOut
 
-  jobname = paste0("#SBATCH --job-name=TOAR_regression_test_",array_idx_offset," # Job name")
+
+
+  jobname = paste0("#SBATCH --job-name=toar_regression_sub_",array_idx_offset," # Job name")
 
   message = c("#!/usr/bin/env bash",
               jobname,
@@ -16,14 +45,14 @@ write_batch = function(i){
               "#SBATCH --time=0-00:15:00               # Time limit (DD-HH:MM:SS)",
               "#SBATCH --account=chem-cmde-2019        # Project account to use",
               "#SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)",
-              "#SBATCH --mail-user=bsn502@york.ac.uk   # Where to send mail",
+              paste0("#SBATCH --mail-user=",args[1],"@york.ac.uk   # Where to send mail"),
               "#SBATCH --output=%x_log/%a/%x-%j.log       # Standard output log",
               "#SBATCH --error=%x_err/%a/%x-%j.err        # Standard error log")
 
-  if(i != 13){
-    message = c(message,"#SBATCH --array=0-9999          # Array range")
+  if(i != (fullArray+1)){
+    message = c(message,paste0("#SBATCH --array=0-",maxJobsPerBatch-1,"          # Array range"))
   }else{
-    message = c(message,"#SBATCH --array=0-9842          # Array range")
+    message = c(message,paste0("#SBATCH --array=0-",arrayRemain,"          # Array range"))
   }
 
   message = c(message,
@@ -37,20 +66,55 @@ write_batch = function(i){
                 "module load R/4.4.0-gfbf-2023b",
                 "",
                 "# Commands to run",
-                paste0('Rscript --vanilla 5_qr_scenario_jobscript.R $SLURM_ARRAY_TASK_ID ',
-                       array_idx_offset,' "/mnt/scratch/users/bsn502/TOAR/regressions/"')))
-
+                paste0('Rscript --vanilla /mnt/scratch/users/',args[1],'/toar/scripts/5_0_qr_scenario_jobscript.R $SLURM_ARRAY_TASK_ID ',
+                       array_idx_offset,' /mnt/scratch/users/',args[1],'/toar/regressions/')))
+  data_file = file(fileOut, open = "wt")
   writeLines(message, con = data_file)
-}
-
-for(i in 1:13){
-  write_batch(i)
+  close(data_file)
 }
 
 
-system("ls reg_batch/ > send_many_sbatch.sh")
-system("sed -i 's,toar,sbatch reg_batch/toar,g' send_many_sbatch.sh")
-#system("chmod +x send_many_sbatch.sh")
+# make runall  ------------------------------------------------------------
 
 
+
+message = c("#!/usr/bin/env bash",
+            "#SBATCH --job-name=toar_regression_main               # Job name",
+            "#SBATCH --ntasks=1                      # Number of MPI tasks to request",
+            "#SBATCH --cpus-per-task=1               # Number of CPU cores per MPI task",
+            "#SBATCH --mem=500M                      # Total memory to request",
+            "#SBATCH --time=0-05:00:00               # Time limit (DD-HH:MM:SS)",
+            "#SBATCH --account=chem-cmde-2019        # Project account to use",
+            "#SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)",
+            paste0("#SBATCH --mail-user=",args[1],"@york.ac.uk   # Where to send mail"),
+            "#SBATCH --output=%x_log/%a/%x-%j.log       # Standard output log",
+            "#SBATCH --error=%x_err/%a/%x-%j.err        # Standard error log",
+            "# Abort if any command fails",
+            "set -e",
+            "",
+            "# purge any existing modules",
+            "module purge",
+            ""#,
+            # paste0("jid1=$(sbatch --parsable ",fileNameList[[1]],")")
+            )
+
+for(i in 1:(length(fileNameList))){
+  print(i)
+  message = c(message,
+              "",
+              # paste0("jid",i,"=$(sbatch --parsable --dependency=afterok:$jid",(i-1)," ",fileNameList[[i]], ")")
+              paste0("sbatch --wait ",fileNameList[[i]])
+              )
+
+
+}
+
+# message = c(message,
+#             "",
+#             paste0("sbatch --parsable --dependency=afterok:$jid",(i-1)," ",fileNameList[[i]])
+#             )
+
+data_file = file("runall_reg.sbatch", open = "wt")
+writeLines(message, con = data_file)
+close(data_file)
 
