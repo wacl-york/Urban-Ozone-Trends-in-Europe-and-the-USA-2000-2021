@@ -37,10 +37,19 @@ anom_piecewise = piecewise |>
     piece = case_when(
       date < cp1 ~ "1", # 1 change point
       date >= cp1 & date < cp2 ~ "2",
-      date >= cp2 ~ "3")
+      date >= cp2 ~ "3"),
   ) |>
-  select(x, date,station_id, name, scenario_idx,piece, anom, piecewise) |>
+  select(-cp1, -cp2) |> # remvoe the filled cp1, cp2
   pivot_longer(c(piecewise), names_to = "reg") |>
+  left_join( # restore the unfilled in cp1, cp2 so we can rename the qr vs piecewise reg column
+    tbl(con, "regression_scenarios"),
+    by = c("station_id","name","scenario_idx")
+  ) |>
+  mutate(reg = case_when(reg == "piecewise" & is.na(cp1) & is.na(cp2) ~ "qr",
+                         reg == "piecewise" & is.na(cp2) & !is.na(cp1) ~ "pqr_1",
+                         TRUE ~ "pqr_2"
+                         )) |>
+  select(x, date,station_id, name, scenario_idx,piece, anom, reg, value) |>
   filter(!is.na(date))
 
 # calculate the R^2 between the tau=0.5 QRs (normal and piecewise) and the anomaly timeseries
