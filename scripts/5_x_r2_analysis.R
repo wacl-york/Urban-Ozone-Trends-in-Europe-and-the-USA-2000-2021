@@ -7,13 +7,15 @@ library(ggplot2)
 library(patchwork)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"), read_only = TRUE)
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
 
 tbl(con, "reg_anom_r2") |>
+  left_join(tbl(con, "regression_scenarios"), c("scenario_idx", "name", "station_id")) |>
   group_by(station_id, name, reg) |>
   filter(r2 == max(r2, na.rm = TRUE)) |>
   ungroup() |>
-  filter(station_id == "8227")
+  filter(station_id == "8227") |>
+  collect()
 
 best_regs = tbl(con, "reg_anom_r2") |>
   group_by(station_id, name, reg) |>
