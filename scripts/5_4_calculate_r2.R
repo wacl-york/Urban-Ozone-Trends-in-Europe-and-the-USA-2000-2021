@@ -39,7 +39,7 @@ anom_piecewise = piecewise |>
       date >= cp1 & date < cp2 ~ "2",
       date >= cp2 ~ "3"),
   ) |>
-  select(-cp1, -cp2) |> # remvoe the filled cp1, cp2
+  select(-cp1, -cp2) |> # remove the filled cp1, cp2
   pivot_longer(c(piecewise), names_to = "reg") |>
   left_join( # restore the unfilled in cp1, cp2 so we can rename the qr vs piecewise reg column
     tbl(con, "regression_scenarios"),
