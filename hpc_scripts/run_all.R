@@ -3,7 +3,7 @@ library(stringr)
 files = list.files("reg_batch/", full.names = T)
 
 
-for(i in 16:length(files)){
+for(i in 1:length(files)){
 
 	jobId = system(paste0("sbatch --parsable ",files[i]), intern = T)
 	print(paste0("array ",i,"'s job ID is :",jobId))
@@ -17,13 +17,13 @@ for(i in 16:length(files)){
 
 		print(jobStatus)
 		# if there are more states than specified here, it will be > 0 so something is still RUNNING or PENDING
-		if(sum(!jobStatus %in% c("COMPLETED", "TIMEOUT", "FAILED")) > 0){ 
+		if(sum(!jobStatus %in% c("COMPLETED", "TIMEOUT", "FAILED")) > 0){
 			next
 		}else{
 			jobRunning = FALSE
 		}
 
-	}	
+	}
 }
-	
+
 
