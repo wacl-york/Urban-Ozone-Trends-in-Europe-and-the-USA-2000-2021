@@ -6,7 +6,7 @@ library(lubridate)
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
-ts = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2021-12-31 00:00:00")), "month")) %>%
+ts = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2021-12-31 00:00:00")), "day")) %>%
   mutate(x = row_number())
 
 dat = tbl(con,"all_data") |>
@@ -22,6 +22,6 @@ dat = tbl(con,"all_data") |>
   collect() |>
   left_join(ts, by = "date")
 
-dbWriteTable(con, "monthly_anom", dat, overwrite = T)
+dbWriteTable(con, "anom", dat, overwrite = T)
 
 dbDisconnect(con, shutdown = T)

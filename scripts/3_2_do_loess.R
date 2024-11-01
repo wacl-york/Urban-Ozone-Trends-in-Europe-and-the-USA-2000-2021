@@ -7,7 +7,7 @@ library(lubridate)
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
-dat = tbl(con, "monthly_anom")
+dat = tbl(con, "anom")
 
 name_station = tbl(con, "name_station") |>
   collect()

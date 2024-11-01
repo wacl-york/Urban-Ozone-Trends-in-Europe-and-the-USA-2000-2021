@@ -140,7 +140,7 @@ id = scenarios$station_id[scenarioNumber]
 nm = scenarios$name[scenarioNumber]
 
 
-dat = tbl(con, "monthly_anom") |>
+dat = tbl(con, "anom") |>
   filter(station_id == id,
          name == nm) |>
   arrange(date) |>

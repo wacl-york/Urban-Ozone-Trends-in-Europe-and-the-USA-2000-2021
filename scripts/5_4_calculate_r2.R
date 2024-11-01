@@ -18,7 +18,7 @@ piecewise = tbl(con, "piecewise") |>
   )
 
 # select relevant columns from anom data
-anom = tbl(con, "monthly_anom") |>
+anom = tbl(con, "anom") |>
   select(date, station_id, name, anom, x)
 
 # used to recover piecewise grouping

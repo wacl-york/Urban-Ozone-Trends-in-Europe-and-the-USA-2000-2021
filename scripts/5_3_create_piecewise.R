@@ -21,7 +21,7 @@ cli::cli_progress_bar(total = nrow(regression_scenarios)*nrow(name_station))
 
 for(i in 1:nrow(name_station)){
 
-  dat = tbl(con, "monthly_anom") |>
+  dat = tbl(con, "anom") |>
     filter(station_id == !!name_station$station_id[i],
            name == !!name_station$name[i]) |>
     mutate(y = year(date))
