@@ -15,7 +15,7 @@ dat = tbl(con,"all_data") |>
   left_join(tbl(con, "coverage"), by = c("name", "station_id")) |>
   filter(coverage_check) |>
   select(-m, -coverage_check) |>
-  mutate(date = floor_date(date, "month")) |>
+  mutate(date = floor_date(date, "day")) |>
   group_by(date, station_id, station_type, name) |>
   summarise_all(median, na.rm = T) |>
   mutate(anom = value-season) |>
