@@ -42,7 +42,7 @@ for(i in 1:(fullArray+1)){
               "#SBATCH --ntasks=1                      # Number of MPI tasks to request",
               "#SBATCH --cpus-per-task=1               # Number of CPU cores per MPI task",
               "#SBATCH --mem=1G                      # Total memory to request",
-              "#SBATCH --time=0-00:30:00               # Time limit (DD-HH:MM:SS)",
+              "#SBATCH --time=0-12:00:00               # Time limit (DD-HH:MM:SS)",
               "#SBATCH --account=chem-cmde-2019        # Project account to use",
               "#SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)",
               paste0("#SBATCH --mail-user=",args[1],"@york.ac.uk   # Where to send mail"),
