@@ -1,5 +1,6 @@
 library(DBI)
 library(here)
+library(dplyr)
 
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
@@ -15,8 +16,8 @@ message = c("#!/usr/bin/env bash",
             "#SBATCH --job-name=toar_make_piecewise # Job name",
             "#SBATCH --ntasks=1                      # Number of MPI tasks to request",
             "#SBATCH --cpus-per-task=1               # Number of CPU cores per MPI task",
-            "#SBATCH --mem=1G                      # Total memory to request",
-            "#SBATCH --time=0-00:30:00               # Time limit (DD-HH:MM:SS)",
+            "#SBATCH --mem=2G                      # Total memory to request",
+            "#SBATCH --time=0-01:00:00               # Time limit (DD-HH:MM:SS)",
             "#SBATCH --account=chem-cmde-2019        # Project account to use",
             "#SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)",
             paste0("#SBATCH --mail-user=",user,"@york.ac.uk   # Where to send mail"),

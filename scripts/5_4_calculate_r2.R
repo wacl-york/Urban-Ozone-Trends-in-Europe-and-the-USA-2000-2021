@@ -79,11 +79,15 @@ anom_loess_r2 = anom_loess |>
 regs = union_all(anom_piecewise, anom_loess) |>
   collect()
 
+dbWriteTable(con, "reg_anom",regs, overwrite = T)
+
+rm(regs)
+gc()
+
 # get r2 from all regressions in the same data.frame
 regs_r2 = union_all(anom_piecewise_r2, anom_loess_r2) |>
   collect()
 
-dbWriteTable(con, "reg_anom",regs, overwrite = T)
 dbWriteTable(con, "reg_anom_r2",regs_r2, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
