@@ -4,19 +4,7 @@ library(dplyr)
 library(toarR)
 library(saqgetr)
 
-# insert_tbl_into_db = function(con, query, table){
-#   queryText = dbplyr::db_sql_render(query$src$con, query) |>
-#     as.character()
-#
-#   if("all_data" %in% dbListTables(con)){
-#     dbExecute(con, paste0("INSERT INTO ",table," (",queryText,")"))
-#   }else{
-#     dbExecute(con, paste0("CREATE TABLE ",table," AS (", queryText,")"))
-#   }
-# }
-
-# -------------------------------------------------------------------------
-
+source(here::here('functions','connect_to_db.R'))
 
 con = connect_to_db(FALSE)
 

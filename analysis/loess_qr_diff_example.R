@@ -5,6 +5,8 @@ library(tidyr)
 library(lubridate)
 library(ggplot2)
 
+source(here::here('functions','connect_to_db.R'))
+
 con = connect_to_db()
 
 qr_50 = tbl(con, "qr_stat") %>%

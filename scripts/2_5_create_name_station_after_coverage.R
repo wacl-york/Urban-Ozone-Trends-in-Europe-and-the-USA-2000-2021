@@ -2,6 +2,8 @@ library(DBI)
 library(here)
 library(dplyr)
 
+source(here::here('functions','connect_to_db.R'))
+
 con = connect_to_db(FALSE)
 
 name_station = tbl(con,"anom") |>

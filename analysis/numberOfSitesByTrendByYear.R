@@ -5,6 +5,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
+source(here::here('functions','connect_to_db.R'))
+
 con = connect_to_db()
 
 pqr_2_r2 = tbl(con, "reg_anom_r2") |>

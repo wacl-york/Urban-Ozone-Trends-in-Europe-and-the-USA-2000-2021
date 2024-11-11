@@ -4,6 +4,8 @@ library(dplyr)
 library(purrr)
 library(lubridate)
 
+source(here::here('functions','connect_to_db.R'))
+
 inputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 
 stationFiles = list.files(inputDir)

@@ -4,6 +4,8 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
+source(here::here('functions','connect_to_db.R'))
+
 con = connect_to_db(FALSE)
 
 ts = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "day")) %>%

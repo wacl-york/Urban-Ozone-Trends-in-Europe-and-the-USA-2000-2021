@@ -5,6 +5,8 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
+source(here::here('functions','connect_to_db.R'))
+
 create_scenario = function(cp1, dateRange){
 
   diffs = dateRange-cp1

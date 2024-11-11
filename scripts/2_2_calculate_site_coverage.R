@@ -3,6 +3,8 @@ library(here)
 library(dplyr)
 library(lubridate)
 
+source(here::here('functions','connect_to_db.R'))
+
 con = connect_to_db(FALSE)
 
 # still keep the coverage check over 2000-2022 as the toar database doesn't have the extra data,

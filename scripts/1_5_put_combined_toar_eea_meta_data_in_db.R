@@ -7,6 +7,8 @@ library(ggplot2)
 library(patchwork)
 library(lubridate)
 
+source(here::here('functions','connect_to_db.R'))
+
 # Connect to database, with read_only = F
 con = connect_to_db(FALSE)
 
