@@ -10,5 +10,5 @@ if(!dir.exists(dirOut)){
 }
 
 for(i in 1:length(urls)){
-  download.file(urls[i], file.path(dirOut,basename(urls[i])))
+  download.file(urls[i], file.path(dirOut,basename(urls[i])), mode = "wb")
 }
