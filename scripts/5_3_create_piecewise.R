@@ -4,43 +4,60 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
-# Connect to database
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+# make function so we can use on.exit
 
-name_station = tbl(con, "name_station") |>
-  collect()
 
-regression_scenarios = tbl(con, "regression_scenarios") |>
-  filter(cp2 > cp1 | is.na(cp2) | is.na(cp1) & is.na(cp2)) |>
-  select(cp1, cp2, scenario_idx) |>
-  distinct() |>
-  collect()
+make_piecewise = function(array_id, user){
+ 
+  # Connect to database
+  con = dbConnect(duckdb::duckdb(),
+                  dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
+  
+  on.exit(dbDisconnect(con, shutdown = T))
 
-cli::cli_progress_bar(total = nrow(regression_scenarios)*nrow(name_station))
+  name_station = tbl(con, "name_station") |>
+    collect()
 
-for(i in 1:nrow(name_station)){
+  name = name_station$name[array_id]
+  station_id = name_station$station_id[array_id]
+  
+  outDir = file.path('/mnt','scratch','users',user,'toar','piecewise',station_id,name)
+  
+  if(!dir.exists(outDir)){
+    dir.create(outDir, recursive = T)
+  }
 
   dat = tbl(con, "anom") |>
-    filter(station_id == !!name_station$station_id[i],
-           name == !!name_station$name[i]) |>
+    filter(station_id == !!station_id,
+           name == !!name) |>
     mutate(y = year(date))
+
+  regression_scenarios = tbl(con, "regression_scenarios") |>
+    filter(cp2 > cp1 | is.na(cp2) | is.na(cp1) & is.na(cp2)) |>
+    select(cp1, cp2, scenario_idx) |>
+    distinct() |>
+    collect()
 
   # this is a bit of a hack to fix the issue that the startYear and endYear lost there date information along the way
   maxEndYear = dat |>
     filter(date == max(date, na.rm = TRUE)) |>
     collect()
-
+  
   maxEndYear = maxEndYear$date+months(1)
-
+  
   for(j in 1:nrow(regression_scenarios)){
-    cli::cli_progress_update()
+
+    print(paste(j, "/", nrow(regression_scenarios)))
+
+    regression_scenario = regression_scenarios$scenario_idx[j]
+
+    fileOut = file.path(outDir,  paste0(paste(station_id, name, regression_scenario, sep = "_"), ".csv"))
 
     thisScenario = tbl(con, "qr_regressions") |>
       filter(
-        station_id == !!name_station$station_id[i], # name x station idx == i
-        name == !!name_station$name[i],  # name x station idx == i
-        scenario_idx == !!regression_scenarios$scenario_idx[j],  # regression_scenario idx == j
+        station_id == !!station_id,
+        name == !!name,
+        scenario_idx == !!regression_scenario,
         type == "fit"
       ) |>
       pivot_wider(names_from = "stat") |>
@@ -50,7 +67,7 @@ for(i in 1:nrow(name_station)){
       )
 
     # set bounds such that startYear <= y < endYear
-    # regressions might overlap so at least this is consisten
+    # regressions might overlap so at least this is consistent
     pieceDat = left_join(
       thisScenario,
       dat,
@@ -69,18 +86,20 @@ for(i in 1:nrow(name_station)){
       pieceDat = pieceDat |>
         mutate(piecewise = ((slope*x) + intercept)) |>
         arrange(x) |>
-        select(x, tau, piecewise, scenario_idx, station_id, name) |>
-        collect()
+        select(x, tau, piecewise, scenario_idx, station_id, name)
 
-      if("piecewise" %in% dbListTables(con)){
-        dbAppendTable(con, "piecewise", pieceDat)
-      }else{
-        dbWriteTable(con,"piecewise",pieceDat)
-      }
+      write.csv(pieceDat, fileOut, row.names = F)
     }
 
   }
 
 }
 
-dbDisconnect(con, shutdown = T)
+user = system("echo $USER", intern = T)
+
+args = commandArgs(trailingOnly = TRUE)
+array_id = as.numeric(args[1])+1
+make_piecewise(array_id, user)
+
+
+
