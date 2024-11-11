@@ -5,8 +5,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
+con = connect_to_db()
 
 pqr_2_r2 = tbl(con, "reg_anom_r2") |>
   group_by(station_id, name) |>

@@ -4,9 +4,7 @@ library(dplyr)
 library(saqgetr)
 library(lubridate)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
-                read_only = FALSE)
+con = connect_to_db(FALSE)
 
 start = "2000-01-01"
 end = "2023-12-31"

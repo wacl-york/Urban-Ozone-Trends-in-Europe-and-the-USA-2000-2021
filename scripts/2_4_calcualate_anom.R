@@ -4,8 +4,7 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db(FALSE)
 
 ts = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "day")) %>%
   mutate(x = row_number())

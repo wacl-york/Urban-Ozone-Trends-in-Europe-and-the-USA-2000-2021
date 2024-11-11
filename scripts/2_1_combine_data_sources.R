@@ -18,9 +18,7 @@ library(saqgetr)
 # -------------------------------------------------------------------------
 
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
-                read_only = FALSE)
+con = connect_to_db(FALSE)
 
 # Lookup existing sites ---------------------------------------------------
 

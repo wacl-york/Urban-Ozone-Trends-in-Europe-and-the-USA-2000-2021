@@ -5,9 +5,7 @@ library(dplyr)
 library(stringr)
 library(lubridate)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
-                read_only = FALSE)
+con = connect_to_db(FALSE)
 
 toarMeta = tbl(con,"toarMeta") |>
   filter(data_start_date <= "2000-01-01 00:00:00", # we don't need ymd_hms here the db handles the date conversion

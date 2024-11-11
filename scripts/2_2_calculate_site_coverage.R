@@ -3,8 +3,7 @@ library(here)
 library(dplyr)
 library(lubridate)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db(FALSE)
 
 # still keep the coverage check over 2000-2022 as the toar database doesn't have the extra data,
 # then any more data we get from the eea is a bonus

@@ -2,8 +2,7 @@ library(DBI)
 library(here)
 library(dplyr)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db(FALSE)
 
 name_station = tbl(con,"anom") |>
   select(name, station_id) |>

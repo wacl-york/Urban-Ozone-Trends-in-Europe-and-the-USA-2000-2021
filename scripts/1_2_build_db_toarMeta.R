@@ -8,9 +8,7 @@ inputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 
 stationFiles = list.files(inputDir)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines("data_config.txt",n = 1),"data","db.duckdb"),
-                read_only = FALSE)
+con = connect_to_db(FALSE)
 
 for(i in 1:length(stationFiles)){
   thisStation = readRDS(here(inputDir,stationFiles[i])) |>

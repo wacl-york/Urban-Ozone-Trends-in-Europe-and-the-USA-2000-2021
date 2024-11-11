@@ -4,8 +4,7 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db(FALSE)
 
 
 # join regeression scenarios to piecewise so we can recover piece

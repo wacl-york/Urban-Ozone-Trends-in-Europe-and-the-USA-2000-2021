@@ -8,8 +8,7 @@ library(patchwork)
 library(lubridate)
 
 # Connect to database, with read_only = F
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db(FALSE)
 
 # Collect TOAR meta information
 toarMeta = tbl(con,"toarMeta") |>

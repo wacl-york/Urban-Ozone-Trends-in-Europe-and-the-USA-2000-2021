@@ -5,8 +5,7 @@ library(tidyr)
 library(lubridate)
 library(ggplot2)
 
-con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+con = connect_to_db()
 
 qr_50 = tbl(con, "qr_stat") %>%
   filter(type == "fit",
