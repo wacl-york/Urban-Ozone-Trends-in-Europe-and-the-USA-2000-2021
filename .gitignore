@@ -56,3 +56,5 @@ tmp/
 # data config
 data_config.txt
 
+# exclude pdfs from analysis because some are large
+/analysis/*.pdf
