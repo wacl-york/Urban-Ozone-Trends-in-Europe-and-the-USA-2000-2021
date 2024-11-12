@@ -6,7 +6,8 @@ library(lubridate)
 
 source(here::here('functions','connect_to_db.R'))
 
-con = connect_to_db(FALSE)
+con = dbConnect(duckdb::duckdb(),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
 # join regeression scenarios to piecewise so we can recover piece
 # grouping from the change points
