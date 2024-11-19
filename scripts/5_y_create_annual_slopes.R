@@ -56,6 +56,27 @@ for (i in 1:nrow(samp_dat)) {
 reg_slope_year_df = regression_slope_year |>
   bind_rows()
 
+# Create segments
+segTable = tribble(
+  ~startYear, ~endYear, ~seg_id,
+  2000, 2004, 1,
+  2005, 2009, 2,
+  2010, 2014, 3,
+  2015, 2023, 4
+)
+
+# Create df where segments are bound
+annual_slopes = qr_reg_names_slopes |>
+  left_join(segTable, join_by(between(year, startYear, endYear))) |>
+  select(-startYear, -endYear)
+
+# Test plots
+annual_slopes |>
+ggplot() +
+  geom_point(aes(x = seg_id, y = slope, colour = station_id))+
+  facet_wrap(~name) +
+  theme(legend.position = "none")
+
 # Write this to database
 #dbWriteTable(con, "annual_slopes", reg_slope_year_df, overwrite = TRUE)
 
