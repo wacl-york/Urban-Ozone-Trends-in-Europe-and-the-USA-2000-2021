@@ -25,6 +25,13 @@ qr_reg_names_slopes = tbl(con, "reg_anom_filt") |>
   select(station_id, name, scenario_idx, tau, reg, year = startYear, slope = value) |>
   collect()
 
+# Collect meta data
+combined_meta = tbl(con, "combinedMeta") |>
+  select(station_id, country) |>
+  distinct() |>
+  na.omit() |>
+  collect()
+
 # Disconnect from database
 dbDisconnect(con)
 
@@ -68,14 +75,38 @@ segTable = tribble(
 # Create df where segments are bound
 annual_slopes = qr_reg_names_slopes |>
   left_join(segTable, join_by(between(year, startYear, endYear))) |>
-  select(-startYear, -endYear)
+  select(-startYear, -endYear) |>
+  left_join(combined_meta, by = "station_id") |>
+  mutate(continent = "North America")
+
+annual_slopes$continent[annual_slopes$country != "United States of America"] = "Europe"
+
+#### NB this currently looks at ALL slopes. Need to break this down to
 
 # Test plots
 annual_slopes |>
 ggplot() +
   geom_point(aes(x = seg_id, y = slope, colour = station_id))+
-  facet_wrap(~name) +
+  facet_wrap(~name+continent, nrow = 3) +
   theme(legend.position = "none")
+
+# Test plot
+annual_slopes |>
+  ggplot() +
+  geom_point(aes(x = seg_id, y = slope, colour = station_id))+
+  facet_wrap(~name+continent, nrow = 3) +
+  theme(legend.position = "none")
+
+# Test plot
+annual_slopes |>
+  filter(tau == 0.5) |>
+  select(name, seg_id, continent, slope) |>
+  group_by(name, seg_id, continent) |>
+  ggplot() +
+  geom_boxplot(aes(x = seg_id, y = slope, group = seg_id)) +
+  facet_wrap(~ name + continent, nrow = 3, scales = "free_y") +
+  theme(legend.position = "none") +
+  labs(y = "Slope", x = "Segment ID")
 
 # Write this to database
 #dbWriteTable(con, "annual_slopes", reg_slope_year_df, overwrite = TRUE)
