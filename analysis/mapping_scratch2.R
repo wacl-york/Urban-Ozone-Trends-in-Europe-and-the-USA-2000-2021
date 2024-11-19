@@ -71,3 +71,4 @@ slope_segs |>
 #   scale_y_continuous(limits = st_coordinates(lim)[,2])+
 #   scale_x_continuous(limits = st_coordinates(lim)[,1])+
 #   facet_wrap(~seg)
+dbDisconnect(con, shutdown = T)
