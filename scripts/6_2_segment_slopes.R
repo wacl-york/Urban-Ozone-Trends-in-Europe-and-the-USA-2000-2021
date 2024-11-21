@@ -6,15 +6,24 @@ source(here::here('functions','connect_to_db.R'))
 
 con = connect_to_db(FALSE)
 
+min_aic = tbl(con, "min_aic") |>
+  group_by(name, station_id) |>
+  filter(aic == min(aic, na.rm = T)) |>
+  filter(scenario_idx == min(scenario_idx, na.rm = T)) |> # a handful of sites have multiple scenarios that have identical AIC.
+  ungroup()                                               # the differences between the locations of the change points are not substantial
+# so just take the lower of the two sceanrio_idx arbitrarily
+
 slopes = inner_join(
   tbl(con, "qr_regressions"),
-  tbl(con, "min_aic"),
+  min_aic,
   by = c("scenario_idx", "name", "station_id")
 ) |>
   filter(
     stat == "slope"
   ) |>
-  collect()
+  collect() |>
+  pivot_wider(names_from = "type") |>
+  select(-stat)
 
 segments = slopes |>
   select(station_id, name, reg, tau) |>
@@ -58,13 +67,3 @@ dbWriteTable(con, "slope_segs", slope_segs, overwrite = TRUE)
 
 dbDisconnect(con, shutdown = T)
 
-
-# left_join(segments, slopes,
-#           by = c("year" = "startYear",
-#                  "name",
-#                  "station_id",
-#                  "reg",
-#                  "tau",
-#                  "type"),
-#           relationship = "many-to-many") |>
-#   filter(station_id == "ch0011a", name == "ox", reg == "pqr_2", tau == 0.05, type == "fit", year == 2000)
