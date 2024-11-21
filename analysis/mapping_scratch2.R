@@ -20,7 +20,7 @@ min_aic = tbl(con, "min_aic") |>
             # so just take the lower of the two sceanrio_idx arbitratily
 
 slope_segs = tbl(con, "slope_segs") |>
-  left_join(min_aic, by = c("station_id", "name", "reg")) |>
+  inner_join(min_aic, by = c("station_id", "name", "reg")) |>
   left_join(tbl(con, "combinedMeta") |>
               select(station_id, latitude, longitude),
             by = "station_id") |>
