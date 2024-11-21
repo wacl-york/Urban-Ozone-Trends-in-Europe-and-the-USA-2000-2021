@@ -26,6 +26,7 @@ slope_segs = tbl(con, "slope_segs") |>
   left_join(tbl(con, "combinedMeta") |>
               select(station_id, latitude, longitude),
             by = "station_id") |>
+  filter(type == "fit") |>
   collect() |>
   st_as_sf(coords = c("longitude", "latitude"), crs = st_crs("WGS84")) |>
   st_transform(8857) |>
@@ -105,7 +106,6 @@ anom_dat = anom_dat |>
   left_join(qr_reg_names_slopes, by = c("station_id", "spc"))
 
 
-
 pdf(here("analysis/outlier_anom.pdf"), width = 12, height = 9)
 for(i in 1:nrow(outlier_sites)){
 
@@ -129,30 +129,6 @@ for(i in 1:nrow(outlier_sites)){
 }
 
 dev.off()
-
-remove_sites = data.frame(
-  station_id = c("bg0013a", "bg0043a", "bg0040a", "bg0052a", "es1529a", "es1529a", "fr31002", "gr0030a",
-                 "it0963a", "pt03072", "se0022a", "fr04058", "gr0031a", "fr33211"),
-  spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3")
-)
-
-second_chance_sites = data.frame(
-  station_id = c("fr31002", "se0022a", "fr04058", "fr33211"),
-  spc = c("o3", "o3", "no2", "o3")
-)
-
-remove_remove_sites = remove_sites |>
-  anti_join(second_chance_sites, by = c("station_id", "spc"))
-
-ox_sites = anom_dat |>
-  select(station_id, spc) |>
-  distinct() |>
-  filter(spc == "ox") |>
-  filter(station_id %in% remove_remove_sites$station_id)
-
-blacklist_sites = remove_remove_sites |>
-  bind_rows(ox_sites) |>
-  distinct()
 
 pdf(here("analysis/remove_sites.pdf"), width = 12, height = 9)
 for(i in 1:nrow(remove_sites)){
@@ -190,6 +166,9 @@ outlier_slopes |>
   geom_point(aes(x = station_id, y = slope*365, group = station_id)) +
   facet_wrap(~spc, scales = "free_y")
 
+############################################
+
+# Test sites with huge concurrent changes in no2 and o3 #
 
 dbDisconnect(con, shutdown = T)
 
