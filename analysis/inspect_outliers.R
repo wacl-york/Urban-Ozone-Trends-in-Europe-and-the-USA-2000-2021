@@ -8,6 +8,7 @@ library(rnaturalearth)
 library(rnaturalearthhires)
 library(here)
 library(lubridate)
+library(plotly)
 
 source(here::here('functions','connect_to_db.R'))
 
@@ -33,12 +34,12 @@ slope_segs = tbl(con, "slope_segs") |>
 # test = slope_segs |>
 #   filter(seg == 1, station_id == "1138", spc == "o3", reg == "pqr_2", scenario_idx == 111)
 #
-# world = rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") |>
-#   st_transform(8857)
-#
-# lim = tibble(lng = c(-121,45), lat = c(25,65)) |>
-#   st_as_sf(coords = c("lng", "lat"), crs = st_crs("WGS84")) |>
-#   st_transform(8857)
+world = rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") |>
+  st_transform(8857)
+
+lim = tibble(lng = c(-121,45), lat = c(25,65)) |>
+  st_as_sf(coords = c("lng", "lat"), crs = st_crs("WGS84")) |>
+  st_transform(8857)
 
 qDat = slope_segs |>
   st_drop_geometry() |>
@@ -46,20 +47,20 @@ qDat = slope_segs |>
   summarise(qLow = quantile(value, probs = 0.02),
             qHigh = quantile(value, probs = 0.98))
 
-# slope_segs |>
-#   filter(
-#     tau == 0.5,
-#     spc == "no2",
-#     seg %in% 1:4) |>
-#   left_join(qDat, c("spc", "tau")) |>
-#   filter(!(between(value, qLow, qHigh))) |>
-#   ggplot()+
-#   geom_sf(data = world, fill = "white")+
-#   geom_sf(aes(colour = value*365, group = station_id))+
-#   scale_color_scico(palette = "vik")+
-#   scale_y_continuous(limits = st_coordinates(lim)[,2])+
-#   scale_x_continuous(limits = st_coordinates(lim)[,1])+
-#   facet_wrap(~seg)
+slope_segs |>
+  filter(
+    tau == 0.5,
+    spc == "no2",
+    seg %in% 1:4) |>
+  left_join(qDat, c("spc", "tau")) |>
+  filter(!(between(value, qLow, qHigh))) |>
+  ggplot()+
+  geom_sf(data = world, fill = "white")+
+  geom_sf(aes(colour = value*365, group = station_id))+
+  scale_color_scico(palette = "vik")+
+  scale_y_continuous(limits = st_coordinates(lim)[,2])+
+  scale_x_continuous(limits = st_coordinates(lim)[,1])+
+  facet_wrap(~seg)
 
 #####
 
@@ -135,9 +136,23 @@ remove_sites = data.frame(
   spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3")
 )
 
-# remove_sites = anom_dat |>
-#   inner_join(remove_sites_info, by = c("station_id", "spc"))
+second_chance_sites = data.frame(
+  station_id = c("fr31002", "se0022a", "fr04058", "fr33211"),
+  spc = c("o3", "o3", "no2", "o3")
+)
 
+remove_remove_sites = remove_sites |>
+  anti_join(second_chance_sites, by = c("station_id", "spc"))
+
+ox_sites = anom_dat |>
+  select(station_id, spc) |>
+  distinct() |>
+  filter(spc == "ox") |>
+  filter(station_id %in% remove_remove_sites$station_id)
+
+blacklist_sites = remove_remove_sites |>
+  bind_rows(ox_sites) |>
+  distinct()
 
 pdf(here("analysis/remove_sites.pdf"), width = 12, height = 9)
 for(i in 1:nrow(remove_sites)){
@@ -162,4 +177,19 @@ for(i in 1:nrow(remove_sites)){
 }
 
 dev.off()
+
+### Investigate outlier slopes ###
+
+outlier_slopes = qr_reg_names_slopes |>
+  inner_join(outlier_sites, by = c("station_id", "spc")) |>
+  left_join(qDat |> filter(tau == 0.5), by = c("spc")) |>
+  filter(!(between(slope, qLow, qHigh)))
+
+outlier_slopes |>
+  ggplot()+
+  geom_point(aes(x = station_id, y = slope*365, group = station_id)) +
+  facet_wrap(~spc, scales = "free_y")
+
+
 dbDisconnect(con, shutdown = T)
+
