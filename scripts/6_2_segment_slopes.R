@@ -11,9 +11,9 @@ slopes = inner_join(
   tbl(con, "min_aic"),
   by = c("scenario_idx", "name", "station_id")
 ) |>
-  filter(type == "fit",
-         stat == "slope"
-         ) |>
+  filter(
+    stat == "slope"
+  ) |>
   collect()
 
 segments = slopes |>
@@ -40,14 +40,31 @@ slope_segs = left_join(segments, slopes,
                               "name",
                               "station_id",
                               "reg",
-                              "tau"),
+                              "tau",
+                              "type"),
                        relationship = "many-to-many") |> # relationship is many-to-many becuase of multiple segment definitions for a single year.
   tidyr::fill(everything()) |>
-  select(seg, station_id, name, reg, tau, value) |>
-  group_by(seg, station_id, name, reg, tau) |>
+  select(seg, station_id, name, reg, tau, type, value) |>
+  group_by(seg, station_id, name, reg, tau, type) |>
   summarise(value = list(unique(value))) |>
-  unnest(value)
+  rowwise() |>
+  pivot_wider(names_from = "type") |>
+  mutate(data = bind_cols(fit, pv, se) |>
+           list()) |>
+  select(-fit, -pv, -se) |>
+  unnest(data)
 
 dbWriteTable(con, "slope_segs", slope_segs, overwrite = TRUE)
 
 dbDisconnect(con, shutdown = T)
+
+
+# left_join(segments, slopes,
+#           by = c("year" = "startYear",
+#                  "name",
+#                  "station_id",
+#                  "reg",
+#                  "tau",
+#                  "type"),
+#           relationship = "many-to-many") |>
+#   filter(station_id == "ch0011a", name == "ox", reg == "pqr_2", tau == 0.05, type == "fit", year == 2000)
