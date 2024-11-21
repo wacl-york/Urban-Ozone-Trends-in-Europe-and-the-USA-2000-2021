@@ -43,24 +43,21 @@ segments = slopes |>
     list()) |>
   unnest(segments)
 
-
 slope_segs = left_join(segments, slopes,
                        by = c("year" = "startYear",
                               "name",
                               "station_id",
                               "reg",
-                              "tau",
-                              "type"),
-                       relationship = "many-to-many") |> # relationship is many-to-many becuase of multiple segment definitions for a single year.
-  tidyr::fill(everything()) |>
-  select(seg, station_id, name, reg, tau, type, value) |>
-  group_by(seg, station_id, name, reg, tau, type) |>
-  summarise(value = list(unique(value))) |>
-  rowwise() |>
-  pivot_wider(names_from = "type") |>
-  mutate(data = bind_cols(fit, pv, se) |>
-           list()) |>
-  select(-fit, -pv, -se) |>
+                              "tau"),
+                       relationship = "many-to-many") |>
+  fill(everything()) |>
+  select(seg, station_id, name, reg, tau, fit, se, pv) |>
+  distinct() |>
+  group_by(seg, station_id, name, reg, tau) |>
+  summarise(data = tibble(fit = unique(fit),
+                          se = unique(se),
+                          pv = unique(pv)) |>
+              list()) |>
   unnest(data)
 
 dbWriteTable(con, "slope_segs", slope_segs, overwrite = TRUE)
