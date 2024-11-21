@@ -41,7 +41,7 @@ slope_segs = left_join(segments, slopes,
                               "station_id",
                               "reg",
                               "tau"),
-                       relationship = "many-to-many") |> # relationship is many-to-many becuase of multiple segment definitions for a single year.
+                       relationship = "many-to-many") |> # relationship is many-to-many because of multiple segment definitions for a single year.
   tidyr::fill(everything()) |>
   select(seg, station_id, name, reg, tau, value) |>
   group_by(seg, station_id, name, reg, tau) |>
