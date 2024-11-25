@@ -38,11 +38,6 @@ min_aic = tbl(con, "min_aic") |>
   ungroup()                                               # the differences between the locations of the change points are not substantial
                                                           # so just take the lower of the two sceanrio_idx arbitrarily
 
-tbl(con, "combinedMeta") |>
-  select(station_id, latitude, longitude) |>
-  collect() |>
-  distinct()
-
 slope_segs = inner_join(
   min_aic,
   tbl(con, "slope_segs"),
@@ -120,7 +115,7 @@ p_colours = c(
 
 plotDat = lineDat |>
   rename(spc = name) |>
-  filter(spc == c("o3","no2"),
+  filter(spc == c("ox"),
          tau %in% c(0.5),
          seg %in% 11:14) |>
   st_transform(mycrs) |>
@@ -147,4 +142,4 @@ ggplot() +
   scale_colour_manual(values = p_colours)+
   scale_y_continuous(limits = st_coordinates(lim)[,2])+
   scale_x_continuous(limits = st_coordinates(lim)[,1])+
-  facet_grid(spc~seg)
+  facet_wrap(~seg)
