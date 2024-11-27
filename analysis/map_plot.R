@@ -43,7 +43,7 @@ slope_segs = inner_join(
   tbl(con, "slope_segs"),
   by = c("station_id", "name", "reg")) |>
   left_join(tbl(con, "combinedMeta") |>
-              select(station_id, latitude, longitude) |>
+              select(station_id, latitude, longitude, country) |>
               distinct(),
             by = "station_id") |>
   rename(spc = name) |>
@@ -63,19 +63,11 @@ pv_opt = c("p <= 0.05 (dec)",
            "p <= 0.05 (inc)"
 )
 
-c("<0.05_-ve",
-  "0.05-0.1_-ve",
-  "0.1-0.33_-ve",
-  ">0.33",
-  "0.1-0.33_+ve",
-  "0.05-0.1_+ve",
-  "<0.05_+ve"
-)
-
 lineGroups = slope_segs |>
   mutate(fit = fit*365) |>
-  mutate(fit = case_when(fit > 5 ~ 5,
-                         fit < -5 ~ -5,
+  mutate(fit = ifelse(country == "United States of America", fit, fit/1.96)) |> # ugm3 -> ppb
+  mutate(fit = case_when(fit > 2.5 ~ 2.5,
+                         fit < -2.5 ~ -2.5,
                          TRUE~fit),
          pvStr = case_when(
            pv <= 0.05 & fit < 0 ~ pv_opt[1],
@@ -89,7 +81,7 @@ lineGroups = slope_segs |>
          ) |>
            factor(levels = pv_opt)
   ) |>
-  calc_arrow_end(rangeMax = 5,
+  calc_arrow_end(rangeMax = 2.5,
                  slope = "fit",
                  length = 3) |>
   rename(latitude_start = latitude,
@@ -110,14 +102,26 @@ lines = lineGroups |>
   summarise(do_union = FALSE) |>
   st_cast("LINESTRING")
 
+segs = tribble(
+  ~seg, ~segStart, ~segEnd,
+  1,  2000, 2006,
+  2,  2007, 2013,
+  3,  2014, 2019,
+  4,  2020, 2023,
+  11, 2000, 2004,
+  12, 2005, 2009,
+  13, 2010, 2014,
+  14, 2015, 2021
+)
+
 lineDat = left_join(lineGroups, lines, "rn") |>
   select(-latitude, -longitude, -rn) |>
   st_as_sf() |>
-  left_join(segs, by = "seg") |>
+  left_join(segs, by = "seg")
 
 
 
-  # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 mycrs = 4087 #8857
 
@@ -142,19 +146,6 @@ p_colours = c(
   rgb(0.6471, 0, 0.1294)
 )
 
-segs = tribble(
-  ~seg, ~segStart, ~segEnd,
-  1,  2000, 2006,
-  2,  2007, 2013,
-  3,  2014, 2019,
-  4,  2020, 2023,
-  11, 2000, 2004,
-  12, 2005, 2009,
-  13, 2010, 2014,
-  14, 2015, 2021
-)
-
-
 if(!dir.exists(here::here('plots','arrow_maps'))){
   dir.create(here::here('plots','arrow_maps'))
 }
@@ -167,14 +158,17 @@ plotOpts = expand.grid(tau = unique(lineDat$tau),
   filter(between(segMax-segMin, 0, 5)) |>
   tibble()
 
+cli::cli_progress_bar(total = nrow(plotOpts))
+
 for(i in 1:nrow(plotOpts)){
+
+  cli::cli_progress_update()
 
   if(!dir.exists(here::here('plots','arrow_maps', plotOpts$spc[i],plotOpts$segMin[i]))){
     dir.create(here::here('plots','arrow_maps', plotOpts$spc[i],plotOpts$segMin[i]), recursive = T)
   }
 
   plotDat = lineDat |>
-    left_join(segs, by = "seg") |>
     filter(spc == plotOpts$spc[i],
            tau == plotOpts$tau[i],
            seg %in% plotOpts$segMin[i]:plotOpts$segMax[i]) |>
