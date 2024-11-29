@@ -116,7 +116,8 @@ plotDat = slopes_year_pv |>
 
 
 g_us = plotDat |>
-  filter(country == "United States of America") |>
+  filter(country == "United States of America",
+         year %in% 2002:2019) |>
   ggplot()+
   geom_bar(aes(year,n, fill = pvStr), stat = "identity", position = "stack")+
   geom_hline(aes(yintercept = 0))+
@@ -124,17 +125,13 @@ g_us = plotDat |>
   facet_grid(name~tau, scales = "free_y")
 
 g_eu = plotDat |>
-  filter(country != "United States of America") |>
+  filter(country != "United States of America",
+         year %in% 2002:2019) |>
   ggplot()+
   geom_bar(aes(year,n, fill = pvStr), stat = "identity", position = "stack")+
   geom_hline(aes(yintercept = 0))+
   scale_fill_manual(values = p_colours)+
   facet_grid(name~tau, scales = "free_y")
-
-
-
-
-
 
 
 mycrs = 4087
