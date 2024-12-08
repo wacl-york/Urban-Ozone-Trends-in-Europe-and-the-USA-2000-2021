@@ -1,5 +1,4 @@
-\begin{table}[!t]
-\fontsize{12.0pt}{14.4pt}\selectfont
+\begin{sidewaystable}[!t]
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
 \toprule
  &  & \multicolumn{4}{c}{Increasing} & \multicolumn{4}{c}{Decreasing} & \multicolumn{4}{c}{No Trend} \\ 
@@ -37,5 +36,5 @@ Species & $\tau$ & 2000 - 2004 & 2005 - 2009 & 2010 - 2014 & 2015 - 2021 & 2000 
  & 0.95 & 92 & 86 & 54 & 72 & 228 & 194 & 216 & 254 & 102 & 128 & 112 & 150 \\ 
 \bottomrule
 \end{tabular*}
-\end{table}
+\end{sidewaystable}
 
