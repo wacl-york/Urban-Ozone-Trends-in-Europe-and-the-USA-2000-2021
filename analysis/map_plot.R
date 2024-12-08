@@ -320,17 +320,26 @@ make_table = function(x){
     )
 }
 
+
+latex_tweaks = function(x){
+  x |>
+    stringr::str_replace_all("o3", "") |>
+    stringr::str_replace_all("no2", "") |>
+    stringr::str_replace_all("ox", "") |>
+    stringr::str_replace_all(":tau:", "$\\\\tau$") |>
+    stringr::str_replace_all("table", "sidewaystable") |>
+    stringr::str_remove_all("\fontsize{12.0pt}{14.4pt}\selectfont")
+
+}
+
+
 tableDat |>
   filter(country == "Europe") |>
   select(-country) |>
   make_table() |>
   as_latex() |>
   as.character() |>
-  stringr::str_replace_all("o3", "") |>
-  stringr::str_replace_all("no2", "") |>
-  stringr::str_replace_all("ox", "") |>
-  stringr::str_replace(":tau:", "$\\\\tau$") |>
-  stringr::str_replace("table", "sidewaystable") |>
+  latex_tweaks() |>
   writeLines(here::here('tables','europe_segs_11_14.txt'))
 
 
@@ -340,10 +349,6 @@ tableDat |>
   make_table() |>
   as_latex() |>
   as.character() |>
-  stringr::str_replace_all("o3", "") |>
-  stringr::str_replace_all("no2", "") |>
-  stringr::str_replace_all("ox", "") |>
-  stringr::str_replace(":tau:", "$\\\\tau$") |>
-  stringr::str_replace("table", "sidewaystable") |>
+  latex_tweaks() |>
   writeLines(here::here('tables','usa_segs_11_14.txt'))
 

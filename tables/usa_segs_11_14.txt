@@ -1,5 +1,4 @@
 \begin{sidewaystable}[!t]
-\fontsize{12.0pt}{14.4pt}\selectfont
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
 \toprule
  &  & \multicolumn{4}{c}{Increasing} & \multicolumn{4}{c}{Decreasing} & \multicolumn{4}{c}{No Trend} \\ 
@@ -37,5 +36,5 @@ Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 1
  & 0.95 & 86 & 80 & 94 & 94 & 78 & 70 & 78 & 64 & 76 & 68 & 72 & 74 \\ 
 \bottomrule
 \end{tabular*}
-\end{table}
+\end{sidewaystable}
 
