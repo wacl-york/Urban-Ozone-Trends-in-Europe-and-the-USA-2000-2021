@@ -1,4 +1,5 @@
 library(sf)
+library(gt)
 library(DBI)
 library(dplyr)
 library(tidyr)
@@ -251,3 +252,114 @@ for(i in 1:nrow(plotOpts)){
   dev.off()
 
 }
+
+
+
+
+
+# Tables ------------------------------------------------------------------
+
+tableDat = lineDat |>
+  st_drop_geometry() |>
+  mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
+  select(spc, seg, tau, fit, pv, Country = country) |>
+  group_by(spc, seg, tau, country) |>
+  summarise(
+    Increasing = sum(fit < 0 & pv <= 0.33),
+    Decreasing = sum(fit > 0 & pv <= 0.33),
+    `No Trend` = sum(pv > 0.33)
+  ) |>
+  ungroup() |>
+  filter(seg %in% 11:14) |>
+  left_join(segs, "seg") |>
+  mutate(segLab = paste(segStart, segEnd, sep = " - ")) |>
+  select(-seg, -segStart, -segEnd) |>
+  pivot_wider(values_from = c(Increasing, Decreasing, `No Trend`),
+              names_from = segLab,
+              names_sep = "_"
+  )
+
+#
+#
+# tableDat |>
+#   filter(
+#     country == "Europe",
+#     spc == "o3"
+#   ) |>
+#   filter(seg %in% 11:14) |>
+#   select(-seg) |>
+#   pivot_wider(values_from = -c(spc, seg, tau, country),
+#               names_from = "segLab",
+#               names_sep = "_")
+#
+# knitr::kable()
+
+
+
+
+
+make_table = function(x){
+
+  x |>
+    gt() |>
+    tab_spanner(
+      label = "Increasing",
+      columns = contains("Increasing")
+    ) |>
+    tab_spanner(
+      label = "Decreasing",
+      columns = contains("Decreasing")
+    ) |>
+    tab_spanner(
+      label = "No Trend",
+      columns = contains("No Trend")
+    ) |>
+    tab_row_group(
+      label = "O3",
+      rows = spc == "o3"
+    ) |>
+    tab_row_group(
+      label = "NO2",
+      rows = spc == "no2"
+    ) |>
+    tab_row_group(
+      label = "Ox",
+      rows = spc == "ox"
+    ) |>
+    cols_label_with(
+      columns = contains("-"),
+      fn = \(x) x |>
+        stringr::str_remove("Increasing_") |>
+        stringr::str_remove("Decreasing_") |>
+        stringr::str_remove("No Trend_")) |>
+    cols_label(
+      spc = "Species",
+      tau = ":tau:"
+    )
+}
+
+tableDat |>
+  filter(country == "Europe") |>
+  select(-country) |>
+  make_table() |>
+  as_latex() |>
+  as.character() |>
+  stringr::str_replace_all("o3", "") |>
+  stringr::str_replace_all("no2", "") |>
+  stringr::str_replace_all("ox", "") |>
+  stringr::str_replace(":tau:", "$\\\\tau$") |>
+  writeLines(here::here('tables','europe_segs_11_14.txt'))
+
+
+tableDat |>
+  filter(country == "United States of America") |>
+  select(-country) |>
+  make_table() |>
+  as_latex() |>
+  as.character() |>
+  stringr::str_replace_all("o3", "") |>
+  stringr::str_replace_all("no2", "") |>
+  stringr::str_replace_all("ox", "") |>
+  stringr::str_replace(":tau:", "$\\\\tau$") |>
+  writeLines(here::here('tables','usa_segs_11_14.txt'))
+
