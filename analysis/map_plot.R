@@ -318,10 +318,11 @@ make_table = function(x){
       spc = "Species",
       tau = ":tau:"
     )
+
 }
 
 
-latex_tweaks = function(x){
+latex_tweaks = function(x, caption, label){
   y = x |>
     stringr::str_replace_all("o3", "") |>
     stringr::str_replace_all("no2", "") |>
@@ -339,7 +340,13 @@ latex_tweaks = function(x){
 
   ymid = y[-c(1, length(y))]
 
-  c(y1, "\\begin{adjustbox}{width=\\textwidth}", ymid, "\\end{adjustbox}", yn)
+  c(y1,
+    paste0("\\caption{",caption,"}"),
+    paste0("\\label{",label,"}"),
+    "\\begin{adjustbox}{width=\\textwidth}",
+    ymid,
+    "\\end{adjustbox}",
+    yn)
 
 }
 
@@ -350,7 +357,10 @@ tableDat |>
   make_table() |>
   as_latex() |>
   as.character() |>
-  latex_tweaks() |>
+  latex_tweaks(
+    caption = "Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    label = "table:europe_slope_segs"
+  ) |>
   writeLines(here::here('tables','europe_segs_11_14.txt'))
 
 
@@ -360,6 +370,9 @@ tableDat |>
   make_table() |>
   as_latex() |>
   as.character() |>
-  latex_tweaks() |>
+  latex_tweaks(
+    caption = "Trends in O3, NO2 and Ox at sites in the United States of America in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    label = "table:usa_slope_segs"
+  ) |>
   writeLines(here::here('tables','usa_segs_11_14.txt'))
 

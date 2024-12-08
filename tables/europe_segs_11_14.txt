@@ -1,4 +1,6 @@
 \begin{sidewaystable}[!t]
+\caption{Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally}
+\label{table:europe_slope_segs}
 \begin{adjustbox}{width=\textwidth}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
 \toprule
