@@ -331,6 +331,8 @@ latex_tweaks = function(x){
     stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
     stringr::str_split("\\n", simplify = T)
 
+  y = y[y != ""]
+
   y1 = y[1]
 
   yn = y[length(y)]

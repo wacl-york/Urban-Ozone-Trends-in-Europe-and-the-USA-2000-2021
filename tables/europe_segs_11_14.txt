@@ -37,6 +37,5 @@ Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 1
  & 0.95 & 92 & 86 & 54 & 72 & 228 & 194 & 216 & 254 & 102 & 128 & 112 & 150 \\ 
 \bottomrule
 \end{tabular*}
-\end{sidewaystable}
 \end{adjustbox}
-
+\end{sidewaystable}
