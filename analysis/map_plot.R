@@ -262,7 +262,7 @@ for(i in 1:nrow(plotOpts)){
 tableDat = lineDat |>
   st_drop_geometry() |>
   mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
-  select(spc, seg, tau, fit, pv, Country = country) |>
+  select(spc, seg, tau, fit, pv, country) |>
   group_by(spc, seg, tau, country) |>
   summarise(
     Increasing = sum(fit < 0 & pv <= 0.33),
@@ -272,31 +272,13 @@ tableDat = lineDat |>
   ungroup() |>
   filter(seg %in% 11:14) |>
   left_join(segs, "seg") |>
-  mutate(segLab = paste(segStart, segEnd, sep = " - ")) |>
+  mutate(segLab = paste(segStart, segEnd, sep = " - ") |>
+           stringr::str_remove_all("20")) |>
   select(-seg, -segStart, -segEnd) |>
   pivot_wider(values_from = c(Increasing, Decreasing, `No Trend`),
               names_from = segLab,
               names_sep = "_"
   )
-
-#
-#
-# tableDat |>
-#   filter(
-#     country == "Europe",
-#     spc == "o3"
-#   ) |>
-#   filter(seg %in% 11:14) |>
-#   select(-seg) |>
-#   pivot_wider(values_from = -c(spc, seg, tau, country),
-#               names_from = "segLab",
-#               names_sep = "_")
-#
-# knitr::kable()
-
-
-
-
 
 make_table = function(x){
 
@@ -348,6 +330,7 @@ tableDat |>
   stringr::str_replace_all("no2", "") |>
   stringr::str_replace_all("ox", "") |>
   stringr::str_replace(":tau:", "$\\\\tau$") |>
+  stringr::str_replace("table", "sidewaystable") |>
   writeLines(here::here('tables','europe_segs_11_14.txt'))
 
 
@@ -361,5 +344,6 @@ tableDat |>
   stringr::str_replace_all("no2", "") |>
   stringr::str_replace_all("ox", "") |>
   stringr::str_replace(":tau:", "$\\\\tau$") |>
+  stringr::str_replace("table", "sidewaystable") |>
   writeLines(here::here('tables','usa_segs_11_14.txt'))
 

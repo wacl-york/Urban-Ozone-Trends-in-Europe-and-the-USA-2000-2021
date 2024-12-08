@@ -1,10 +1,10 @@
-\begin{table}[!t]
+\begin{sidewaystable}[!t]
 \fontsize{12.0pt}{14.4pt}\selectfont
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
 \toprule
  &  & \multicolumn{4}{c}{Increasing} & \multicolumn{4}{c}{Decreasing} & \multicolumn{4}{c}{No Trend} \\ 
 \cmidrule(lr){3-6} \cmidrule(lr){7-10} \cmidrule(lr){11-14}
-Species & $\tau$ & 2000 - 2004 & 2005 - 2009 & 2010 - 2014 & 2015 - 2021 & 2000 - 2004 & 2005 - 2009 & 2010 - 2014 & 2015 - 2021 & 2000 - 2004 & 2005 - 2009 & 2010 - 2014 & 2015 - 2021 \\ 
+Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{14}{l}{Ox} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
