@@ -265,8 +265,8 @@ tableDat = lineDat |>
   select(spc, seg, tau, fit, pv, country) |>
   group_by(spc, seg, tau, country) |>
   summarise(
-    Increasing = sum(fit < 0 & pv <= 0.33),
-    Decreasing = sum(fit > 0 & pv <= 0.33),
+    Increasing = sum(fit > 0 & pv <= 0.33),
+    Decreasing = sum(fit < 0 & pv <= 0.33),
     `No Trend` = sum(pv > 0.33)
   ) |>
   ungroup() |>
