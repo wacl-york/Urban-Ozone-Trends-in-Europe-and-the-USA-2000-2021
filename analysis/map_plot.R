@@ -322,13 +322,22 @@ make_table = function(x){
 
 
 latex_tweaks = function(x){
-  x |>
+  y = x |>
     stringr::str_replace_all("o3", "") |>
     stringr::str_replace_all("no2", "") |>
     stringr::str_replace_all("ox", "") |>
     stringr::str_replace_all(":tau:", "$\\\\tau$") |>
     stringr::str_replace_all("table", "sidewaystable") |>
-    stringr::str_remove_all("\fontsize{12.0pt}{14.4pt}\selectfont")
+    stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
+    stringr::str_split("\\n", simplify = T)
+
+  y1 = y[1]
+
+  yn = y[length(y)]
+
+  ymid = y[-c(1, length(y))]
+
+  c(y1, "\\begin{adjustbox}{width=\\textwidth}", ymid, "\\end{adjustbox}", yn)
 
 }
 
