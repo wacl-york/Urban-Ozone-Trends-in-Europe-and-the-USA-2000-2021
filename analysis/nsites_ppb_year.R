@@ -111,9 +111,12 @@ comp_count = comp_ppb_year_wider |>
 comp_tau_0.5_median_yearly = comp_ppb_year |>
   select(tau, name, year, continent, per_year) |>
   group_by(tau, name, year, continent) |>
-  summarise_all(median)
+  summarise(
+    q25 = quantile(per_year, probs = 0.25),
+    q75 = quantile(per_year, probs = 0.75),
+    per_year = quantile(per_year, probs = 0.5)
+  )
 
-png("~/TOAR/TOAR_paper/plots/o3_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
 ggplot(comp_tau_0.5_median_yearly |>
          filter(name == "o3",
                 year %in% (2002:2020)))+
@@ -266,6 +269,7 @@ comp_tau_0.5_median_yearly |>
   mutate(per_year = per_year - value_2002) |>
   ggplot()+
   geom_line(aes(x = year, y = per_year, colour = factor(tau)))+
+  geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
   geom_hline(aes(yintercept = 0))+
   scale_colour_scico_d(palette = "bam")+
   facet_grid(name ~ continent, scale = "free_y") +
@@ -275,6 +279,8 @@ dev.off()
 png("~/TOAR/TOAR_paper/plots/median_slopes_per_tau_continent_name.png",width = 1080*2, height = 1080*1.5, res = 300)
 comp_tau_0.5_median_yearly |>
   filter(year %in% (2002:2020)) |>
+         # tau != 0.90,
+         # tau != 0.75) |>
   # group_by(tau, name, continent) |>
   # mutate(per_year = cumsum(per_year)) |>
   # ungroup() |>
@@ -282,9 +288,29 @@ comp_tau_0.5_median_yearly |>
   # mutate(per_year = per_year - value_2002) |>
   ggplot()+
   geom_line(aes(x = year, y = per_year, colour = factor(tau)))+
+  geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
   geom_hline(aes(yintercept = 0))+
   scale_colour_scico_d(palette = "bam")+
   facet_grid(name ~ continent, scale = "free_y") +
   theme_minimal()
 dev.off()
 
+png("~/TOAR/TOAR_paper/plots/median_slopes_per_tau_continent_name_with_q25_q75.png",width = 1080*2, height = 1080*1.5, res = 300)
+comp_tau_0.5_median_yearly |>
+  filter(year %in% (2002:2020)) |>
+  group_by(tau, name, continent) |>
+  # mutate(per_year = cumsum(per_year)) |>
+  # ungroup() |>
+  # left_join(val2002, by = c("name", "continent", "tau")) |>
+  # mutate(per_year = per_year - value_2002) |>
+  ggplot()+
+  geom_line(aes(x = year, y = per_year, colour = factor(tau)))+
+  #geom_line(aes(x = year, y = q25, colour = factor(tau)), linetype = "dashed") +
+  geom_ribbon(aes(x = year, ymin = q25, ymax = q75, fill = factor(tau)), alpha = 0.2)+
+  geom_hline(aes(yintercept = 0))+
+  scale_colour_scico_d(palette = "bam")+
+  scale_fill_scico_d(palette = "bam")+
+  facet_grid(name ~ continent ~ tau, scale = "free_y") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+dev.off()
