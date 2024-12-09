@@ -1,4 +1,5 @@
 library(sf)
+library(gt)
 library(DBI)
 library(dplyr)
 library(tidyr)
@@ -251,3 +252,127 @@ for(i in 1:nrow(plotOpts)){
   dev.off()
 
 }
+
+
+
+
+
+# Tables ------------------------------------------------------------------
+
+tableDat = lineDat |>
+  st_drop_geometry() |>
+  mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
+  select(spc, seg, tau, fit, pv, country) |>
+  group_by(spc, seg, tau, country) |>
+  summarise(
+    Increasing = sum(fit > 0 & pv <= 0.33),
+    Decreasing = sum(fit < 0 & pv <= 0.33),
+    `No Trend` = sum(pv > 0.33)
+  ) |>
+  ungroup() |>
+  filter(seg %in% 11:14) |>
+  left_join(segs, "seg") |>
+  mutate(segLab = paste(segStart, segEnd, sep = " - ") |>
+           stringr::str_remove_all("20")) |>
+  select(-seg, -segStart, -segEnd) |>
+  pivot_wider(values_from = c(Increasing, Decreasing, `No Trend`),
+              names_from = segLab,
+              names_sep = "_"
+  )
+
+make_table = function(x){
+
+  x |>
+    gt() |>
+    tab_spanner(
+      label = "Increasing",
+      columns = contains("Increasing")
+    ) |>
+    tab_spanner(
+      label = "Decreasing",
+      columns = contains("Decreasing")
+    ) |>
+    tab_spanner(
+      label = "No Trend",
+      columns = contains("No Trend")
+    ) |>
+    tab_row_group(
+      label = "O3",
+      rows = spc == "o3"
+    ) |>
+    tab_row_group(
+      label = "NO2",
+      rows = spc == "no2"
+    ) |>
+    tab_row_group(
+      label = "Ox",
+      rows = spc == "ox"
+    ) |>
+    cols_label_with(
+      columns = contains("-"),
+      fn = \(x) x |>
+        stringr::str_remove("Increasing_") |>
+        stringr::str_remove("Decreasing_") |>
+        stringr::str_remove("No Trend_")) |>
+    cols_label(
+      spc = "Species",
+      tau = ":tau:"
+    )
+
+}
+
+
+latex_tweaks = function(x, caption, label){
+  y = x |>
+    stringr::str_replace_all("o3", "") |>
+    stringr::str_replace_all("no2", "") |>
+    stringr::str_replace_all("ox", "") |>
+    stringr::str_replace_all(":tau:", "$\\\\tau$") |>
+    stringr::str_replace_all("table", "sidewaystable") |>
+    stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
+    stringr::str_split("\\n", simplify = T)
+
+  y = y[y != ""]
+
+  y1 = y[1]
+
+  yn = y[length(y)]
+
+  ymid = y[-c(1, length(y))]
+
+  c(y1,
+    paste0("\\caption{",caption,"}"),
+    paste0("\\label{",label,"}"),
+    "\\begin{adjustbox}{width=\\textwidth}",
+    ymid,
+    "\\end{adjustbox}",
+    yn)
+
+}
+
+
+tableDat |>
+  filter(country == "Europe") |>
+  select(-country) |>
+  make_table() |>
+  as_latex() |>
+  as.character() |>
+  latex_tweaks(
+    caption = "Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    label = "table:europe_slope_segs"
+  ) |>
+  writeLines(here::here('tables','europe_segs_11_14.txt'))
+
+
+tableDat |>
+  filter(country == "United States of America") |>
+  select(-country) |>
+  make_table() |>
+  as_latex() |>
+  as.character() |>
+  latex_tweaks(
+    caption = "Trends in O3, NO2 and Ox at sites in the United States of America in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    label = "table:usa_slope_segs"
+  ) |>
+  writeLines(here::here('tables','usa_segs_11_14.txt'))
+
