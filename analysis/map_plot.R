@@ -28,6 +28,94 @@ calc_arrow_end = function(df,
 
 }
 
+make_table = function(x){
+
+  x |>
+    gt() |>
+    tab_spanner(
+      label = "Increasing",
+      columns = contains("Increasing")
+    ) |>
+    tab_spanner(
+      label = "Decreasing",
+      columns = contains("Decreasing")
+    ) |>
+    tab_spanner(
+      label = "No Trend",
+      columns = contains("No Trend")
+    ) |>
+    tab_row_group(
+      id = "a",
+      label = "Ozzz3yyy",
+      rows = spc == "o3"
+    ) |>
+    tab_row_group(
+      id = "b",
+      label = "NOzzz2yyy",
+      rows = spc == "no2"
+    ) |>
+    tab_row_group(
+      id = "c",
+      label = "Ozzzxyyy",
+      rows = spc == "ox"
+    ) |>
+    cols_label_with(
+      columns = contains("-"),
+      fn = \(x) x |>
+        stringr::str_remove("Increasing_") |>
+        stringr::str_remove("Decreasing_") |>
+        stringr::str_remove("No Trend_")) |>
+    cols_label(
+      spc = "Species",
+      tau = ":tau:"
+    ) |>
+    row_group_order(c("a","b","c"))
+
+}
+
+
+latex_tweaks = function(x, caption, label, sideways = T, adjustbox = T){
+  y = x |>
+    stringr::str_replace_all("o3", "") |>
+    stringr::str_replace_all("no2", "") |>
+    stringr::str_replace_all("ox", "") |>
+    stringr::str_replace_all(":tau:", "$\\\\tau$") |>
+    stringr::str_replace_all("www", "\\\\textsuperscript{") |>
+    stringr::str_replace_all("zzz", "\\\\textsubscript{") |>
+    stringr::str_replace_all("yyy", "}") |> # gross
+    stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
+    stringr::str_split("\\n", simplify = T)
+
+  if(sideways){
+    y = y |>
+      stringr::str_replace_all("table", "sidewaystable")
+  }
+  y = y[y != ""]
+
+  y1 = y[1]
+
+  yn = y[length(y)]
+
+  ymid = y[-c(1, length(y))]
+
+  a = c(y1,
+        paste0("\\caption{",caption,"}"),
+        paste0("\\label{",label,"}"))
+
+  if(adjustbox){
+    a = c(a,
+          "\\begin{adjustbox}{width=\\textwidth}",
+          ymid,
+          "\\end{adjustbox}",
+          yn)
+  } else{
+    a = c(a, ymid, yn)
+  }
+
+  a
+}
+
+
 source(here::here('functions','connect_to_db.R'))
 
 con = connect_to_db()
@@ -51,9 +139,13 @@ slope_segs = inner_join(
   anti_join(tbl(con, "remove_sites"),
             by = c("spc", "station_id")
   ) |>
-  collect()
+  collect() |>
+  mutate(fit = fit*365) |>
+  mutate(fit = ifelse(country == "United States of America", fit, fit/1.96),
+         country = ifelse(country == "United States of America", country, "Europe"))  # ugm3 -> ppb
 
 dbDisconnect(con, shutdown = T)
+
 
 pv_opt = c("p <= 0.05 (dec)",
            "0.05 < p <= 0.1 (dec)",
@@ -65,8 +157,6 @@ pv_opt = c("p <= 0.05 (dec)",
 )
 
 lineGroups = slope_segs |>
-  mutate(fit = fit*365) |>
-  mutate(fit = ifelse(country == "United States of America", fit, fit/1.96)) |> # ugm3 -> ppb
   mutate(fit = case_when(fit > 2.5 ~ 2.5,
                          fit < -2.5 ~ -2.5,
                          TRUE~fit),
@@ -293,83 +383,6 @@ tableDat = lineDat |>
               names_sep = "_"
   )
 
-make_table = function(x){
-
-  x |>
-    gt() |>
-    tab_spanner(
-      label = "Increasing",
-      columns = contains("Increasing")
-    ) |>
-    tab_spanner(
-      label = "Decreasing",
-      columns = contains("Decreasing")
-    ) |>
-    tab_spanner(
-      label = "No Trend",
-      columns = contains("No Trend")
-    ) |>
-    tab_row_group(
-      id = "a",
-      label = "Ozzz3yyy",
-      rows = spc == "o3"
-    ) |>
-    tab_row_group(
-      id = "b",
-      label = "NOzzz2yyy",
-      rows = spc == "no2"
-    ) |>
-    tab_row_group(
-      id = "c",
-      label = "Ozzzxyyy",
-      rows = spc == "ox"
-    ) |>
-    cols_label_with(
-      columns = contains("-"),
-      fn = \(x) x |>
-        stringr::str_remove("Increasing_") |>
-        stringr::str_remove("Decreasing_") |>
-        stringr::str_remove("No Trend_")) |>
-    cols_label(
-      spc = "Species",
-      tau = ":tau:"
-    ) |>
-    row_group_order(c("a","b","c"))
-
-}
-
-
-latex_tweaks = function(x, caption, label){
-  y = x |>
-    stringr::str_replace_all("o3", "") |>
-    stringr::str_replace_all("no2", "") |>
-    stringr::str_replace_all("ox", "") |>
-    stringr::str_replace_all(":tau:", "$\\\\tau$") |>
-    stringr::str_replace_all("table", "sidewaystable") |>
-    stringr::str_replace_all("zzz", "\\\\textsubscript{") |>
-    stringr::str_replace_all("yyy", "}") |> # gross
-    stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
-    stringr::str_split("\\n", simplify = T)
-
-  y = y[y != ""]
-
-  y1 = y[1]
-
-  yn = y[length(y)]
-
-  ymid = y[-c(1, length(y))]
-
-  c(y1,
-    paste0("\\caption{",caption,"}"),
-    paste0("\\label{",label,"}"),
-    "\\begin{adjustbox}{width=\\textwidth}",
-    ymid,
-    "\\end{adjustbox}",
-    yn)
-
-}
-
-
 tableDat |>
   filter(country == "Europe") |>
   select(-country) |>
@@ -394,4 +407,78 @@ tableDat |>
     label = "table:usa_slope_segs"
   ) |>
   writeLines(here::here('tables','usa_segs_11_14.txt'))
+
+
+# slope range table -------------------------------------------------------
+
+slopeRanges = lineDat |>
+  st_drop_geometry() |>
+  mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
+  mutate(type = case_when(fit > 0 & pv <= 0.33 ~ "Increasing",
+                          fit < 0 & pv <= 0.33 ~ "Decreasing",
+                          pv > 0.33 ~ "No Trend")) |>
+  filter(seg %in% 11:14) |>
+  select(spc, country, tau, type, fit, station_id) |>
+  group_by(spc, country, tau, type) |>
+  summarise(
+    `5 th`  = quantile(fit, probs = 0.05, na.rm = T),
+    `50 th` = quantile(fit, probs = 0.50, na.rm = T),
+    `95 th` = quantile(fit, probs = 0.95, na.rm = T)
+  ) |>
+  filter(tau == 0.5) |>
+  pivot_longer(contains("th")) |>
+  mutate(value = round(value, 2)) |>
+  pivot_wider(names_from = c("country", "type"),
+              names_sep = "_") |>
+  ungroup()
+
+slopeRanges |>
+  arrange(spc) |>
+  select(-tau) |>
+  gt() |>
+  tab_spanner(
+    label = "Europe",
+    columns = contains("Europe")
+  ) |>
+  tab_spanner(
+    label = "United States of America",
+    columns = contains("United States of America")
+  ) |>
+  tab_spanner(
+    label = "Slope / ppbv yearwww-1yyy",
+    columns = contains(c("Europe", "United States of America"))
+  ) |>
+  tab_row_group(
+    id = "a",
+    label = "Ozzz3yyy",
+    rows = spc == "o3"
+  ) |>
+  tab_row_group(
+    id = "b",
+    label = "NOzzz2yyy",
+    rows = spc == "no2"
+  ) |>
+  tab_row_group(
+    id = "c",
+    label = "Ozzzxyyy",
+    rows = spc == "ox"
+  ) |>
+  cols_label(
+    spc = "Species",
+    name = "Percentile"
+  )  |>
+  row_group_order(c("a","b","c")) |>
+  cols_label_with(
+    columns = contains("_"),
+    fn = \(x) x |>
+      stringr::str_remove("Europe_") |>
+      stringr::str_remove("United States of America_")) |>
+  as_latex() |>
+  as.character() |>
+  latex_tweaks(caption = "5 th, 50 th and 95 th percentiles of the $\\tau$ = 0.5 slopes in Europe and the USA.",
+               label = "table:slope_ranges",
+               sideways = F,
+               adjustbox = F) |>
+  writeLines(here::here('tables','slope_ranges.txt'))
+
 
