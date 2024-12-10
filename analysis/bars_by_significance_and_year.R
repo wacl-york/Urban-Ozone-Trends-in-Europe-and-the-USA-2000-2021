@@ -86,12 +86,12 @@ slopes_year_pv = slopes_year |>
   ) |>
   mutate(pvStr = case_when(
     pv <= 0.05 & fit < 0 ~ "p <= 0.05 (dec)",
-    between(pv, 0.05, 0.1) & fit < 0 ~ "0.05 < p <= 0.1 (dec)",
-    between(pv, 0.1, 0.33) & fit < 0 ~ "0.1  < p <= 0.33 (dec)",
+    between(pv, 0.05, 0.1) & fit < 0 ~ "0.05 < p <= 0.10 (dec)",
+    between(pv, 0.1, 0.33) & fit < 0 ~ "0.10  < p <= 0.33 (dec)",
     pv >= 0.33 & fit < 0 ~ "p > 0.33 (dec)",
     pv >= 0.33 & fit > 0 ~ "p > 0.33 (inc)",
-    between(pv, 0.1, 0.33) & fit > 0 ~ "0.1  < p <= 0.33 (inc)",
-    between(pv, 0.05, 0.1) & fit > 0 ~ "0.05 < p <= 0.1 (inc)",
+    between(pv, 0.1, 0.33) & fit > 0 ~ "0.10  < p <= 0.33 (inc)",
+    between(pv, 0.05, 0.1) & fit > 0 ~ "0.05 < p <= 0.10 (inc)",
     pv <= 0.05 & fit > 0 ~ "p <= 0.05 (inc)",
     TRUE ~ NA
   ) |>
@@ -99,12 +99,12 @@ slopes_year_pv = slopes_year |>
       levels = rev(
         c(
           "p > 0.33 (dec)",
-          "0.1  < p <= 0.33 (dec)",
-          "0.05 < p <= 0.1 (dec)",
+          "0.10  < p <= 0.33 (dec)",
+          "0.05 < p <= 0.10 (dec)",
           "p <= 0.05 (dec)",
           "p > 0.33 (inc)",
-          "0.1  < p <= 0.33 (inc)",
-          "0.05 < p <= 0.1 (inc)",
+          "0.10  < p <= 0.33 (inc)",
+          "0.05 < p <= 0.10 (inc)",
           "p <= 0.05 (inc)"
         )
       )
