@@ -430,7 +430,8 @@ slopeRanges = lineDat |>
   mutate(value = round(value, 2)) |>
   pivot_wider(names_from = c("country", "type"),
               names_sep = "_") |>
-  ungroup()
+  ungroup() |>
+  relocate(spc, name, contains("Increasing"))
 
 slopeRanges |>
   arrange(spc) |>
