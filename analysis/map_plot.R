@@ -259,15 +259,28 @@ for(i in 1:nrow(plotOpts)){
 
 # Tables ------------------------------------------------------------------
 
+lineDat |>
+  st_drop_geometry() |>
+  mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
+  select(spc, seg, tau, fit, pv, country, station_id) |>
+  distinct()
+
+
 tableDat = lineDat |>
   st_drop_geometry() |>
   mutate(country = ifelse(country == "United States of America", country, "Europe")) |>
-  select(spc, seg, tau, fit, pv, country) |>
+  mutate(Increasing = ifelse(fit > 0 & pv <= 0.33, 1, 0), # convert to just counting the increasing / decreasing
+         Decreasing = ifelse(fit < 0 & pv <= 0.33, 1, 0), # then if there are two trends in the same direction in the same segment
+         `No Trend` = ifelse(pv > 0.33, 1, 0)             # the rows will be identical and removed by distinct (need to hold onto station_id for this)
+  ) |>
+  select(spc, seg, tau, country, Increasing, Decreasing, `No Trend`, station_id) |>
+  distinct() |>
+  select(-station_id) |>
   group_by(spc, seg, tau, country) |>
   summarise(
-    Increasing = sum(fit > 0 & pv <= 0.33),
-    Decreasing = sum(fit < 0 & pv <= 0.33),
-    `No Trend` = sum(pv > 0.33)
+    Increasing = sum(Increasing),
+    Decreasing = sum(Decreasing),
+    `No Trend` = sum(`No Trend`)
   ) |>
   ungroup() |>
   filter(seg %in% 11:14) |>
@@ -297,15 +310,18 @@ make_table = function(x){
       columns = contains("No Trend")
     ) |>
     tab_row_group(
-      label = "O3",
+      id = "a",
+      label = "Ozzz3yyy",
       rows = spc == "o3"
     ) |>
     tab_row_group(
-      label = "NO2",
+      id = "b",
+      label = "NOzzz2yyy",
       rows = spc == "no2"
     ) |>
     tab_row_group(
-      label = "Ox",
+      id = "c",
+      label = "Ozzzxyyy",
       rows = spc == "ox"
     ) |>
     cols_label_with(
@@ -317,7 +333,8 @@ make_table = function(x){
     cols_label(
       spc = "Species",
       tau = ":tau:"
-    )
+    ) |>
+    row_group_order(c("a","b","c"))
 
 }
 
@@ -329,6 +346,8 @@ latex_tweaks = function(x, caption, label){
     stringr::str_replace_all("ox", "") |>
     stringr::str_replace_all(":tau:", "$\\\\tau$") |>
     stringr::str_replace_all("table", "sidewaystable") |>
+    stringr::str_replace_all("zzz", "\\\\textsubscript{") |>
+    stringr::str_replace_all("yyy", "}") |> # gross
     stringr::str_remove_all("\\\\fontsize\\{12.0pt\\}\\{14.4pt\\}\\\\selectfont\\n") |>
     stringr::str_split("\\n", simplify = T)
 
@@ -358,7 +377,7 @@ tableDat |>
   as_latex() |>
   as.character() |>
   latex_tweaks(
-    caption = "Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    caption = "Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33",
     label = "table:europe_slope_segs"
   ) |>
   writeLines(here::here('tables','europe_segs_11_14.txt'))
@@ -371,7 +390,7 @@ tableDat |>
   as_latex() |>
   as.character() |>
   latex_tweaks(
-    caption = "Trends in O3, NO2 and Ox at sites in the United States of America in annual groups between 2000 and 20021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
+    caption = "Trends in O3, NO2 and Ox at sites in the United States of America in annual groups between 2000 and 2021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally.",
     label = "table:usa_slope_segs"
   ) |>
   writeLines(here::here('tables','usa_segs_11_14.txt'))
