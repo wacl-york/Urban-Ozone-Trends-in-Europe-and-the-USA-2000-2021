@@ -181,6 +181,17 @@ lineDat = comp_ppb_year_longer |>
 
 #ggridges::geom_density_ridges()
 
+col = c(
+  "#E4ADD6",
+  "#B5549C",
+  "#65014B",
+  "black",
+  "#0C4C00",
+  "#5F903D",
+  "#C0D9A1"
+)
+
+
 png("~/TOAR/TOAR_paper/plots/o3_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
 ggplot(comp_ppb_year_longer |>
          filter(year %in% c(2000,2021),
@@ -195,13 +206,14 @@ ggplot(comp_ppb_year_longer |>
                  group = quantiles,
                  colour = factor(tau),
                  linetype = quantiles))+
-  scale_fill_scico_d(palette = "bam")+
-  scale_colour_scico_d(palette = "bam")+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
   scale_x_continuous(limits = c(-5,5))+
   facet_grid(year~continent)+
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))+
-  ggtitle(expression("O"[3]))
+  ggtitle(expression("O"[3])) +
+  labs(x = expression("slope / ppbV yr"^-1), y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 dev.off()
 
 png("~/TOAR/TOAR_paper/plots/no2_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
@@ -218,13 +230,14 @@ ggplot(comp_ppb_year_longer |>
                  group = quantiles,
                  colour = factor(tau),
                  linetype = quantiles))+
-  scale_fill_scico_d(palette = "bam")+
-  scale_colour_scico_d(palette = "bam")+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
   scale_x_continuous(limits = c(-5,5))+
   facet_grid(year~continent)+
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))+
-  ggtitle(expression("NO"[2]))
+  ggtitle(expression("NO"[2])) +
+  labs(x = expression("slope / ppbV yr"^-1), y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 dev.off()
 
 png("~/TOAR/TOAR_paper/plots/ox_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
@@ -248,6 +261,78 @@ ggplot(comp_ppb_year_longer |>
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))+
   ggtitle(expression("O"[x]))
+dev.off()
+
+######
+
+x = segments |>
+  select(year, seg) |>
+  mutate(year = as.character(year)) |>
+  distinct() |>
+  filter(seg %in% c("11","14"))
+
+comp_ppb_year_longer = comp_ppb_year_longer |> left_join(x, by = "year")
+
+lineDat = comp_ppb_year_longer |>
+  ungroup() |>
+  select(-year) |>
+  filter(seg %in% c(11, 14)) |>
+  group_by(tau, continent, name, seg) |>
+  summarise(q25 = quantile(value, probs = 0.25, na.rm = T),
+            q75 = quantile(value, probs = 0.75, na.rm = T)
+  ) |>
+  ungroup() |>
+  pivot_longer(contains("q"), names_to = "quantiles", values_to = "q")
+
+png("~/TOAR/TOAR_paper/plots/o3_density_ridges_by_tau_continent_segments.png",width = 1080*2.5, height = 1080*1.5, res = 300)
+ggplot(comp_ppb_year_longer |>
+         filter(seg %in% c(11,14),
+                name == "o3") |>
+         select(-year) |>
+         group_by(station_id, tau, name, continent, seg) |>
+         summarise_all(median))+
+  ggridges::geom_density_ridges(
+    aes(x = as.numeric(value), y = factor(tau), fill = factor(tau)),
+  )+
+  geom_vline(aes(xintercept = 0), linewidth = 1, colour = "black")+
+  # geom_density(aes(x = value, fill = factor(tau)), alpha = 0.2)+
+  geom_vline(data = lineDat |> filter(name == "o3"),
+             aes(xintercept = q,
+                 group = quantiles,
+                 colour = factor(tau),
+                 linetype = quantiles))+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
+  scale_x_continuous(limits = c(-5,5))+
+  facet_grid(seg~continent)+
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle(expression("O"[3])) +
+  labs(x = expression("slope / ppbV yr"^-1), y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
+dev.off()
+
+png("~/TOAR/TOAR_paper/plots/no2_density_ridges_by_tau_continent_segments.png",width = 1080*2.5, height = 1080*1.5, res = 300)
+ggplot(comp_ppb_year_longer |>
+         filter(year %in% c(2000,2021),
+                name == "no2"))+
+  ggridges::geom_density_ridges(
+    aes(x = as.numeric(value), y = factor(tau), fill = factor(tau)),
+  )+
+  geom_vline(aes(xintercept = 0), linewidth = 1, colour = "black")+
+  # geom_density(aes(x = value, fill = factor(tau)), alpha = 0.2)+
+  geom_vline(data = lineDat |> filter(name == "no2"),
+             aes(xintercept = q,
+                 group = quantiles,
+                 colour = factor(tau),
+                 linetype = quantiles))+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
+  scale_x_continuous(limits = c(-5,5))+
+  facet_grid(year~continent)+
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))+
+  ggtitle(expression("NO"[2])) +
+  labs(x = expression("slope / ppbV yr"^-1), y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 dev.off()
 
 #combined = ggarrange(o3, no2, ox, nrow=1, common_legend = TRUE)
