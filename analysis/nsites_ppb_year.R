@@ -269,7 +269,7 @@ comp_tau_0.5_median_yearly |>
   mutate(per_year = per_year - value_2002) |>
   ggplot()+
   geom_line(aes(x = year, y = per_year, colour = factor(tau)))+
-  geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
+  #geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
   geom_hline(aes(yintercept = 0))+
   scale_colour_scico_d(palette = "bam")+
   facet_grid(name ~ continent, scale = "free_y") +
@@ -288,7 +288,7 @@ comp_tau_0.5_median_yearly |>
   # mutate(per_year = per_year - value_2002) |>
   ggplot()+
   geom_line(aes(x = year, y = per_year, colour = factor(tau)))+
-  geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
+  #geom_point(aes(x = year, y = per_year, colour = factor(tau)))+
   geom_hline(aes(yintercept = 0))+
   scale_colour_scico_d(palette = "bam")+
   facet_grid(name ~ continent, scale = "free_y") +
