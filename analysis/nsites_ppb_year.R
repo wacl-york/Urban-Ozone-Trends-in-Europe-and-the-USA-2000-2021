@@ -171,7 +171,7 @@ comp_ppb_IQR_wider = comp_ppb_IQR |>
 
 
 lineDat = comp_ppb_year_longer |>
-  filter(year %in% c(2000, 2021)) |>
+  filter(year %in% c(2000,2019)) |>
   group_by(tau, continent, name, year) |>
   summarise(q25 = quantile(value, probs = 0.25, na.rm = T),
             q75 = quantile(value, probs = 0.75, na.rm = T)
@@ -192,9 +192,15 @@ col = c(
 )
 
 
-png("~/TOAR/TOAR_paper/plots/o3_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
+datScrape = lineDat |>
+  filter(continent != "Europe",
+         tau == 0.5,
+         name == "no2")
+
+
+png("~/TOAR/TOAR_paper/plots/o3_density_ridges_by_tau_continent_2000_2019.png",width = 1080*2.5, height = 1080*1.5, res = 300)
 ggplot(comp_ppb_year_longer |>
-         filter(year %in% c(2000,2021),
+         filter(year %in% c(2000,2019),
                 name == "o3"))+
   ggridges::geom_density_ridges(
     aes(x = as.numeric(value), y = factor(tau), fill = factor(tau)),
@@ -216,9 +222,9 @@ ggplot(comp_ppb_year_longer |>
   labs(x = expression("slope / ppbV yr"^-1), y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 dev.off()
 
-png("~/TOAR/TOAR_paper/plots/no2_density_ridges_by_tau_continent.png",width = 1080*2.5, height = 1080*1.5, res = 300)
+png("~/TOAR/TOAR_paper/plots/no2_density_ridges_by_tau_continent_2000_2019.png",width = 1080*2.5, height = 1080*1.5, res = 300)
 ggplot(comp_ppb_year_longer |>
-         filter(year %in% c(2000,2021),
+         filter(year %in% c(2000,2019),
                 name == "no2"))+
   ggridges::geom_density_ridges(
     aes(x = as.numeric(value), y = factor(tau), fill = factor(tau)),
