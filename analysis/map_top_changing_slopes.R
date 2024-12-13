@@ -29,20 +29,19 @@ filter(stat == "slope",
 
 met_data = tbl(con, "combinedMeta") |>
   select(station_id, country, latitude, longitude) |>
-  distinct() |>
-  collect()
+  distinct()
 
 
 # Create data for absolute change in slope (ppb y-1)
 qr_piece = min_aic |>
   left_join(qr_reg, by = c("station_id", "scenario_idx", "name")) |>
   anti_join(tbl(con, "remove_sites") |> rename("name" = spc), by = c("station_id", "name")) |>
-  arrange(c(station_id, scenario_idx, name, tau, startYear)) |>
-  collect() |>
   left_join(met_data, by = "station_id") |>
-  mutate(value = ifelse(country == "United States of America", value, value/1.96)) |>
+  #mutate(value = ifelse(country == "United States of America", value, value/1.96)) |>
   select(-c(npiece, reg, aic, r2)) |>
   group_by(station_id, scenario_idx, name, tau) |>
+  collect() |>
+  arrange(c(station_id, scenario_idx, name, tau, startYear)) |>
   mutate(n = row_number()) |>
   mutate(startYears = list(c(startYear))) |>
   select(-c(startYear, endYear)) |>
