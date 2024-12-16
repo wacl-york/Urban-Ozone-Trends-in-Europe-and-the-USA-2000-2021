@@ -11,15 +11,7 @@ source(here::here('functions','connect_to_db.R'))
 
 con = connect_to_db(read_only = FALSE)
 
-min_aic = tbl(con, "min_aic") |>
-  group_by(name, station_id) |>
-  filter(aic == min(aic, na.rm = T)) |>
-  filter(scenario_idx == min(scenario_idx, na.rm = T)) |> # a handful of sites have multiple scenarios that have identical AIC.
-  ungroup() # the differences between the locations of the change points are not substantial
-# so just take the lower of the two sceanrio_idx arbitratily
-
 slope_segs = tbl(con, "slope_segs") |>
-  filter(type == "fit") |>
   inner_join(min_aic, by = c("station_id", "name", "reg")) |>
   left_join(tbl(con, "combinedMeta") |>
               select(station_id, latitude, longitude),
@@ -29,18 +21,11 @@ slope_segs = tbl(con, "slope_segs") |>
   st_transform(8857) |>
   rename(spc = name)
 
-world = rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") |>
-  st_transform(8857)
-
-lim = tibble(lng = c(-121,45), lat = c(25,65)) |>
-  st_as_sf(coords = c("lng", "lat"), crs = st_crs("WGS84")) |>
-  st_transform(8857)
-
 qDat = slope_segs |>
   st_drop_geometry() |>
   group_by(spc, tau) |>
-  summarise(qLow = quantile(value, probs = 0.02),
-            qHigh = quantile(value, probs = 0.98))
+  summarise(qLow = quantile(fit, probs = 0.02),
+            qHigh = quantile(fit, probs = 0.98))
 
 # slope_segs |>
 #   filter(
@@ -85,7 +70,7 @@ outlier_sites = slope_segs |>
   filter(
     tau == 0.5) |>
   left_join(qDat, c("spc", "tau")) |>
-  filter(!(between(value, qLow, qHigh))) |>
+  filter(!(between(fit, qLow, qHigh))) |>
   ungroup() |>
   select(station_id, spc) |>
   distinct()
@@ -151,8 +136,8 @@ anom_dat = anom_dat |>
 
 remove_sites = data.frame(
   station_id = c("bg0013a", "bg0043a", "bg0040a", "bg0052a", "es1529a", "es1529a", "fr31002", "gr0030a",
-                 "it0963a", "pt03072", "se0022a", "fr04058", "gr0031a", "fr33211"),
-  spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3")
+                 "it0963a", "pt03072", "se0022a", "fr04058", "gr0031a", "fr33211","ie0028a"),
+  spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3","ie0028a")
 )
 
 second_chance_sites = data.frame(
@@ -164,16 +149,16 @@ remove_remove_sites = remove_sites |>
   anti_join(second_chance_sites, by = c("station_id", "spc"))
 
 ox_sites = anom_dat |>
-  select(station_id, spc) |>
+  select(station_id, name) |>
   distinct() |>
-  filter(spc == "ox") |>
-  filter(station_id %in% remove_remove_sites$station_id)
+  filter(name == "ox") |>
+  filter(station_id %in% remove_remove_sites$station_id) |>
+  rename(spc = name)
 
 blacklist_sites = remove_remove_sites |>
   bind_rows(ox_sites) |>
   distinct()
 
-dbWriteTable(con, "remove_sites", blacklist_sites)
+dbWriteTable(con, "remove_sites", blacklist_sites, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
-
