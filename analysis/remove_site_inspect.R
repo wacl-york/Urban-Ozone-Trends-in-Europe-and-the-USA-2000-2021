@@ -9,7 +9,16 @@ library(rnaturalearthhires)
 
 source(here::here('functions','connect_to_db.R'))
 
-con = connect_to_db(read_only = FALSE)
+min_aic = tbl(con, "min_aic") |>
+  group_by(name, station_id) |>
+  filter(aic == min(aic, na.rm = T)) |>
+  filter(scenario_idx == min(scenario_idx, na.rm = T)) |>
+  distinct() |>
+  ungroup()
+
+# |>
+#   select(scenario_idx) |>
+# collect()
 
 slope_segs = tbl(con, "slope_segs") |>
   inner_join(min_aic, by = c("station_id", "name", "reg")) |>
@@ -44,14 +53,6 @@ qDat = slope_segs |>
 
 #####
 
-min_aic = tbl(con, "min_aic") |>
-  group_by(name, station_id) |>
-  filter(aic == min(aic, na.rm = T)) |>
-  filter(scenario_idx == min(scenario_idx, na.rm = T)) |>
-  distinct() |>
-  ungroup() |>
-  select(scenario_idx) |>
-  collect()
 
 qr_reg_names_slopes = tbl(con, "reg_anom_filt") |>
   select(station_id, name, scenario_idx, reg) |>
@@ -133,32 +134,13 @@ anom_dat = anom_dat |>
 # dev.off()
 
 ### Investigate outlier slopes ###
-
 remove_sites = data.frame(
   station_id = c("bg0013a", "bg0043a", "bg0040a", "bg0052a", "es1529a", "es1529a", "fr31002", "gr0030a",
                  "it0963a", "pt03072", "se0022a", "fr04058", "gr0031a", "fr33211","ie0028a"),
-  spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3","ie0028a")
+  spc = c("o3", "o3", "no2", "o3", "o3", "ox", "o3", "o3", "no2", "no2", "o3", "no2", "ox", "o3","no2")
 )
 
 second_chance_sites = data.frame(
   station_id = c("fr31002", "se0022a", "fr04058", "fr33211"),
   spc = c("o3", "o3", "no2", "o3")
 )
-
-remove_remove_sites = remove_sites |>
-  anti_join(second_chance_sites, by = c("station_id", "spc"))
-
-ox_sites = anom_dat |>
-  select(station_id, name) |>
-  distinct() |>
-  filter(name == "ox") |>
-  filter(station_id %in% remove_remove_sites$station_id) |>
-  rename(spc = name)
-
-blacklist_sites = remove_remove_sites |>
-  bind_rows(ox_sites) |>
-  distinct()
-
-dbWriteTable(con, "remove_sites", blacklist_sites, overwrite = T)
-
-dbDisconnect(con, shutdown = T)

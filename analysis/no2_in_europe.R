@@ -144,10 +144,6 @@ datPre2020 = bind_rows(datListpre2020)
 
 # -------------------------------------------------------------------------
 
-
-
-
-
 dat |>
   filter(name != "ox") |>
   mutate(date = lubridate::floor_date(date, "1 month")) |>
@@ -159,8 +155,6 @@ dat |>
   facet_wrap(~station_id, scale = "free_y")+
   theme_minimal()
 
-
-
 datPre2020 |>
   filter(name != "ox") |>
   mutate(date = lubridate::floor_date(date, "1 month")) |>
@@ -171,4 +165,3 @@ datPre2020 |>
   geom_line(aes(date, pqr_2/1.96, colour = name, group = interaction(name,piece)), linewidth = 2)+
   facet_wrap(~station_id, scale = "free_y")+
   theme_minimal()
-
