@@ -1,12 +1,9 @@
-library(sf)
 library(DBI)
 library(dplyr)
 library(tidyr)
 library(ggtext)
 library(ggplot2)
 library(stringr)
-library(rnaturalearth)
-library(rnaturalearthhires)
 
 source(here::here('functions','connect_to_db.R'))
 
