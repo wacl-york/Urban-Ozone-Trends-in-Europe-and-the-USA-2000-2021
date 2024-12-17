@@ -165,3 +165,106 @@ datPre2020 |>
   geom_line(aes(date, pqr_2/1.96, colour = name, group = interaction(name,piece)), linewidth = 2)+
   facet_wrap(~station_id, scale = "free_y")+
   theme_minimal()
+
+
+
+# O3 CP? force CP to 2020? ------------------------------------------------
+
+cp2020 = tbl(con, "aic") |>
+  left_join(
+    tbl(con, "regression_scenarios"),
+    by = c("name", "station_id", "scenario_idx")
+  ) |>
+  filter(station_id %in% !!inc_no2$station_id,
+         year(cp2) == 2020) |>
+  group_by(name, station_id) |>
+  filter(aic == min(aic, na.rm = T))
+
+
+datListCp2020 = list()
+for(stn in inc_no2$station_id){
+
+  datListCp2020[[stn]] = tbl(con,"reg_anom") |>
+    filter(station_id == !!stn) |>
+    left_join(cp2020, c("scenario_idx", "name", "station_id", "reg")) |>
+    collect() |>
+    filter(reg == "pqr_2") |>
+    # mutate(scenario_idx = ifelse(reg == "loess", 0, aic),
+    #        piece = ifelse(reg == "loess", "1", piece)) |>
+    # mutate(aic = ifelse(reg %in% c("qr","loess"), 0, aic)) |>
+    filter(!is.na(aic)) |>
+    pivot_wider(names_from = "reg") |>
+    arrange(date)
+
+}
+
+datCp2020 = bind_rows(datListCp2020)
+
+scens = datCp2020 |>
+  select(station_id, name, scenario_idx) |>
+  distinct() |>
+  mutate(id = paste(station_id, name, scenario_idx, sep = "."))
+
+o3_insig_2020 = tbl(con, "qr_regressions") |>
+  mutate(
+    id = paste(station_id, name, scenario_idx, sep = ".")) |>
+  filter(
+    id %in% !!scens$id,
+    tau == 0.5,
+    stat == "slope",
+    startYear == 2020) |>
+  left_join(
+    tbl(con, "regression_scenarios"),
+    by = c("name", "station_id", "scenario_idx")
+    ) |>
+ # select(-startYear, -endYear, -id) |>
+  pivot_wider(names_from = type) |>
+  filter(pv > 0.33,
+         name == "o3") |>
+  collect()
+
+
+o3_no2_sites = datCp2020 |>
+  select(name, station_id) |>
+  distinct() |>
+  pivot_wider(values_from = "name") |> # what a gross use of pivot
+  filter(!is.na(ox))
+
+
+plotDat = dat |>
+  bind_rows(
+    datCp2020 |>
+      filter(name %in% c("o3", "ox")) |>
+      mutate(name = case_when(name == "o3" ~ "o3_cp2020",
+                              name == "ox" ~ "ox_cp2020",
+                              TRUE ~ name))
+  ) |>
+  # filter(name != "ox") |>
+  select(date, station_id, name, anom, pqr_2, piece) |>
+  mutate(date = lubridate::floor_date(date, "1 month")) |>
+  group_by(date, station_id, name, piece) |>
+  summarise_all(median, na.rm = T) |>
+  ungroup() |>
+  filter(station_id %in% o3_no2_sites$station_id,
+         !station_id %in% o3_insig_2020$station_id,
+         station_id != "gr0031a")
+
+
+plotDat |>
+  filter(name %in% c("no2", "o3_cp2020", "ox_cp2020")) |>
+  ggplot()+
+  geom_line(aes(date, anom/1.96, colour = name))+
+  geom_line(aes(date, pqr_2/1.96, colour = name, group = interaction(name,piece)), linewidth = 2)+
+  facet_wrap(~station_id, scale = "free_y")+
+  theme_minimal()
+
+
+
+# -------------------------------------------------------------------------
+
+tbl(con, "eeaMeta") |>
+  filter(site %in% !!unique(plotDat$station_id)) |>
+  collect()
+
+
+
