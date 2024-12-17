@@ -230,7 +230,7 @@ For O3 in Europe, at sites with increasing trends the median slope was 0.36 ppbv
 
 Figure \ref{fig:p_bar_year} counts the trends by significance group and direction per year. This reveals the majority of trends are positive or negative with high certainty (p $\le$ 0.05). It also reinforces the observations from section \ref{sect:overview_of_trends}, where both Europe and the US see O3 increasing at number of sites, with there being proportionally more sites with a decreasing trend in the US. This additionally shows that the number of high certainty decreasing trends in O3 has been present since ~2010, joined by a slow decline in increasing trends. 
 
-For NO2 the feature of some sites beginning to show increasing trends in the US is clear, with this pattern beginning in 2015-2016. Between 2000 and 2019 nearly all European sites moved to a trend of decreasing NO2, however, this reversed for several sites in 2020. This trend reversal can be attributed to the reduction in NO2 concentrations in Europe which were a side effect of public health measures REF Lee 2020, Grange 2021, \textcolor{red}{(also maybe Sokhi)}. The removal of these measures led to an increase in NO2 mixing ratios as normal activities resumed, resulting in a positive trend in NO2 concentrations. There is not yet enough data for this method to capture a return to previous trends as change points were not allowed within 3 years of the end of the time series, so that there is sufficient data to perform the QR. For this reason 2000, 2001 and 2021 onward in Europe and 2000, 2001, 2020 and 2021 onwards for the USA were excluded from this year on year analysis, as it is not possible to capture changing trends in these regions. 
+For NO2 the feature of some sites beginning to show increasing trends in the US is clear, with this pattern beginning in 2015-2016. Between 2000 and 2019 nearly all European sites moved to a trend of decreasing NO2, however, this reversed for several sites in 2020. This trend reversal can be attributed to the reduction in NO2 concentrations in Europe which were a side effect of public health measures REF Lee 2020, Grange 2021, \textcolor{red}{(also maybe Sokhi)}, and is discussed in more detail in \ref{sect:2020_in_europe}. For this reason 2000, 2001 and 2021 onward in Europe and 2000, 2001, 2020 and 2021 onwards for the USA were excluded from this year on year analysis, as it is not possible to capture changing trends in these regions. 
 
 
 \subsection{Trends Across Quantiles}
@@ -273,15 +273,41 @@ Taking a closer look at the annual magnitude and direction of the trends allows 
 \clearpage
 
 \subsection{Spatio-temporal Distribution of Change points}
+
+The direction and magnitude of the change points in each location were investigated to identify locations where a change in direction of the trend (i.e. a negative to positive trend) occurs. In Europe, 21 sites observed a switch from a negative O3 trend line to a positive one in the first change point. The biggest switches occurred in southern Europe, in Spain and Greece ($\Delta$3.28 ppbV in gr0022a, 2004). For a larger number of sites (41), mainly in central Europe, the first change point in O3 switched from positive to negative, up to a maximum swing of 4.55 ppbV (fr31013, 2003). In contrast, a larger number of sites observed a negative to positive switch (39) in the second change point, compared to a positive to negative switch (28). Eight of the top ten biggest switches from negative to positive in the second change point occurred in Spain and Italy ($\Delta$3.99 ppbV in es0124a), whereas the biggest switch from positive to negative showed no distinct spatial pattern. This suggests that generally across Europe, more trends in O3 were switching from positive to negative in the first 5-10 years of the 21st-century, whereas more trends were switching from negative to positive between 2010-2021. In both decades, southern European sites showed the biggest changes in O3 trend from negative to positive.
+Similarly to O3, more sites showed a positive to negative trend (84) in NO2 compared to negative to positive (28) for the first change point, with the largest change points again observed in Spain ($\Delta$3.25 ppbV, es1453a). A comparable number of sites showed changes in trend direction in the second change point, (43 negative to positive, and 33 positive to negative). The positive to negative trends were generally distributed around 2010-2014, whereas the vast majority of negative to positive switches occurred in 2020 (41 out of 43 sites). The cause of this switch in 2020 across Europe is discussion in further detail in section \ref{sect:2020_in_europe}.
+
 \begin{figure*}[t]
-\includegraphics[width=12cm]{plots/fixed_median_slopes_per_tau_continent_name.png}
-\caption{Median trendline slopes (ppb y-1) in NO2, O3 and Ox for Europe and the USA, coloured by trendline $\tau$ value. The shaded region represents the median absolute deviation.}
-\label{median_slopes_per_tau_cont_name_trends}
+\includegraphics[width=12cm]{plots/EU_o3_tau_0.5_changepoint_year_mag_map.png}
+\caption{something}
+\label{us_o3_changepoint_map}
 \end{figure*}
 
-\subsubsection{2020 In Europe}
+\begin{figure*}[t]
+\includegraphics[width=12cm]{plots/EU_no2_tau_0.5_changepoint_year_mag_map.png}
+\caption{something}
+\label{us_no2_changepoint_map}
+\end{figure*}
 
-\subsubsection{Recent NO2 in the USA}
+In the USA, a comparable number of directional switches in O3 trend in the first change point occurred in the positive to negative direction (21), compared to negative to positive (17). The three largest magnitude trend changes from negative to positive occurred in Florida ($\Delta$2.43 ppbv, 15292), with all of the ten highest magnitude cases in either Florida or California. Trends switching from positive to negative in the first change point scenario were smaller in magnitude, the biggest switch being in California ($\Delta$1.53 ppbv), but with some noticeable contributions from the central states. The majority of second change points occurred between 2010-2019, though it is important to note that due to a lack of data availability, it is not possible for this analysis to pick out change points from 2020 onward in the USA dataset. In the NO2 dataset, there is only one site showing a switch from negative to positive in the first change point ($\Delta$1.30 ppbv, 1369, 2008), compared to 13 sites showing a positive to negative switch. Of these 13 sites, the largest magnitude is in Virginia ($\Delta$2.99 ppbv, 2003). In contrast, 19 sites show a switch in NO2 trend from negative to positive after the second change point, with the biggest change in California ($\Delta$2.16 ppbv, 1206, 2019), with only one site showing a switch from positive to negative ($\Delta$0.48 ppbv, 1369, 2013).
+
+\begin{figure*}[t]
+\includegraphics[width=12cm]{plots/US_o3_tau_0.5_changepoint_year_mag_map.png}
+\caption{something}
+\label{us_o3_changepoint_map}
+\end{figure*}
+
+\begin{figure*}[t]
+\includegraphics[width=12cm]{plots/US_no2_tau_0.5_changepoint_year_mag_map.png}
+\caption{something}
+\label{us_no2_changepoint_map}
+\end{figure*}
+
+\subsubsection{2020 In Europe} \label{sect:2020_in_europe}
+As noted in section \ref{sect:significance_of_trends}, in 2020 in Europe several sites switched from a long term decrease in NO2 to increasing NO2 again. The public health measures enacted due to the COVID-19 pandemic had the side effect of decreasing NO2 concentrations due to reduced traffic emissions. The removal of these measures led to an increase in NO2 mixing ratios as normal activities resumed, resulting in a positive trend in NO2 concentrations up from their lowest during the restrictions. The method applied here has detected 2020 as a change point in NO2 at \textcolor{red}{many} European sites because of the large changes in NO2 during this year. There are 42 sites that had a negative trend in 2019 and a non-negative trend in 2020. The 2019 trends ranged from 1.47 to -0.04 ppbV yr\textsuperscript{-1} and the the 2020 trends ranged from ranged from 0.00 to 3.74 ppbV yr\textsuperscript{-1}. % trends in 2020 are flat - i.e. once 2020 concs stabilised they did not strongly increase again, some changes stuck around or other measures were brought in at the same time, ULEZ in London. Others have increased sharply and surpased 2019 concentraions - but need to be careful as not many years of data
+
+
+\subsubsection{Recent NO2 in the USA} 
 TEXT
 
 \section{Conclusion}  %% \conclusions[modified heading if necessary]
