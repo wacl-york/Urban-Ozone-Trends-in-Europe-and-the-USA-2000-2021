@@ -1,11 +1,11 @@
-library(sf)
+#library(sf)
 library(DBI)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(stringr)
-library(rnaturalearth)
-library(rnaturalearthhires)
+#library(rnaturalearth)
+#library(rnaturalearthhires)
 library(patchwork)
 library(ggpubr)
 
@@ -18,8 +18,8 @@ min_aic = tbl(con, "min_aic") |>
   group_by(name, station_id) |>
   filter(aic == min(aic, na.rm = T)) |>
   filter(scenario_idx == min(scenario_idx, na.rm = T)) |>
-  ungroup() |>
-  left_join(tbl(con, "reg_anom"), join_by(scenario_idx, reg, name, station_id))
+  ungroup()
+  #left_join(tbl(con, "reg_anom"), join_by(scenario_idx, reg, name, station_id))
 
 # Filter reg data for all relevant slope information
 qr_reg =  tbl(con, "qr_regressions")|>
@@ -60,6 +60,8 @@ qr_piece = min_aic |>
          B_to_C_year = ifelse(length(startYears[[3]]) > 0, startYears[[3]], NA))
 
 qr_piece$country[qr_piece$country != "United States of America"] = "Europe"
+
+#saveRDS(qr_piece, "~/scratch/TOAR/qr_piece_dataframe.RDS")
 
 col = c(
   "#E4ADD6",
