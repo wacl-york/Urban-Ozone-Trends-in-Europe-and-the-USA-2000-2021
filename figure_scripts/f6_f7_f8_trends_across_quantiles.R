@@ -27,6 +27,8 @@ slopes = inner_join(
   pivot_wider(names_from = "type") |>
   select(-stat)
 
+dbDisconnect(con, shutdown = T)
+
 segments = slopes |>
   select(station_id, name, reg, tau) |>
   distinct() |>
