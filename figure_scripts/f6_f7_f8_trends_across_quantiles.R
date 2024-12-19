@@ -135,8 +135,17 @@ g1 = comp_ppb_year_longer |>
         legend.text = element_markdown(),
         legend.position = "bottom",
         legend.byrow = T
-        )+
-  # -------------------------------------------------------------------------
+  )+
+  labs(y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
+
+
+pdf(here::here('figures','f6_ridgelines.pdf'),width = 11.7, height = 8.3)
+print(g1)
+dev.off()
+
+
+
+# -------------------------------------------------------------------------
 
 baseline = comp_ppb_year_longer |>
   filter(year == 2000) |>
@@ -172,23 +181,57 @@ g2 = plotDatCusum |>
   geom_hline(aes(yintercept = 0))+
   scale_colour_manual(values = col)+
   scale_fill_manual(values = col)+
+  labs(x = "Year",
+       y = "Change in median mixing ratio since 2000 / ppb",
+       colour = expression(tau),
+       fill = expression(tau))+
   facet_grid(name ~ continent, scale = "free_y") +
   theme_minimal()+
-  theme(strip.text = element_markdown())+
-  labs(x = "Year", y = "Change in median mixing ratio since 2000 / ppb", colour = expression(tau), fill= expression(tau))
+  theme(strip.text = element_markdown(),
+        legend.position = "bottom",
+        legend.byrow = T)
 
-pdf(here::here('figures','f7_cusum.pdf'),width = 11.7, height = 8.3)
+pdf(here::here('figures','f7_cusum.pdf'), width = 7.5, height = 7.5)
 print(g2)
 dev.off()
 
 
-  guides(fill = guide_legend(reverse = T), colour = guide_legend(reverse = T))+
-  labs(y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
+# -------------------------------------------------------------------------
+
+plotDat = comp_ppb_year_longer |>
+  filter(year %in% (2002:2021)) |>
+  group_by(tau, name, continent, station_id) |>
+  select(-station_id) |>
+  group_by(tau, name, year, continent) |>
+  summarise(
+    q25 = quantile(value, probs = 0.25),
+    q75 = quantile(value, probs = 0.75),
+    mad = mad(value),
+    per_year = quantile(value, probs = 0.5)) |>
+  mutate(tau = factor(tau))
+
+g3 = plotDat |>
+  filter(name != "ox") |>
+  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>") |>
+           factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>"))) |>
+  ggplot()+
+  geom_ribbon(aes(x = year, ymin = per_year-mad, ymax = per_year+mad, fill = tau), alpha = 0.05) +
+  geom_line(aes(x = year, y = per_year, colour = tau), linewidth = 1)+
+  geom_hline(aes(yintercept = 0))+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
+  labs(x = "Year",
+       y = "Median slope since 2000 / ppb yr<sup>-1</sup>",
+       colour = expression(tau),
+       fill = expression(tau))+
+  facet_grid(name ~ continent, scale = "free_y") +
+  theme_minimal()+
+  theme(strip.text = element_markdown(),
+        axis.title.y = element_markdown(),
+        legend.position = "bottom",
+        legend.byrow = T)
 
 
-pdf(here::here('figures','f6_ridgelines.pdf'),width = 11.7, height = 8.3)
-print(g1)
+pdf(here::here('figures','f8_slopes.pdf'), width = 7.5, height = 7.5)
+print(g3)
 dev.off()
-
-
-
