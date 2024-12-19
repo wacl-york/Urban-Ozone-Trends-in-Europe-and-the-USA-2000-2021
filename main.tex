@@ -232,11 +232,11 @@ To investigate how the trends in urban O3 are generally changing across quantile
 
 The distributions at the start (year = 2000) and end (year = 2019) of the 20-year period were compared (Figure \ref{fig:ridgeplot}). Generally, across all values of $\tau$, the interquartile range (IQR = 75\textsuperscript{th} quantile minus 25\textsuperscript{th} quantile) of the slope distributions in O3 was greater in 2000 compared with 2019 ($\tau$ = 0.5, IQR = 0.87 and 0.58 ppbv y-1 for 2000 and 2019 respectively). This is particularly true for Europe, where a clear reduction in the higher $\tau$ O3 slopes is observed between 2000 and 2019. For $\tau$ = 0.95, a much larger proportion of the slopes were > 1.25 ppbV yr-1 in 2000 than 2019. For $\tau$ = 0.95 in the USA, there is a reduction in the number of slopes with very negative (< 1.00 ppbV yr-1) slopes between 2000 and 2019.
 
-\begin{figure}[p]
-\includegraphics[width=14cm]{figures/f6_ridgelines.pdf}
-\caption{Slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95. NO2 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.90 and 0.95.}
+\begin{sidewaysfigure}
+\includegraphics[height=14cm]{figures/f6_ridgelines.pdf}
+\caption{Slope density for NO2 (left) and O3 (right) for Europe (cols 1 and 3) and the USA (cols 2 and 4) in 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95}
 \label{fig:ridgeplot}
-\end{figure}
+\end{sidewaysfigure}
 
 
 In Europe, the bulk of NO2 slopes become more negative across all $\tau$ (Figure \ref{fig:ridgeplot}). However, in the USA, despite the majority of slopes being negative in both 2000 and 2019, there is still a proportion of slopes with positive slopes in 2019, not observed in the European distribution. This is particularly true for 0.5 >= $\tau$ <= 0.9. The IQR of the slope distributions was comparable between 2000 ($\tau$ = 0.5, IQR = 0.50 ppb yr-1) and 2019 ($\tau$ = 0.5, IQR = 0.40 ppb yr-1) for Europe, comparable to the reduction in spread observed in the USA in 2019 ($\tau$ = 0.5, IQR = 0.44 ppb yr-1) compared to 2000 ($\tau$ = 0.5, IQR = 0.57 ppb yr-1).
@@ -305,7 +305,7 @@ To supplement this analysis, the 4th highest daily maximum 8-hour running mean f
 
 To investigate how 4MDA8 levels may have changed since this study, the 4MDA8 was calculated from the original hourly mixing ratio O3 dataset. Figure \ref{us_4mda8_map} shows how the 4MDA8 value varies between 2000, 2007, 2014 and 2021 in the USA. Across the US, 85 sites had a 4MDA8 >= 86 in 2000, compared to 48 in 2007 and 11 in 2014. In 2016 there was an up-tick to 16 sites with 4MDA8 values at this level. Of these 16 sites, 14 are located in California, compared to 30/48 Californian sites in 2000 and 24 in 2007. All 11 sites with MDA8 >= 86 were located in California. This highlights that although fewer Californian sites are exceeding 4MDA8 >= 86 ppb with time over the 2-decade period, the Californian 4MDA8 "hotspot" identified in Fleming et al., 2018 is still present. The more general picture across the USA is that 4MDA8 values are coming down with time, particularly strongly in the central and Eastern portion of the USA but less successfully in the west.
 
-\begin{figure*}[t]
+\begin{figure*}[h]
 \includegraphics[width=12cm]{plots/mda8_4MDA8_USA_2000_07_14_21_map.png}
 \caption{4MDA8 values in ppb for sites in the United States in 2000, 2007, 2014 and 2021 (clockwise from top left)}
 \label{us_4mda8_map}
@@ -314,7 +314,7 @@ To investigate how 4MDA8 levels may have changed since this study, the 4MDA8 was
 Southern Europe, particularly Greece and Northern Italy, were also highlighted in Flemming et al., 2018 as being 4MDA8 hotspots. To identify 4MDA8 hotspots in our dataset, sites with very high 4MDA8 values (4MDA8 >= 85 ppb) were explored. Figure \ref{eu_4mda8_map} shows how the 4MDA8 values are changing between 2000, 2007, 2014 and 2021 across Europe. In 2000, there were 9 sites in which 4MDA8 >= 85 ppb. This slightly increased to 11 sites in 2007 before decreasing to 6 sites in 2014. By 2021, no sites had 4MDA8 values exceeding 85 ppb. Since the measurement sites in this dataset are not evenly distributed across the USA and Europe, it is difficult to attribute high 4MDA8 values to particular states or countries, However, it was noticeable that a large proportion of the sites were 4MDA8 >= 85 ppb were in Italy and Greece. In 2000 6/9 of high 4MDA8 sites were located in Italy, and one in Greece. In 2007, 5/11 were located in Italy and 2/11 in Greece; and in 2014 5/6 sites were located in Italy. Consistent with the Fleming et al., 2018 study, the southern European 4MDA8 hotspots are apparent throughout the 20-year period. 
 %Flemming et al., 2018 also observed trends going up in 4MDA8 for parts of Spain, but this is beyond the scope of our study... maybe best not to mention!
 
-\begin{figure*}[t]
+\begin{figure*}[h]
 \includegraphics[width=12cm]{plots/mda8_4MDA8_EU_2000_07_14_21_map.png}
 \caption{4MDA8 values in ppb for sites in Europe in 2000, 2007, 2014 and 2021 (clockwise from top left)}
 \label{eu_4mda8_map}
