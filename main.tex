@@ -170,14 +170,14 @@ Figure \ref{method_plot} demonstrates this process on a single time series. Chan
 \section{Results and Discussion}
 
 \begin{figure*}[t]
-\includegraphics[width=12cm]{plots/o3_no2_conc.png}
+\includegraphics[width=12cm]{figures/f2_conc.pdf}
 \caption{}
 \label{fig:conc_plot}
 \end{figure*}
 
 Figure \ref{fig:conc_plot} shows the annual median, 25 th and 75 th percentile concentrations of O3 and NO2 across all the urban sites used in this study to provide context for the subsequently calculated trends. Europe shows median O3 concentrations increasing from 18 ppbv to 26 ppbv between 2000 and 2019, and USA concentrations increasing, from 26 ppbv in 2000 to 30 ppbv in 2019. Both Europe and the USA show decreasing NO2 over the same period (16 ppbv to 10 ppbv in Europe, 15 ppbv to 6 ppbv in the USA). The USA does see a return to increasing NO2 concentrations after 2020, reaching 7.8 ppbv in 2022. In section \ref{sect:case_studies} evidence for this increase is discussed. 
 
-To assess the magnitude of the changing O3 pollution problem across the USA and Europe, the daily maximum 8-hour running mean for O3 (MDA8) was calculated. MDA8 is an important metric, used to evaluate whether a particular location is in compliance with, or exceeding, internationally recognised health limits. O3 regulations outlined by the World Health Organisation, stipulate a MDA8 limit of 50 ppb (WHO 2005).
+To assess the magnitude of the changing O3 pollution problem across the USA and Europe, the daily maximum 8-hour running mean for O3 (MDA8) was calculated. MDA8 is an important metric, used to evaluate whether a particular location is in compliance with, or exceeding, internationally recognised health limits. Air quality guidelines outlined by the World Health Organisation, stipulate a MDA8 limit of 50 ppb (WHO 2005).
 
 The dataset that results from the application of the method described in section \ref{sect:method} has several degrees of freedom to bear in mind during discussion. For a given time series (one species at one site) there are two break points that are common for all the trend lines, and as there are 7 quantiles, this results in 21 slopes, each with an associated p-value. When comparing between sites (or even species within a site) the change points can differ. This is necessary to capture the changing trends observed at urban sites but does complicate describing them. For this discussion we have grouped the sites into those from Europe and those from the United States, though details on individual European countries are available in the SI. 
 To aid in summarising, in some cases the results have been grouped into time periods of a few years – in these cases if a trend changes due to a change point both trends have been counted. For example, if between 2000 and 2004 a site were to go from increasing O3 to decreasing O3, this would be described as ‘between 2000 and 2004 there was one increasing O3 trend and one decreasing O3 trend’. In the case where a site had a change point in 2003, but the trend remained increasing, this will be counted as one increasing trend. This has the benefit that no one category can count more than then number of available time series. In visualisation, both trends would be shown.
@@ -185,30 +185,19 @@ To aid in summarising, in some cases the results have been grouped into time per
 Trends have been collated into significance categories: p $\le$ 0.05 (high certainty), 0.05 $<$ p $\le$ 0.10 (medium certainty), 0.10 $<$ p $\le$ 0.33 (low certainty) and p > 0.33 (very low certainty or no evidence). For the most part. slopes where the p-value is > 0.33 are treated as ‘no trend’ regardless of their magnitude (generally we observe that as the magnitude of the trend decreases so does its significance), though sometimes are given with a direction when required by a visualisation.
 
 \subsection{Overview of Trends} \label{sect:overview_of_trends}
-To begin with, the $\tau$ = 0.5 trends of O3 and NO2 were examined and are presented on maps in figures \ref{fig:arrow_eu_o3}, \ref{fig:arrow_us_o3}, \ref{fig:arrow_eu_no2} and \ref{fig:arrow_us_no2}.
+To begin with, the $\tau$ = 0.5 trends of O3 and NO2 were examined and are presented on maps in figures \ref{fig:arrow_eu} and \ref{fig:arrow_us}.
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/o3/11/EU_map_spc_o3_tau_0.5_seg_11_14.png}
+\begin{figure*}[p]
+\includegraphics[width=12cm]{figures/f3_eu_arrows.pdf}
 \caption{}
-\label{fig:arrow_eu_o3}
+\label{fig:arrow_eu}
 \end{figure*}
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/o3/11/US_map_spc_o3_tau_0.5_seg_11_14.png}
-\caption{}
-\label{fig:arrow_us_o3}
-\end{figure*}
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/no2/11/EU_map_spc_no2_tau_0.5_seg_11_14.png}
+\begin{figure*}[p]
+\includegraphics[width=12cm]{figures/f4_usa_arrows.pdf}
 \caption{}
-\label{fig:arrow_eu_no2}
-\end{figure*}
-
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/no2/11/US_map_spc_no2_tau_0.5_seg_11_14.png}
-\caption{}
-\label{fig:arrow_us_no2}
+\label{fig:arrow_us}
 \end{figure*}
 
 In Europe, between 2000 and 2004 there were 108 trends where O3 was increasing, and 41 where it was decreasing, 32 showed no trend. By 2015-2021, 123 had an increasing trend, 32 decreasing and 41 with no trend, indicating generally increasing O3 concentrations across Europe. This is somewhat mirrored by the trends in NO2, where in 2000-2004 69 trends where increasing, 182 decreasing and 59 with no trend, changing to 30 increasing, 241 decreasing and 39 with no trend by 2015-2021. This is commensurate with the general picture that urban locations in Europe are still on the VOC limited portion of the O3 production isopleth, and decreasing NOx increases O3 production. 
@@ -218,11 +207,11 @@ For O3 in Europe, at sites with increasing trends the median slope was 0.36 ppbv
 
 
 
-\input{tables/slope_ranges.txt}
+\input{tables/t1_slope_ranges.txt}
 
-\input{tables/europe_segs_11_14.txt}
+\input{tables/t2_europe_segs_11_14.txt}
 
-\input{tables/usa_segs_11_14.txt}
+\input{tables/t3_usa_segs_11_14.txt}
 
 \subsubsection{Significance of Trends} \label{sect:significance_of_trends}
 
