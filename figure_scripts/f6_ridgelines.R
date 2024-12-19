@@ -111,7 +111,8 @@ col = c(
 g1 = comp_ppb_year_longer |>
   filter(year %in% c(2000,2019),
          name != "ox") |>
-  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>")) |>
+  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>") |>
+           factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>"))) |>
   ggplot()+
   ggridges::geom_density_ridges(
     aes(x = as.numeric(value), y = factor(tau), fill = factor(tau)),
@@ -125,21 +126,22 @@ g1 = comp_ppb_year_longer |>
   scale_colour_manual(values = col)+
   scale_fill_manual(values = col)+
   scale_x_continuous(limits = c(-2.5,2.5), name = "slope / ppb yr<sup>-1</sup>")+
-  facet_nested(name + year~continent)+
+  facet_nested(year ~ name + continent)+
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5),
         strip.text = element_markdown(),
-        axis.text = element_markdown(),
-        legend.text = element_markdown()
+        axis.title.x = element_markdown(),
+        legend.text = element_markdown(),
+        legend.position = "bottom",
+        legend.byrow = T
         )+
   guides(fill = guide_legend(reverse = T), colour = guide_legend(reverse = T))+
   labs(y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 
 
-pdf(here::here('figures','f6_ridgelines.pdf'),width = 8.3, height = 11.7)
+pdf(here::here('figures','f6_ridgelines.pdf'),width = 11.7, height = 8.3)
 print(g1)
 dev.off()
-
 
 
 
