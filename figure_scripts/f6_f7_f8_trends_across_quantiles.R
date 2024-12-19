@@ -136,6 +136,52 @@ g1 = comp_ppb_year_longer |>
         legend.position = "bottom",
         legend.byrow = T
         )+
+  # -------------------------------------------------------------------------
+
+baseline = comp_ppb_year_longer |>
+  filter(year == 2000) |>
+  select(-year) |>
+  group_by(station_id, tau, name, continent) |>
+  summarise_all(median) |>
+  rename(value_baseline = value)
+
+plotDatCusum = comp_ppb_year_longer |>
+  filter(year %in% (2000:2021)) |>
+  group_by(tau, name, continent, station_id) |>
+  mutate(value = cumsum(value)) |>
+  left_join(baseline, by = c("name", "continent", "station_id", "tau")) |>
+  mutate(value = value - value_baseline) |>
+  ungroup() |>
+  select(-value_baseline) |>
+  group_by(tau, name, year, continent) |>
+  summarise(
+    q25 = quantile(value, probs = 0.25, na.rm = T),
+    q75 = quantile(value, probs = 0.75, na.rm = T),
+    mad = mad(value, na.rm = T),
+    per_year = quantile(value, probs = 0.5, na.rm = T)) |>
+  mutate(tau = factor(tau))
+
+
+g2 = plotDatCusum |>
+  filter(name != "ox") |>
+  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>") |>
+           factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>"))) |>
+  ggplot()+
+  geom_ribbon(aes(x = year, ymin = per_year-mad, ymax = per_year+mad, fill = tau), alpha = 0.05) +
+  geom_line(aes(x = year, y = per_year, colour = tau), linewidth = 1)+
+  geom_hline(aes(yintercept = 0))+
+  scale_colour_manual(values = col)+
+  scale_fill_manual(values = col)+
+  facet_grid(name ~ continent, scale = "free_y") +
+  theme_minimal()+
+  theme(strip.text = element_markdown())+
+  labs(x = "Year", y = "Change in median mixing ratio since 2000 / ppb", colour = expression(tau), fill= expression(tau))
+
+pdf(here::here('figures','f7_cusum.pdf'),width = 11.7, height = 8.3)
+print(g2)
+dev.off()
+
+
   guides(fill = guide_legend(reverse = T), colour = guide_legend(reverse = T))+
   labs(y = expression(tau), linetype = "Percentile", fill = expression(tau), colour = expression(tau))
 
