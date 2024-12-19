@@ -55,9 +55,7 @@ qr_piece = min_aic |>
   ),
   B_to_C_dir_flip = case_when(
     B > 0 & C < 0 ~ "positive_to_negative",
-    B < 0 & C > 0 ~ "negative_to_positive")) |>
-  mutate(A_to_B_year = ifelse(length(startYears[[2]]) > 0, startYears[[2]], NA),
-         B_to_C_year = ifelse(length(startYears[[3]]) > 0, startYears[[3]], NA))
+    B < 0 & C > 0 ~ "negative_to_positive"))
 
 qr_piece$country[qr_piece$country != "United States of America"] = "Europe"
 
