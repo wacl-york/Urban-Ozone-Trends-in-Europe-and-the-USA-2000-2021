@@ -272,7 +272,7 @@ geu = ggplot() +
         legend.position = "bottom",
         legend.byrow = T)
 
-pdf(here::here('figures','f3_eu_arrows.pdf'), paper = "a4", width = 8.3, height = 11.7)
+pdf(here::here('figures','f3_eu_arrows.pdf'), width = 8.3, height = 11.7)
 print(geu)
 dev.off()
 
@@ -301,7 +301,7 @@ gus = ggplot() +
 
 
 
-pdf(here::here('figures','f4_usa_arrows.pdf'), paper = "a4", width = 8.3, height = 11.7)
+pdf(here::here('figures','f4_usa_arrows.pdf'),width = 8.3, height = 11.7)
 print(gus)
 dev.off()
 
