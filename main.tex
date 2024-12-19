@@ -145,7 +145,7 @@ This study examines the trends in urban O3 and NO2 using monitoring site data fr
 % To understand blah
 
 \section{Methodology} \label{sect:method}
-Hourly NO2 and O3 data were obtained for urban sites in the USA and Europe using the TOAR-II (REF) and European Environment Agency (EEA) (REF) databases, using the r-packages toarR (REF) and saqgetr (REF) respectively. TOAR-II data was retrieved between 2000-01-01 and 2021-12-31 (the latest available) and EEA data between 2000-01-01 and 2023-12-31, the latter being extended longer so the effects of the COVID-19 pandemic could be observed more clearly. Time series were required to have 90 \% data coverage between 2000-01-01 and 2021-12-31 and retained time series were averaged to daily medians. Additionally, a small number of time series were removed following visual inspection - these are listed in table SI.XX. This resulted in 228 O3 time series (144 Europe, 84 USA), 323 NO2 time series (246 Europe, 77 USA) and 126 Ox (NO2 + O3) time series (101 Europe, 25 USA).
+Hourly NO2 and O3 data were obtained for urban sites in the USA and Europe using the TOAR-II (REF) and European Environment Agency (EEA) (REF) databases, using the r-packages toarR (REF) and saqgetr (REF) respectively. TOAR-II data was retrieved between 2000-01-01 and 2021-12-31 (the latest available) and EEA data between 2000-01-01 and 2023-12-31, the latter being extended longer so the effects of the COVID-19 pandemic could be observed more clearly. Time series were required to have 90 \% data coverage between 2000-01-01 and 2021-12-31 and retained time series were averaged to daily medians. Additionally, a small number of time series were removed following visual inspection - these are listed in table SI.XX. This resulted in 228 O3 time series (143 Europe, 84 USA), 323 NO2 time series (246 Europe, 77 USA) and 126 Ox (NO2 + O3) time series (101 Europe, 25 USA).
 
 Firstly, the time series were de-seasoned by calculating a monthly median climatology and subtracting this from the time series, producing an ‘anomaly’ time series. The NO2 and O3 anomaly time series were summed to produce Ox anomaly time series for sites that have both NO2 and O3 data available. Following this, several methods were defined to help describe trends. As the time series are non-linear Locally Estimated Scatterplot Smoothing (LOESS) was applied first. This method works by calculating many least squared fits over a moving weighted subset of the data – with this subset tuned based on the desired ‘smoothness’ of the result. In this case with a smoothing parameter ($\alpha$) chosen as 0.5, which was determined by inspection to capture a balance of broad trends and medium-term non-linearity. LOESS works well for drawing the eye to features of the time series but does not allow for broad trends to be described numerically as the resulting slopes are changing continuously. 
 
@@ -188,14 +188,14 @@ Trends have been collated into significance categories: p $\le$ 0.05 (high certa
 To begin with, the $\tau$ = 0.5 trends of O3 and NO2 were examined and are presented on maps in figures \ref{fig:arrow_eu} and \ref{fig:arrow_us}.
 
 \begin{figure*}[p]
-\includegraphics[width=12cm]{figures/f3_eu_arrows.pdf}
+\includegraphics[width=14cm]{figures/f3_eu_arrows.pdf}
 \caption{}
 \label{fig:arrow_eu}
 \end{figure*}
 
 
 \begin{figure*}[p]
-\includegraphics[width=12cm]{figures/f4_usa_arrows.pdf}
+\includegraphics[width=14cm]{figures/f4_usa_arrows.pdf}
 \caption{}
 \label{fig:arrow_us}
 \end{figure*}
@@ -216,7 +216,7 @@ For O3 in Europe, at sites with increasing trends the median slope was 0.36 ppbv
 \subsubsection{Significance of Trends} \label{sect:significance_of_trends}
 
 \begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/p_bar_year.png}
+\includegraphics[width=12cm]{figures/f5_significance_bars.pdf}
 \caption{}
 \label{fig:p_bar_year}
 \end{figure*}
@@ -230,21 +230,16 @@ For NO2 the feature of some sites beginning to show increasing trends in the US 
 
 To investigate how the trends in urban O3 are generally changing across quantiles in Europe and the USA, the distribution of slopes in each region was determined for each $\tau$. This section necessarily needs to discuss two sets of quantiles referring to different calculations, as such $\tau$ is used to refer to the quantile associated with the quantile regression, and other references to quantiles are associated with the analysis of the distribution of slopes within a given $\tau$.
 
-The distributions at the start (year = 2000) and end (year = 2019) of the 20-year period were compared (Figure \ref{o3_ridge_plot}). Generally, across all values of $\tau$, the interquartile range (IQR = 75\textsuperscript{th} quantile minus 25\textsuperscript{th} quantile) of the slope distributions in O3 was greater in 2000 compared with 2019 ($\tau$ = 0.5, IQR = 0.87 and 0.58 ppbv y-1 for 2000 and 2019 respectively). This is particularly true for Europe, where a clear reduction in the higher $\tau$ O3 slopes is observed between 2000 and 2019. For $\tau$ = 0.95, a much larger proportion of the slopes were > 1.25 ppbV yr-1 in 2000 than 2019. For $\tau$ = 0.95 in the USA, there is a reduction in the number of slopes with very negative (< 1.00 ppbV yr-1) slopes between 2000 and 2019.
+The distributions at the start (year = 2000) and end (year = 2019) of the 20-year period were compared (Figure \ref{fig:ridgeplot}). Generally, across all values of $\tau$, the interquartile range (IQR = 75\textsuperscript{th} quantile minus 25\textsuperscript{th} quantile) of the slope distributions in O3 was greater in 2000 compared with 2019 ($\tau$ = 0.5, IQR = 0.87 and 0.58 ppbv y-1 for 2000 and 2019 respectively). This is particularly true for Europe, where a clear reduction in the higher $\tau$ O3 slopes is observed between 2000 and 2019. For $\tau$ = 0.95, a much larger proportion of the slopes were > 1.25 ppbV yr-1 in 2000 than 2019. For $\tau$ = 0.95 in the USA, there is a reduction in the number of slopes with very negative (< 1.00 ppbV yr-1) slopes between 2000 and 2019.
 
-\begin{figure*}[h!]
-\includegraphics[width=12cm]{plots/o3_density_ridges_by_tau_continent_2000_2019.png}
-\caption{O3 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95.}
-\label{o3_ridge_plot}
-\end{figure*}
+\begin{figure}[9]
+\includegraphics[width=14cm]{plots/o3_density_ridges_by_tau_continent_2000_2019.png}
+\caption{O3 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95. NO2 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.90 and 0.95.}
+\label{fig:ridgeplot}
+\end{figure}
 
-\begin{figure*}[h!]
-\includegraphics[width=12cm]{plots/no2_density_ridges_by_tau_continent_2000_2019.png}
-\caption{NO2 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.90 and 0.95.}
-\label{no2_ridge_plot}
-\end{figure*}
 
-In Europe, the bulk of NO2 slopes become more negative across all $\tau$ (Figure \ref{no2_ridge_plot}). However, in the USA, despite the majority of slopes being negative in both 2000 and 2019, there is still a proportion of slopes with positive slopes in 2019, not observed in the European distribution. This is particularly true for 0.5 >= $\tau$ <= 0.9. The IQR of the slope distributions was comparable between 2000 ($\tau$ = 0.5, IQR = 0.50 ppb yr-1) and 2019 ($\tau$ = 0.5, IQR = 0.40 ppb yr-1) for Europe, comparable to the reduction in spread observed in the USA in 2019 ($\tau$ = 0.5, IQR = 0.44 ppb yr-1) compared to 2000 ($\tau$ = 0.5, IQR = 0.57 ppb yr-1).
+In Europe, the bulk of NO2 slopes become more negative across all $\tau$ (Figure \ref{fig:ridgeplot}). However, in the USA, despite the majority of slopes being negative in both 2000 and 2019, there is still a proportion of slopes with positive slopes in 2019, not observed in the European distribution. This is particularly true for 0.5 >= $\tau$ <= 0.9. The IQR of the slope distributions was comparable between 2000 ($\tau$ = 0.5, IQR = 0.50 ppb yr-1) and 2019 ($\tau$ = 0.5, IQR = 0.40 ppb yr-1) for Europe, comparable to the reduction in spread observed in the USA in 2019 ($\tau$ = 0.5, IQR = 0.44 ppb yr-1) compared to 2000 ($\tau$ = 0.5, IQR = 0.57 ppb yr-1).
 
 
 Annual changes in $\tau$ slopes were used to evaluate how absolute urban O3 mixing ratios and trends changed across Europe and the USA between 2000 and 2021. For both Europe and the USA, the cumulative sum of the annual median of the trends across all sites was calculated for each value of $\tau$. This was followed by the subtraction of the 2000 value to get relative change since 2000. Using this analysis, Figure \ref{median_slopes_per_tau_cont_name_absolute} shows the change in median O3, NO2 and Ox mixing ratios since 2000. The median of these results for Europe and the United States of America was then derived for each year and for each $\tau$. From this, Figure \ref{median_slopes_per_tau_cont_name_trends} describes how the magnitude and direction of the trend line changes annually.
