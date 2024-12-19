@@ -266,6 +266,7 @@ geu = ggplot() +
   scale_x_continuous(limits = st_coordinates(limEU)[,1])+
   # facet_wrap(spc~segLab)+
   facet_nested_wrap(~spc + segLab, nrow = 4)+
+  theme_minimal()+
   theme(panel.background = element_rect(fill = "white"),
         panel.grid.major = element_blank(),
         strip.text = element_markdown(),
@@ -293,6 +294,7 @@ gus = ggplot() +
   scale_y_continuous(limits = st_coordinates(limUS)[,2])+
   scale_x_continuous(limits = st_coordinates(limUS)[,1])+
   facet_nested_wrap(~spc + segLab, nrow = 4)+
+  theme_minimal()+
   theme(panel.background = element_rect(fill = "white"),
         panel.grid.major = element_blank(),
         strip.text = element_markdown(),
