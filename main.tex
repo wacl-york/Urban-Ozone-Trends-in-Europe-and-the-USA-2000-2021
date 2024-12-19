@@ -145,7 +145,7 @@ This study examines the trends in urban O3 and NO2 using monitoring site data fr
 % To understand blah
 
 \section{Methodology} \label{sect:method}
-Hourly NO2 and O3 data were obtained for urban sites in the USA and Europe using the TOAR-II (REF) and European Environment Agency (EEA) (REF) databases, using the r-packages toarR (REF) and saqgetr (REF) respectively. TOAR-II data was retrieved between 2000-01-01 and 2021-12-31 (the latest available) and EEA data between 2000-01-01 and 2023-12-31, the latter being extended longer so the effects of the COVID-19 pandemic could be observed more clearly. Time series were required to have 90 \% data coverage between 2000-01-01 and 2021-12-31 and retained time series were averaged to daily medians. Additionally, a small number of time series were removed following visual inspection - these are listed in table SI.XX. This resulted in 228 O3 time series (144 Europe, 84 USA), 323 NO2 time series (246 Europe, 77 USA) and 126 Ox (NO2 + O3) time series (101 Europe, 25 USA).
+Hourly NO2 and O3 data were obtained for urban sites in the USA and Europe using the TOAR-II (REF) and European Environment Agency (EEA) (REF) databases, using the r-packages toarR (REF) and saqgetr (REF) respectively. TOAR-II data was retrieved between 2000-01-01 and 2021-12-31 (the latest available) and EEA data between 2000-01-01 and 2023-12-31, the latter being extended longer so the effects of the COVID-19 pandemic could be observed more clearly. Time series were required to have 90 \% data coverage between 2000-01-01 and 2021-12-31 and retained time series were averaged to daily medians. Additionally, a small number of time series were removed following visual inspection - these are listed in table SI.XX. This resulted in 228 O3 time series (143 Europe, 84 USA), 323 NO2 time series (246 Europe, 77 USA) and 126 Ox (NO2 + O3) time series (101 Europe, 25 USA).
 
 Firstly, the time series were de-seasoned by calculating a monthly median climatology and subtracting this from the time series, producing an ‘anomaly’ time series. The NO2 and O3 anomaly time series were summed to produce Ox anomaly time series for sites that have both NO2 and O3 data available. Following this, several methods were defined to help describe trends. As the time series are non-linear Locally Estimated Scatterplot Smoothing (LOESS) was applied first. This method works by calculating many least squared fits over a moving weighted subset of the data – with this subset tuned based on the desired ‘smoothness’ of the result. In this case with a smoothing parameter ($\alpha$) chosen as 0.5, which was determined by inspection to capture a balance of broad trends and medium-term non-linearity. LOESS works well for drawing the eye to features of the time series but does not allow for broad trends to be described numerically as the resulting slopes are changing continuously. 
 
@@ -160,7 +160,7 @@ To select ‘change points’ from the array of break points available, the mode
 Figure \ref{method_plot} demonstrates this process on a single time series. Change points could be assessed for their efficacy (i.e. is the effect of introducing a change point important, or has it only provided a trivial reduction in the AIC?) by comparing the QR and the best PQR1 and PQR2 cases, but as this does not substantively change the results presented here, this was not done and the PQR2 fits were determined to be the most appropriate in all cases.
 
 \begin{figure}[p]
-\includegraphics[width=12cm]{plots/method.png}
+\includegraphics[width=12cm]{figures/f1_method.pdf}
 \caption{Example trend determination for an O3 time series (London Bloomsbury - GB0566A). A - O3 concentration time series (black) and monthly median climatology (red). B - Anomaly time series (black, concentration minus climatology) and 4 trend options, LOESS (red), QR (blue), PQR1 (green) and PQR2 (yellow). C - Anomaly time series (black) and PQR2 across $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.95. (purple to green)}
 \label{method_plot}
 \end{figure}
@@ -170,12 +170,14 @@ Figure \ref{method_plot} demonstrates this process on a single time series. Chan
 \section{Results and Discussion}
 
 \begin{figure*}[t]
-\includegraphics[width=12cm]{plots/o3_no2_conc.png}
+\includegraphics[width=12cm]{figures/f2_conc.pdf}
 \caption{}
 \label{fig:conc_plot}
 \end{figure*}
 
 Figure \ref{fig:conc_plot} shows the annual median, 25 th and 75 th percentile concentrations of O3 and NO2 across all the urban sites used in this study to provide context for the subsequently calculated trends. Europe shows median O3 concentrations increasing from 18 ppbv to 26 ppbv between 2000 and 2019, and USA concentrations increasing, from 26 ppbv in 2000 to 30 ppbv in 2019. Both Europe and the USA show decreasing NO2 over the same period (16 ppbv to 10 ppbv in Europe, 15 ppbv to 6 ppbv in the USA). The USA does see a return to increasing NO2 concentrations after 2020, reaching 7.8 ppbv in 2022. In section \ref{sect:case_studies} evidence for this increase is discussed. 
+
+To assess the magnitude of the changing O3 pollution problem across the USA and Europe, the daily maximum 8-hour running mean for O3 (MDA8) was calculated. MDA8 is an important metric, used to evaluate whether a particular location is in compliance with, or exceeding, internationally recognised health limits. Air quality guidelines outlined by the World Health Organisation, stipulate a MDA8 limit of 50 ppb (WHO 2005).
 
 The dataset that results from the application of the method described in section \ref{sect:method} has several degrees of freedom to bear in mind during discussion. For a given time series (one species at one site) there are two break points that are common for all the trend lines, and as there are 7 quantiles, this results in 21 slopes, each with an associated p-value. When comparing between sites (or even species within a site) the change points can differ. This is necessary to capture the changing trends observed at urban sites but does complicate describing them. For this discussion we have grouped the sites into those from Europe and those from the United States, though details on individual European countries are available in the SI. 
 To aid in summarising, in some cases the results have been grouped into time periods of a few years – in these cases if a trend changes due to a change point both trends have been counted. For example, if between 2000 and 2004 a site were to go from increasing O3 to decreasing O3, this would be described as ‘between 2000 and 2004 there was one increasing O3 trend and one decreasing O3 trend’. In the case where a site had a change point in 2003, but the trend remained increasing, this will be counted as one increasing trend. This has the benefit that no one category can count more than then number of available time series. In visualisation, both trends would be shown.
@@ -183,30 +185,19 @@ To aid in summarising, in some cases the results have been grouped into time per
 Trends have been collated into significance categories: p $\le$ 0.05 (high certainty), 0.05 $<$ p $\le$ 0.10 (medium certainty), 0.10 $<$ p $\le$ 0.33 (low certainty) and p > 0.33 (very low certainty or no evidence). For the most part. slopes where the p-value is > 0.33 are treated as ‘no trend’ regardless of their magnitude (generally we observe that as the magnitude of the trend decreases so does its significance), though sometimes are given with a direction when required by a visualisation.
 
 \subsection{Overview of Trends} \label{sect:overview_of_trends}
-To begin with, the $\tau$ = 0.5 trends of O3 and NO2 were examined and are presented on maps in figures \ref{fig:arrow_eu_o3}, \ref{fig:arrow_us_o3}, \ref{fig:arrow_eu_no2} and \ref{fig:arrow_us_no2}.
+To begin with, the $\tau$ = 0.5 trends of O3 and NO2 were examined and are presented on maps in figures \ref{fig:arrow_eu} and \ref{fig:arrow_us}.
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/o3/11/EU_map_spc_o3_tau_0.5_seg_11_14.png}
+\begin{figure*}[p]
+\includegraphics[width=14cm]{figures/f3_eu_arrows.pdf}
 \caption{}
-\label{fig:arrow_eu_o3}
+\label{fig:arrow_eu}
 \end{figure*}
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/o3/11/US_map_spc_o3_tau_0.5_seg_11_14.png}
-\caption{}
-\label{fig:arrow_us_o3}
-\end{figure*}
 
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/no2/11/EU_map_spc_no2_tau_0.5_seg_11_14.png}
+\begin{figure*}[p]
+\includegraphics[width=14cm]{figures/f4_usa_arrows.pdf}
 \caption{}
-\label{fig:arrow_eu_no2}
-\end{figure*}
-
-\begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/arrow_maps/no2/11/US_map_spc_no2_tau_0.5_seg_11_14.png}
-\caption{}
-\label{fig:arrow_us_no2}
+\label{fig:arrow_us}
 \end{figure*}
 
 In Europe, between 2000 and 2004 there were 108 trends where O3 was increasing, and 41 where it was decreasing, 32 showed no trend. By 2015-2021, 123 had an increasing trend, 32 decreasing and 41 with no trend, indicating generally increasing O3 concentrations across Europe. This is somewhat mirrored by the trends in NO2, where in 2000-2004 69 trends where increasing, 182 decreasing and 59 with no trend, changing to 30 increasing, 241 decreasing and 39 with no trend by 2015-2021. This is commensurate with the general picture that urban locations in Europe are still on the VOC limited portion of the O3 production isopleth, and decreasing NOx increases O3 production. 
@@ -216,16 +207,16 @@ For O3 in Europe, at sites with increasing trends the median slope was 0.36 ppbv
 
 
 
-\input{tables/slope_ranges.txt}
+\input{tables/t1_slope_ranges.txt}
 
-\input{tables/europe_segs_11_14.txt}
+\input{tables/t2_europe_segs_11_14.txt}
 
-\input{tables/usa_segs_11_14.txt}
+\input{tables/t3_usa_segs_11_14.txt}
 
 \subsubsection{Significance of Trends} \label{sect:significance_of_trends}
 
 \begin{figure*}[htbp]
-\includegraphics[width=12cm]{plots/p_bar_year.png}
+\includegraphics[width=12cm]{figures/f5_significance_bars.pdf}
 \caption{}
 \label{fig:p_bar_year}
 \end{figure*}
@@ -239,21 +230,16 @@ For NO2 the feature of some sites beginning to show increasing trends in the US 
 
 To investigate how the trends in urban O3 are generally changing across quantiles in Europe and the USA, the distribution of slopes in each region was determined for each $\tau$. This section necessarily needs to discuss two sets of quantiles referring to different calculations, as such $\tau$ is used to refer to the quantile associated with the quantile regression, and other references to quantiles are associated with the analysis of the distribution of slopes within a given $\tau$.
 
-The distributions at the start (year = 2000) and end (year = 2019) of the 20-year period were compared (Figure \ref{o3_ridge_plot}). Generally, across all values of $\tau$, the interquartile range (IQR = 75\textsuperscript{th} quantile minus 25\textsuperscript{th} quantile) of the slope distributions in O3 was greater in 2000 compared with 2019 ($\tau$ = 0.5, IQR = 0.87 and 0.58 ppbv y-1 for 2000 and 2019 respectively). This is particularly true for Europe, where a clear reduction in the higher $\tau$ O3 slopes is observed between 2000 and 2019. For $\tau$ = 0.95, a much larger proportion of the slopes were > 1.25 ppbV yr-1 in 2000 than 2019. For $\tau$ = 0.95 in the USA, there is a reduction in the number of slopes with very negative (< 1.00 ppbV yr-1) slopes between 2000 and 2019.
+The distributions at the start (year = 2000) and end (year = 2019) of the 20-year period were compared (Figure \ref{fig:ridgeplot}). Generally, across all values of $\tau$, the interquartile range (IQR = 75\textsuperscript{th} quantile minus 25\textsuperscript{th} quantile) of the slope distributions in O3 was greater in 2000 compared with 2019 ($\tau$ = 0.5, IQR = 0.87 and 0.58 ppbv y-1 for 2000 and 2019 respectively). This is particularly true for Europe, where a clear reduction in the higher $\tau$ O3 slopes is observed between 2000 and 2019. For $\tau$ = 0.95, a much larger proportion of the slopes were > 1.25 ppbV yr-1 in 2000 than 2019. For $\tau$ = 0.95 in the USA, there is a reduction in the number of slopes with very negative (< 1.00 ppbV yr-1) slopes between 2000 and 2019.
 
-\begin{figure*}[h!]
-\includegraphics[width=12cm]{plots/o3_density_ridges_by_tau_continent_2000_2019.png}
-\caption{O3 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95.}
-\label{o3_ridge_plot}
-\end{figure*}
+\begin{figure}[9]
+\includegraphics[width=14cm]{plots/o3_density_ridges_by_tau_continent_2000_2019.png}
+\caption{O3 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.1, 0.25, 0.5, 0.75, 0.9 and 0.95. NO2 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.90 and 0.95.}
+\label{fig:ridgeplot}
+\end{figure}
 
-\begin{figure*}[h!]
-\includegraphics[width=12cm]{plots/no2_density_ridges_by_tau_continent_2000_2019.png}
-\caption{NO2 slope density for Europe (left) and the USA (right) since 2000 (top) and 2019 (bottom) for $\tau$ = 0.05, 0.10, 0.25, 0.50, 0.75, 0.90 and 0.95.}
-\label{no2_ridge_plot}
-\end{figure*}
 
-In Europe, the bulk of NO2 slopes become more negative across all $\tau$ (Figure \ref{no2_ridge_plot}). However, in the USA, despite the majority of slopes being negative in both 2000 and 2019, there is still a proportion of slopes with positive slopes in 2019, not observed in the European distribution. This is particularly true for 0.5 >= $\tau$ <= 0.9. The IQR of the slope distributions was comparable between 2000 ($\tau$ = 0.5, IQR = 0.50 ppb yr-1) and 2019 ($\tau$ = 0.5, IQR = 0.40 ppb yr-1) for Europe, comparable to the reduction in spread observed in the USA in 2019 ($\tau$ = 0.5, IQR = 0.44 ppb yr-1) compared to 2000 ($\tau$ = 0.5, IQR = 0.57 ppb yr-1).
+In Europe, the bulk of NO2 slopes become more negative across all $\tau$ (Figure \ref{fig:ridgeplot}). However, in the USA, despite the majority of slopes being negative in both 2000 and 2019, there is still a proportion of slopes with positive slopes in 2019, not observed in the European distribution. This is particularly true for 0.5 >= $\tau$ <= 0.9. The IQR of the slope distributions was comparable between 2000 ($\tau$ = 0.5, IQR = 0.50 ppb yr-1) and 2019 ($\tau$ = 0.5, IQR = 0.40 ppb yr-1) for Europe, comparable to the reduction in spread observed in the USA in 2019 ($\tau$ = 0.5, IQR = 0.44 ppb yr-1) compared to 2000 ($\tau$ = 0.5, IQR = 0.57 ppb yr-1).
 
 
 Annual changes in $\tau$ slopes were used to evaluate how absolute urban O3 mixing ratios and trends changed across Europe and the USA between 2000 and 2021. For both Europe and the USA, the cumulative sum of the annual median of the trends across all sites was calculated for each value of $\tau$. This was followed by the subtraction of the 2000 value to get relative change since 2000. Using this analysis, Figure \ref{median_slopes_per_tau_cont_name_absolute} shows the change in median O3, NO2 and Ox mixing ratios since 2000. The median of these results for Europe and the United States of America was then derived for each year and for each $\tau$. From this, Figure \ref{median_slopes_per_tau_cont_name_trends} describes how the magnitude and direction of the trend line changes annually.
@@ -313,13 +299,20 @@ In the USA, a comparable number of directional switches in O3 trend in the first
 \label{us_no2_changepoint_map}
 \end{figure*}
 
-Generally, the largest changes from negative to positive O3 trends in the USA were in California and Florida in the first half of the 20 year period, with the reversal of this trend seen across California and Florida in the second change point. 8/14 and 4/14 of the sites showing a positive to negative transition in the second change point were located in California and Florida respectively. This is important, since a previous study published in the TOAR-I special issue highlighted that 4MDA8 values between 2010-2014 were particularly high in California (Fleming et al., 2018). To investigate how 4MDA8 levels may have changed since this study, the 4MDA8 was calculated from the original hourly mixing ratio O3 dataset. Figure NNN shows how the 4MDA8 value varies between 2000, 2007, 2014 and 2021 in the USA.
+Generally, the largest changes from negative to positive O3 trends in the USA were in California and Florida in the first half of the 20 year period, with the reversal of this trend seen across California and Florida in the second change point. 8/14 and 4/14 of the sites showing a positive to negative transition in the second change point were located in California and Florida respectively. This is important, since a previous study published in the TOAR-I special issue highlighted that 4MDA8 values between 2010-2014 were particularly high in California (Fleming et al., 2018). 
+
+To supplement this analysis, the 4th highest daily maximum 8-hour running mean for O3 (4MDA8) was calculated using the mixing ratio data for each site and slicing the fourth highest value on an annual basis. 4MDA8 is an important metric used by the US for determining compliance with the National Ambient Air Quality Standards for Ozone. To allow for comparison with previous studies, only the 6-month warm season (April - September) was used to calculate 4MDA8 values, which is a reasonable approach in the USA and Europe since the highest O3 values are likely to occur in the Spring-Summer months.
+
+To investigate how 4MDA8 levels may have changed since this study, the 4MDA8 was calculated from the original hourly mixing ratio O3 dataset. Figure \ref{us_4mda8_map} shows how the 4MDA8 value varies between 2000, 2007, 2014 and 2021 in the USA. Across the US, 85 sites had a 4MDA8 >= 86 in 2000, compared to 48 in 2007 and 11 in 2014. In 2016 there was an up-tick to 16 sites with 4MDA8 values at this level. Of these 16 sites, 14 are located in California, compared to 30/48 Californian sites in 2000 and 24 in 2007. All 11 sites with MDA8 >= 86 were located in California. This highlights that although fewer Californian sites are exceeding 4MDA8 >= 86 ppb with time over the 2-decade period, the Californian 4MDA8 "hotspot" identified in Fleming et al., 2018 is still present. The more general picture across the USA is that 4MDA8 values are coming down with time, particularly strongly in the central and Eastern portion of the USA but less successfully in the west.
 
 \begin{figure*}[t]
 \includegraphics[width=12cm]{plots/mda8_4MDA8_USA_2000_07_14_21_map.png}
 \caption{4MDA8 values in ppb for sites in the United States in 2000, 2007, 2014 and 2021 (clockwise from top left)}
 \label{us_4mda8_map}
 \end{figure*}
+
+Southern Europe, particularly Greece and Northern Italy, were also highlighted in Flemming et al., 2018 as being 4MDA8 hotspots. To identify 4MDA8 hotspots in our dataset, sites with very high 4MDA8 values (4MDA8 >= 85 ppb) were explored. Figure \ref{eu_4mda8_map} shows how the 4MDA8 values are changing between 2000, 2007, 2014 and 2021 across Europe. In 2000, there were 9 sites in which 4MDA8 >= 85 ppb. This slightly increased to 11 sites in 2007 before decreasing to 6 sites in 2014. By 2021, no sites had 4MDA8 values exceeding 85 ppb. Since the measurement sites in this dataset are not evenly distributed across the USA and Europe, it is difficult to attribute high 4MDA8 values to particular states or countries, However, it was noticeable that a large proportion of the sites were 4MDA8 >= 85 ppb were in Italy and Greece. In 2000 6/9 of high 4MDA8 sites were located in Italy, and one in Greece. In 2007, 5/11 were located in Italy and 2/11 in Greece; and in 2014 5/6 sites were located in Italy. Consistent with the Fleming et al., 2018 study, the southern European 4MDA8 hotspots are apparent throughout the 20-year period. 
+%Flemming et al., 2018 also observed trends going up in 4MDA8 for parts of Spain, but this is beyond the scope of our study... maybe best not to mention!
 
 \begin{figure*}[t]
 \includegraphics[width=12cm]{plots/mda8_4MDA8_EU_2000_07_14_21_map.png}
