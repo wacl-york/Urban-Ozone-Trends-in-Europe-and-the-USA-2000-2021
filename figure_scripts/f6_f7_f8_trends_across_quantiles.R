@@ -95,7 +95,8 @@ lineDat = comp_ppb_year_longer |>
   ) |>
   ungroup() |>
   pivot_longer(contains("q"), names_to = "quantiles", values_to = "q") |>
-  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>"),
+  mutate(name = ifelse(name == "o3", "O<sub>3</sub>", "NO<sub>2</sub>") |>
+           factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>")),
          quantiles = ifelse(quantiles == "q25", "25<sup>th</sup>", "75<sup>th</sup>"))
 
 col = c(
@@ -142,8 +143,6 @@ g1 = comp_ppb_year_longer |>
 pdf(here::here('figures','f6_ridgelines.pdf'),width = 11.7, height = 8.3)
 print(g1)
 dev.off()
-
-
 
 
 
