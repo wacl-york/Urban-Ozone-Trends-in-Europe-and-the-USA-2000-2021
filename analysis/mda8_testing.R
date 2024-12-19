@@ -13,14 +13,18 @@ source(here::here('functions','connect_to_db.R'))
 
 con = connect_to_db()
 
-mda8_o3 = tbl(con, "mda8_o3") |>
+mda8_o3 = tbl(con, "name_station") |>
+  filter(name == "o3") |>
+  left_join(tbl(con, "mda8_o3"), by = c("station_id", "name")) |>
+  anti_join(tbl(con, "remove_sites") |>
+              rename("name" = spc), by = "station_id", "name") |>
   collect()
 
 mda8_o3_testing = mda8_o3 |>
   mutate(date = date(date)) |>
   select(-value) |>
   group_by(date, station_id, name) |>
-  summarise_all(max, na.rm = T)
+  summarise_all(max)
 
 mycrs = 4087 #8857
 
@@ -135,7 +139,103 @@ ggplot() +
 dev.off()
 
 datScrape = mda8_4MDA8_sf |>
-  filter(MDA8 >= 85.5,
-         country != "United States of America",
+  filter(country == "spain")
         # state == "California",
-         year == 2000)
+     #   year == 2014)
+
+ggplot(datScrape) +
+  geom_line(aes(x = year, y = MDA8)) +
+  facet_wrap(~station_id)
+
+datScrape_spain = mda8_4MDA8_sf |>
+  filter(country == "spain") |>
+  select(-station_id) |>
+  select(year, MDA8) |>
+  st_drop_geometry() |>
+  group_by(year) |>
+  summarise_all(c("mean", "sd"))
+
+datScrape_country = mda8_4MDA8_sf |>
+  mutate(state = ifelse(country != "United States of America", country, state)) |>
+  select(-station_id) |>
+  select(year, state, MDA8) |>
+  st_drop_geometry() |>
+  group_by(state, year) |>
+  summarise_all(c("median", "mad")) |>
+  # Look at how gross this next bit is... so so lazy here!
+  mutate(country = ifelse(str_starts(state, "^[A-Z]"), "USA", "Europe"))
+
+ggplot(datScrape_country) +
+  geom_line(aes(x = year, y = median, colour = factor(country, levels = c("Europe", "USA"))))+
+  geom_ribbon(aes(x = year, ymin = median-mad, ymax = median+mad, fill = factor(country, levels = c("Europe", "USA"))), alpha = 0.2) +
+  facet_wrap(~state, scales = "free_y") +
+  labs(alpha = "", fill = "", colour = "") +
+  geom_hline(aes(yintercept = 50), colour = "black")
+
+mda8_o3_fix = mda8_o3 |>
+  left_join(combinedMeta, by = "station_id") |>
+  mutate(year = year(date)) |>
+  mutate(MDA8 = ifelse(country != "United States of America", MDA8/1.96, MDA8))
+
+mda8_max = mda8_o3_fix |>
+  filter(name == "o3") |>
+  na.omit() |>
+  select(-date, -name, -value) |>
+  group_by(station_id, latitude, longitude, country, year) |>
+  summarise_all(max)
+
+USA_sites = as.numeric(count(mda8_max |>
+                               filter(country == "United States of America") |>
+                               ungroup() |>
+                               select(station_id) |>
+                               distinct()))
+
+EU_sites = as.numeric(count(mda8_max |>
+                               filter(country != "United States of America") |>
+                               ungroup() |>
+                               select(station_id) |>
+                               distinct()))
+
+mda8_max_count = mda8_max |>
+  mutate(nsites = ifelse(country == "United States of America", USA_sites, EU_sites),
+         exceeds_WHO = ifelse(MDA8 > 70, "YES", "NO"),
+         country = ifelse(country == "United States of America", country, "Europe")) |>
+  filter(exceeds_WHO == "YES") |>
+  ungroup() |>
+  select(country, year) |>
+  group_by(country, year) |>
+  summarise(total = n()) |>
+  ungroup() |>
+  mutate(perc_count = ifelse(country == "United States of America", total/USA_sites, total/EU_sites))
+
+mda8_max_count |>
+  ggplot(aes(x = year, y = perc_count*100, fill = country))+
+  geom_bar(stat = "identity") +
+  facet_wrap(~country) +
+  labs(y = "% sites non-compliant with WHO guidelines")
+
+states = rnaturalearth::ne_states(returnclass = "sf") |>
+  filter(admin %in% c("United States of America","Puerto Rico")) |>
+  select(name)
+
+usMeta = tbl(con, "combinedMeta") |>
+  filter(country == "United States of America") |>
+  collect() |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = st_crs("WGS84")) |>
+  st_join(states, join = st_nearest_feature) |>
+  select(station_id, state = name) |>
+  st_drop_geometry()
+
+mda8_max_2012 = mda8_max |>
+  mutate(nsites = ifelse(country == "United States of America", USA_sites, EU_sites),
+         exceeds_WHO = ifelse(MDA8 > 50, "YES", "NO")) |>
+  filter(year == 2012) |>
+  left_join(usMeta, by = "station_id")
+
+ggplot(mda8_max_2012, aes(x = station_id, y = MDA8, fill = country)) +
+  geom_bar(stat = "identity")
+
+ggplot(mda8_max_2012 |> filter(country == "United States of America") |>
+         arrange(state),
+       aes(x = station_id, y = MDA8, fill = state)) +
+  geom_bar(stat = "identity")
