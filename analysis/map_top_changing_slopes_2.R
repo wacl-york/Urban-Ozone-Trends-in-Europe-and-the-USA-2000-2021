@@ -346,9 +346,9 @@ dev.off()
 datScrape = qr_piece_long_sf |>
   st_drop_geometry() |>
   filter(transformation == "B_to_C",
-         country != "United States of America",
+         country == "United States of America",
          tau == 0.5,
-         name == "no2") |>
+         name == "o3") |>
   left_join(usMeta, by = "station_id") |>
 filter(
   flip_dir == "positive_to_negative") |>
