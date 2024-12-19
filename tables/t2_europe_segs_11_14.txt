@@ -1,5 +1,5 @@
 \begin{sidewaystable}[!t]
-\caption{Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a changepoint within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33}
+\caption{Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33}
 \label{table:europe_slope_segs}
 \begin{adjustbox}{width=\textwidth}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
@@ -20,13 +20,13 @@ Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 1
 \midrule\addlinespace[2.5pt]
 \multicolumn{14}{l}{NO\textsubscript{2}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]
- & 0.05 & 59 & 48 & 32 & 24 & 170 & 198 & 224 & 242 & 80 & 54 & 33 & 68 \\ 
- & 0.10 & 68 & 45 & 32 & 28 & 170 & 206 & 231 & 243 & 73 & 51 & 26 & 51 \\ 
- & 0.25 & 66 & 43 & 30 & 31 & 184 & 218 & 237 & 243 & 59 & 33 & 18 & 49 \\ 
- & 0.50 & 69 & 42 & 28 & 30 & 182 & 225 & 239 & 241 & 59 & 32 & 14 & 39 \\ 
- & 0.75 & 73 & 44 & 23 & 23 & 176 & 221 & 238 & 242 & 60 & 34 & 18 & 35 \\ 
- & 0.90 & 73 & 43 & 21 & 18 & 167 & 219 & 239 & 241 & 72 & 40 & 21 & 39 \\ 
- & 0.95 & 78 & 44 & 19 & 16 & 158 & 208 & 237 & 241 & 83 & 50 & 29 & 42 \\ 
+ & 0.05 & 59 & 48 & 31 & 23 & 169 & 197 & 223 & 242 & 80 & 54 & 33 & 67 \\ 
+ & 0.10 & 68 & 45 & 31 & 27 & 169 & 205 & 230 & 243 & 73 & 51 & 26 & 50 \\ 
+ & 0.25 & 66 & 43 & 29 & 30 & 183 & 217 & 236 & 243 & 59 & 33 & 18 & 49 \\ 
+ & 0.50 & 69 & 42 & 27 & 29 & 181 & 224 & 238 & 241 & 59 & 32 & 14 & 39 \\ 
+ & 0.75 & 73 & 44 & 22 & 22 & 175 & 220 & 237 & 242 & 60 & 34 & 18 & 35 \\ 
+ & 0.90 & 73 & 43 & 20 & 17 & 166 & 218 & 238 & 241 & 72 & 40 & 21 & 39 \\ 
+ & 0.95 & 78 & 44 & 18 & 15 & 157 & 207 & 236 & 241 & 83 & 50 & 29 & 42 \\ 
 \midrule\addlinespace[2.5pt]
 \multicolumn{14}{l}{O\textsubscript{x}} \\[2.5pt] 
 \midrule\addlinespace[2.5pt]

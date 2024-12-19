@@ -159,7 +159,7 @@ p1 = g1/g2/g3
 
 scale = 7.5
 
-pdf(here::here('figures','f1_method.pdf'), width = scale, height = (scale*1.414), paper = "a4")
+pdf(here::here('figures','f1_method.pdf'), width = scale, height = (scale*1.414))
 p1
 dev.off()
 
