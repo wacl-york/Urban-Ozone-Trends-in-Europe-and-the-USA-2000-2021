@@ -344,7 +344,7 @@ tableDat |>
   as_latex() |>
   as.character() |>
   latex_tweaks(
-    caption = "Trends in O3, NO2 and Ox at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33",
+    caption = "Trends in O\\textsubscript{3}, NO\\textsubscript{2} and O\\textsubscript{x} at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33",
     label = "table:europe_slope_segs"
   ) |>
   writeLines(here::here('tables','t2_europe_segs_11_14.txt'))
@@ -357,7 +357,7 @@ tableDat |>
   as_latex() |>
   as.character() |>
   latex_tweaks(
-    caption = "Trends in O3, NO2 and Ox at sites in the United States of America in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally.",
+    caption = "Trends in O\\textsubscript{3}, NO\\textsubscript{2} and O\\textsubscript{x} at sites in the United States of America in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33",
     label = "table:usa_slope_segs"
   ) |>
   writeLines(here::here('tables','t3_usa_segs_11_14.txt'))
