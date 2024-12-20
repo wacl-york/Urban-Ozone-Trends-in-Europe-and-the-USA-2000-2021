@@ -153,6 +153,8 @@ o3_insig_2020 = tbl(con, "qr_regressions") |>
          name == "o3") |>
   collect()
 
+dbDisconnect(con, shutdown = T)
+
 # sites that have both o3 and no2
 o3_no2_sites = datCp2020 |>
   select(name, station_id) |>
