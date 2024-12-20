@@ -36,7 +36,7 @@ col = c(
 
 mycrs = 4087 #8857
 
-world = rnaturalearth::ne_coastline(scale = "small", returnclass = "sf") |>
+world = rnaturalearth::ne_coastline(scale = "medium", returnclass = "sf") |>
   st_transform(mycrs)
 
 # Create sf object
