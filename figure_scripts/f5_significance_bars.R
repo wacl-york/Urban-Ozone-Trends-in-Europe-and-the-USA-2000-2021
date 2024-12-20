@@ -116,21 +116,22 @@ plotDat = slopes_year_pv |>
   count() |>
   ungroup() |>
   group_by(country, spc) |>
-  mutate(n = ifelse(dir == "dec", n*-1, n))
-
-g1 = plotDat |>
+  mutate(n = ifelse(dir == "dec", n*-1, n)) |>
   filter(tau == 0.5,
          spc != "ox") |>
   mutate(country = ifelse(country == "United States of America", country, "Europe"),
          spc = case_when(spc == "no2" ~ "NO<sub>2</sub>",
                          spc == "o3" ~ "O<sub>3</sub>",
-                         spc == "ox" ~ "O<sub>x</sub>" ),
+                         spc == "ox" ~ "O<sub>x</sub>" ) |>
+           factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>", "O<sub>x</sub>")),
          n = case_when(country == "United States of America" & year %in% c(2000, 2001, 2020, 2021) ~ NA,
                        country == "Europe" & year %in% c(2000, 2001, 2021) ~ NA,
                        TRUE ~ n
          )
 
-  ) |>
+  )
+
+g1 = plotDat |>
   ggplot()+
   geom_bar(aes(year,n, fill = pvStr), stat = "identity", position = "stack")+
   geom_hline(aes(yintercept = 0))+
@@ -143,7 +144,7 @@ g1 = plotDat |>
         legend.byrow = T)
 
 pdf(here::here('figures','f5_significance_bars.pdf'), width = 8.3, height = 7.5)
-g1
+print(g1)
 dev.off()
 
 
