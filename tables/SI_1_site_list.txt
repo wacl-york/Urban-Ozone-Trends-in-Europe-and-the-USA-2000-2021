@@ -1,7 +1,7 @@
 \begingroup
 \begin{longtable}{lrrlllrr}
-\caption{foo}
-\label{bar}
+\caption{List of Sites}\\
+\label{table:site_list}\\
 \begingroup
 \toprule
 Station ID & Latitude & Longitude & Country & Station Type & Species & Change Point 1 & Change Point 2 \\ 

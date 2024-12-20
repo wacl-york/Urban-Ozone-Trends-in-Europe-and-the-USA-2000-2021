@@ -25,8 +25,8 @@ latex_tweaks = function(x, caption, label, sideways = T, adjustbox = T){
   ymid = y[-c(2, length(y))]
 
   a = c(y1,
-        paste0("\\caption{",caption,"}"),
-        paste0("\\label{",label,"}"))
+        paste0("\\caption{",caption,"}\\\\"),
+        paste0("\\label{",label,"}\\\\"))
 
   if(adjustbox){
     a = c(a,
@@ -88,8 +88,8 @@ si_table |>
   tab_options(latex.use_longtable = TRUE) |>
   as_latex() |>
   as.character() |>
-  latex_tweaks(caption = "foo",
-               label = "bar",
+  latex_tweaks(caption = "List of Sites",
+               label = "table:site_list",
                sideways = F,
                adjustbox = F) |>
   writeLines(here::here('tables','SI_1_site_list.txt'))
