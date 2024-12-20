@@ -5,6 +5,7 @@ library(ggtext)
 library(ggplot2)
 
 source(here::here('functions','connect_to_db.R'))
+source(here::here('functions','pad_time_series.R'))
 
 con = connect_to_db()
 
@@ -186,7 +187,13 @@ plotDat = dat |>
                            name == "ox_cp2020" ~ "O<sub>x</sub>",
                            name == "no2" ~ "NO<sub>2</sub>") |>
            factor(levels = c("O<sub>3</sub>","NO<sub>2</sub>","O<sub>x</sub>"))
-           )
+           ) |>
+  nest_by(name, station_id) |>
+  mutate(data = data |>
+           pad_time_series("1 month") |>
+           list()
+  ) |>
+  unnest(data)
 
 g1 = plotDat |>
   ggplot()+
