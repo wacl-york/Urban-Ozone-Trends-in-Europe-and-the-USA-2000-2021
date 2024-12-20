@@ -2,7 +2,6 @@
 \begin{longtable}{lrrlllrr}
 \caption{List of Sites}\\
 \label{table:site_list}\\
-\begingroup
 \toprule
 Station ID & Latitude & Longitude & Country & Station Type & Species & Change Point 1 & Change Point 2 \\ 
 \midrule\addlinespace[2.5pt]

@@ -22,7 +22,7 @@ latex_tweaks = function(x, caption, label, sideways = T, adjustbox = T){
 
   yn = y[length(y)]
 
-  ymid = y[-c(2, length(y))]
+  ymid = y[-c(1:2, length(y))]
 
   a = c(y1,
         paste0("\\caption{",caption,"}\\\\"),
