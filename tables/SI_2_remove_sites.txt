@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\caption{Time series removed after visual inspection}
+\label{table:remove_sites}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}ll}
+\toprule
+Station ID & Species \\ 
+\midrule\addlinespace[2.5pt]
+bg0013a & O\textsubscript{3} \\ 
+bg0043a & O\textsubscript{3} \\ 
+bg0040a & NO\textsubscript{2} \\ 
+bg0052a & O\textsubscript{3} \\ 
+es1529a & O\textsubscript{3} \\ 
+es1529a & O\textsubscript{x} \\ 
+gr0030a & O\textsubscript{3} \\ 
+it0963a & NO\textsubscript{2} \\ 
+pt03072 & NO\textsubscript{2} \\ 
+gr0031a & O\textsubscript{x} \\ 
+ie0028a & NO\textsubscript{2} \\ 
+\bottomrule
+\end{tabular*}
+\end{table}
