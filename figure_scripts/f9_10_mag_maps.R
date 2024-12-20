@@ -61,7 +61,7 @@ qr_piece_long_sf = qr_piece_long |>
   st_as_sf(coords = c(lon = "longitude", lat = "latitude"), crs = 4326)
 
 
-dbDisconnect(con)
+dbDisconnect(con, shutdown = T)
 
 plotDat = qr_piece_long_sf |>
   mutate(country = ifelse(country == "United States of America", country , "Europe")) |>
@@ -90,8 +90,8 @@ g1 = ggplot() +
   facet_nested(flip_dir+transformation~spc)+
   scale_colour_viridis_c(limits = c(2000, 2023))+
   theme_minimal()+
-  theme(panel.grid = element_line(colour = "white"),
-        panel.background = element_rect(),
+  theme(panel.grid = element_line(colour = "transparent"),
+        panel.background = element_rect(fill = "white"),
         strip.text = element_markdown(),
         legend.title = element_markdown(),
         legend.position = "bottom",
@@ -114,8 +114,8 @@ g2 = ggplot() +
   facet_nested(flip_dir+transformation~spc)+
   scale_colour_viridis_c(limits = c(2000, 2023))+
   theme_minimal()+
-  theme(panel.grid = element_line(colour = "white"),
-        panel.background = element_rect(),
+  theme(panel.grid = element_line(colour = "transparent"),
+        panel.background = element_rect(fill = "white"),
         strip.text = element_markdown(),
         legend.title = element_markdown(),
         legend.position = "bottom",
