@@ -27,7 +27,6 @@ slopes = inner_join(
   pivot_wider(names_from = "type") |>
   select(-stat)
 
-dbDisconnect(con, shutdown = T)
 
 segments = slopes |>
   select(station_id, name, reg, tau) |>
@@ -62,6 +61,7 @@ slopes_year = left_join(segments, slopes,
             by = "station_id") |>
   mutate(fit = ifelse(country == "United States of America", fit, fit/1.96)) # ugm3 -> ppb
 
+
 slopes_year = slopes_year |>
   mutate(continent = "North America")
 
@@ -76,6 +76,8 @@ comp_ppb_year = slopes_year |>
 blacklist_sites = tbl(con, "remove_sites") |>
   collect() |>
   select(station_id, name = spc)
+
+dbDisconnect(con, shutdown = T)
 
 duplicates_test = comp_ppb_year |>
   dplyr::summarise(n = dplyr::n(), .by = c(station_id, tau, name, continent, year)) |>
@@ -149,29 +151,31 @@ dev.off()
 
 # -------------------------------------------------------------------------
 
-baseline = comp_ppb_year_longer |>
-  filter(year == 2000) |>
-  select(-year) |>
-  group_by(station_id, tau, name, continent) |>
-  summarise_all(median) |>
-  rename(value_baseline = value)
-
-plotDatCusum = comp_ppb_year_longer |>
+datCusum = comp_ppb_year_longer |>
   filter(year %in% (2000:2021)) |>
-  group_by(tau, name, continent, station_id) |>
+  group_by(station_id, name, tau) |>
   mutate(value = cumsum(value)) |>
-  left_join(baseline, by = c("name", "continent", "station_id", "tau")) |>
-  mutate(value = value - value_baseline) |>
-  ungroup() |>
-  select(-value_baseline) |>
   group_by(tau, name, year, continent) |>
   summarise(
     q25 = quantile(value, probs = 0.25, na.rm = T),
     q75 = quantile(value, probs = 0.75, na.rm = T),
     mad = mad(value, na.rm = T),
     per_year = quantile(value, probs = 0.5, na.rm = T)) |>
-  mutate(tau = factor(tau))
+  mutate(tau = factor(tau)) |>
+  ungroup() |>
+  pivot_longer(c(q25, q75, mad, per_year), names_to = "stat")
 
+
+baseline = datCusum |>
+  filter(year == 2000) |>
+  select(-year) |>
+  rename(baseline = value)
+
+plotDatCusum = datCusum |>
+  left_join(baseline, c("tau", "name", "stat", "continent")) |>
+  mutate(value = value - baseline) |>
+  select(-baseline) |>
+  pivot_wider(names_from = "stat")
 
 g2 = plotDatCusum |>
   filter(name != "ox") |>
@@ -202,8 +206,6 @@ dev.off()
 
 plotDat = comp_ppb_year_longer |>
   filter(year %in% (2002:2021)) |>
-  group_by(tau, name, continent, station_id) |>
-  select(-station_id) |>
   group_by(tau, name, year, continent) |>
   summarise(
     q25 = quantile(value, probs = 0.25),
