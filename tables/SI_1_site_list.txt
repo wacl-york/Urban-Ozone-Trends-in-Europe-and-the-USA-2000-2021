@@ -1,0 +1,686 @@
+\begingroup
+\begin{longtable}{lrrlllrr}
+\caption{List of Sites}\\
+\label{table:site_list}\\
+\toprule
+Station ID & Latitude & Longitude & Country & Station Type & Species & Change Point 1 & Change Point 2 \\ 
+\midrule\addlinespace[2.5pt]
+at2ka21 & 46.6256 & 14.3181 & Austria & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+at2vi12 & 46.6125 & 13.8414 & Austria & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2015-01-01 \\ 
+at4s431 & 48.3030 & 14.2822 & Austria & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+at51000 & 47.7974 & 13.0533 & Austria & Urban Traffic & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+at51066 & 47.8056 & 13.0433 & Austria & Urban Background & O\textsubscript{3} & 2014-01-01 & 2020-01-01 \\ 
+at51066 & 47.8056 & 13.0433 & Austria & Urban Background & NO\textsubscript{2} & 2013-01-01 & 2020-01-01 \\ 
+at51066 & 47.8056 & 13.0433 & Austria & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+at52000 & 47.6826 & 13.1000 & Austria & Urban Industrial & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+at60018 & 47.0758 & 15.4375 & Austria & Urban Background & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+at60135 & 47.1131 & 15.3392 & Austria & Urban Industrial & NO\textsubscript{2} & 2006-01-01 & 2017-01-01 \\ 
+at60164 & 47.0556 & 15.4166 & Austria & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2019-01-01 \\ 
+at72106 & 47.2713 & 11.4169 & Austria & Urban Background & O\textsubscript{x} & 2007-01-01 & 2018-01-01 \\ 
+at72106 & 47.2713 & 11.4169 & Austria & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2018-01-01 \\ 
+at72106 & 47.2713 & 11.4169 & Austria & Urban Background & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+at72110 & 47.2626 & 11.3924 & Austria & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+at72910 & 46.8277 & 12.7656 & Austria & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2016-01-01 \\ 
+at90akc & 48.2191 & 16.3498 & Austria & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+at90flo & 48.2611 & 16.3970 & Austria & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2015-01-01 \\ 
+at90mba & 48.1884 & 16.3000 & Austria & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2020-01-01 \\ 
+at90tab & 48.2167 & 16.3809 & Austria & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+at9belg & 48.1744 & 16.3614 & Austria & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2012-01-01 \\ 
+at9gaud & 48.1871 & 16.3393 & Austria & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+at9kend & 48.2050 & 16.3098 & Austria & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2013-01-01 \\ 
+at9stad & 48.2264 & 16.4583 & Austria & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2019-01-01 \\ 
+at9stef & 48.2081 & 16.3733 & Austria & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+at9stef & 48.2081 & 16.3733 & Austria & Urban Background & O\textsubscript{x} & 2014-01-01 & 2020-01-01 \\ 
+at9stef & 48.2081 & 16.3733 & Austria & Urban Background & O\textsubscript{3} & 2014-01-01 & 2020-01-01 \\ 
+betr001 & 50.8497 & 4.3341 & Belgium & Urban Background & O\textsubscript{3} & 2008-01-01 & 2017-01-01 \\ 
+betr001 & 50.8497 & 4.3341 & Belgium & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+betr001 & 50.8497 & 4.3341 & Belgium & Urban Background & O\textsubscript{x} & 2003-01-01 & 2015-01-01 \\ 
+betr002 & 50.8251 & 4.3846 & Belgium & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2018-01-01 \\ 
+betr501 & 50.4093 & 4.4522 & Belgium & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2019-01-01 \\ 
+betr701 & 51.0583 & 3.7293 & Belgium & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+betr701 & 51.0583 & 3.7293 & Belgium & Urban Background & O\textsubscript{x} & 2005-01-01 & 2016-01-01 \\ 
+betr701 & 51.0583 & 3.7293 & Belgium & Urban Background & O\textsubscript{3} & 2011-01-01 & 2016-01-01 \\ 
+betr801 & 51.2097 & 4.4318 & Belgium & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+betr801 & 51.2097 & 4.4318 & Belgium & Urban Background & O\textsubscript{x} & 2015-01-01 & 2020-01-01 \\ 
+betr801 & 51.2097 & 4.4318 & Belgium & Urban Background & O\textsubscript{3} & 2007-01-01 & 2016-01-01 \\ 
+cz0arie & 50.0815 & 14.4427 & Czechia & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+cz0ccbd & 48.9844 & 14.4657 & Czechia & Urban Background & O\textsubscript{3} & 2003-01-01 & 2009-01-01 \\ 
+cz0ccbd & 48.9844 & 14.4657 & Czechia & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2019-01-01 \\ 
+cz0ccbd & 48.9844 & 14.4657 & Czechia & Urban Background & O\textsubscript{x} & 2003-01-01 & 2009-01-01 \\ 
+cz0mprr & 49.4517 & 17.4542 & Czechia & Urban Background & O\textsubscript{3} & 2014-01-01 & 2020-01-01 \\ 
+cz0toff & 49.8392 & 18.2637 & Czechia & Urban Background & O\textsubscript{x} & 2007-01-01 & 2017-01-01 \\ 
+cz0toff & 49.8392 & 18.2637 & Czechia & Urban Background & O\textsubscript{3} & 2014-01-01 & 2020-01-01 \\ 
+cz0toff & 49.8392 & 18.2637 & Czechia & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+cz0tovk & 49.9450 & 17.9095 & Czechia & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2018-01-01 \\ 
+cz0ttro & 49.6681 & 18.6778 & Czechia & Urban Background & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+cz0udcm & 50.7742 & 14.2188 & Czechia & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2015-01-01 \\ 
+cz0umom & 50.5104 & 13.6453 & Czechia & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+cz0umom & 50.5104 & 13.6453 & Czechia & Urban Background & O\textsubscript{3} & 2004-01-01 & 2015-01-01 \\ 
+cz0umom & 50.5104 & 13.6453 & Czechia & Urban Background & O\textsubscript{x} & 2013-01-01 & 2020-01-01 \\ 
+cz0uulm & 50.6611 & 14.0431 & Czechia & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+dk0030a & 55.6983 & 12.5533 & Denmark & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+dk0045a & 55.7003 & 12.5614 & Denmark & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+dk0046a & 55.3964 & 10.3892 & Denmark & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2018-01-01 \\ 
+ee0015a & 59.4569 & 24.6986 & Estonia & Urban Industrial & O\textsubscript{x} & 2013-01-01 & 2018-01-01 \\ 
+ee0015a & 59.4569 & 24.6986 & Estonia & Urban Industrial & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+ee0015a & 59.4569 & 24.6986 & Estonia & Urban Industrial & O\textsubscript{3} & 2003-01-01 & 2014-01-01 \\ 
+fi00370 & 60.2899 & 25.0395 & Finland & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2015-01-01 \\ 
+fi00397 & 63.6791 & 22.7184 & Finland & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+fi00425 & 60.1874 & 24.9506 & Finland & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fi00425 & 60.1874 & 24.9506 & Finland & Urban Background & O\textsubscript{x} & 2007-01-01 & 2014-01-01 \\ 
+fi00425 & 60.1874 & 24.9506 & Finland & Urban Background & O\textsubscript{3} & 2007-01-01 & 2014-01-01 \\ 
+fi00446 & 65.0100 & 25.4713 & Finland & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr01012 & 49.1103 & 6.2233 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+fr01020 & 49.3583 & 6.1569 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+fr02004 & 43.4167 & 5.0427 & France & Urban Industrial & O\textsubscript{3} & 2007-01-01 & 2020-01-01 \\ 
+fr02022 & 43.6751 & 4.6292 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+fr03029 & 43.5303 & 5.4409 & France & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+fr03043 & 43.3053 & 5.3947 & France & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+fr03080 & 43.9497 & 4.8043 & France & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+fr03080 & 43.9497 & 4.8043 & France & Urban Background & O\textsubscript{x} & 2006-01-01 & 2020-01-01 \\ 
+fr03080 & 43.9497 & 4.8043 & France & Urban Background & O\textsubscript{3} & 2006-01-01 & 2018-01-01 \\ 
+fr04004 & 48.8917 & 2.3467 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+fr04004 & 48.8917 & 2.3467 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+fr04004 & 48.8917 & 2.3467 & France & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+fr04014 & 48.8372 & 2.3939 & France & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+fr04017 & 48.8814 & 2.2781 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr04034 & 48.7758 & 2.3758 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr04037 & 48.8286 & 2.3603 & France & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+fr04037 & 48.8286 & 2.3603 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+fr04037 & 48.8286 & 2.3603 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr04058 & 48.9253 & 2.3567 & France & Urban Traffic & NO\textsubscript{2} & 2012-01-01 & 2019-01-01 \\ 
+fr04059 & 48.9372 & 2.3617 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+fr04060 & 48.8572 & 2.2933 & France & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+fr04149 & 48.7067 & 2.4572 & France & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2016-01-01 \\ 
+fr04149 & 48.7067 & 2.4572 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr04149 & 48.7067 & 2.4572 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr04156 & 48.9025 & 2.4525 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+fr04323 & 48.6272 & 2.4292 & France & Urban Background & NO\textsubscript{2} & 2009-01-01 & 2018-01-01 \\ 
+fr05074 & 49.4896 & 0.1007 & France & Urban Background & O\textsubscript{3} & 2006-01-01 & 2016-01-01 \\ 
+fr06001 & 50.3585 & 3.5080 & France & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+fr06003 & 50.3782 & 3.0659 & France & Urban Background & O\textsubscript{3} & 2012-01-01 & 2017-01-01 \\ 
+fr06007 & 50.2794 & 3.9769 & France & Urban Background & O\textsubscript{x} & 2008-01-01 & 2017-01-01 \\ 
+fr06007 & 50.2794 & 3.9769 & France & Urban Background & O\textsubscript{3} & 2008-01-01 & 2017-01-01 \\ 
+fr06007 & 50.2794 & 3.9769 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+fr07004 & 45.7973 & 3.1138 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2008-01-01 \\ 
+fr07004 & 45.7973 & 3.1138 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+fr07004 & 45.7973 & 3.1138 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr08016 & 43.5915 & 3.8868 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+fr08016 & 43.5915 & 3.8868 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2018-01-01 \\ 
+fr08016 & 43.5915 & 3.8868 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2019-01-01 \\ 
+fr09003 & 46.1626 & -1.1536 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+fr09003 & 46.1626 & -1.1536 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+fr09003 & 46.1626 & -1.1536 & France & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+fr09015 & 46.5869 & 0.3586 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+fr09015 & 46.5869 & 0.3586 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr09015 & 46.5869 & 0.3586 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+fr12026 & 43.9278 & 2.1459 & France & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+fr14031 & 48.3017 & 4.0769 & France & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+fr14033 & 48.2950 & 4.0503 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr14033 & 48.2950 & 4.0503 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr14033 & 48.2950 & 4.0503 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2011-01-01 \\ 
+fr15038 & 45.1828 & 5.7531 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2015-01-01 \\ 
+fr15038 & 45.1828 & 5.7531 & France & Urban Background & O\textsubscript{3} & 2011-01-01 & 2018-01-01 \\ 
+fr15038 & 45.1828 & 5.7531 & France & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2015-01-01 \\ 
+fr16029 & 48.6104 & 7.7816 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr16029 & 48.6104 & 7.7816 & France & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2018-01-01 \\ 
+fr16029 & 48.6104 & 7.7816 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr16034 & 48.5904 & 7.7450 & France & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+fr16054 & 48.0746 & 7.3507 & France & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+fr16057 & 47.7574 & 7.3473 & France & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+fr16066 & 47.7374 & 7.3091 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2017-01-01 \\ 
+fr16066 & 47.7374 & 7.3091 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2012-01-01 \\ 
+fr16066 & 47.7374 & 7.3091 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2018-01-01 \\ 
+fr19007 & 48.1075 & -1.6798 & France & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2015-01-01 \\ 
+fr20017 & 45.7353 & 4.8298 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr20017 & 45.7353 & 4.8298 & France & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+fr20017 & 45.7353 & 4.8298 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr21001 & 49.1922 & -0.3911 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+fr21001 & 49.1922 & -0.3911 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2010-01-01 \\ 
+fr21001 & 49.1922 & -0.3911 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2010-01-01 \\ 
+fr21019 & 49.1517 & -0.3528 & France & Urban Background & O\textsubscript{3} & 2010-01-01 & 2020-01-01 \\ 
+fr23110 & 47.2641 & -2.2499 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2016-01-01 \\ 
+fr23110 & 47.2641 & -2.2499 & France & Urban Background & NO\textsubscript{2} & 2014-01-01 & 2019-01-01 \\ 
+fr23110 & 47.2641 & -2.2499 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+fr23120 & 47.4685 & -0.5561 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr25039 & 49.0213 & 1.1483 & France & Urban Background & O\textsubscript{3} & 2008-01-01 & 2017-01-01 \\ 
+fr25039 & 49.0213 & 1.1483 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+fr25039 & 49.0213 & 1.1483 & France & Urban Background & O\textsubscript{x} & 2008-01-01 & 2017-01-01 \\ 
+fr25043 & 49.4005 & 1.0990 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+fr25043 & 49.4005 & 1.0990 & France & Urban Background & O\textsubscript{3} & 2008-01-01 & 2017-01-01 \\ 
+fr25043 & 49.4005 & 1.0990 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2014-01-01 \\ 
+fr27002 & 45.3678 & 4.8051 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2017-01-01 \\ 
+fr27002 & 45.3678 & 4.8051 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2017-01-01 \\ 
+fr27002 & 45.3678 & 4.8051 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2017-01-01 \\ 
+fr29423 & 46.0411 & 4.0747 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr29423 & 46.0411 & 4.0747 & France & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+fr29423 & 46.0411 & 4.0747 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+fr29424 & 45.4201 & 4.3954 & France & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+fr29424 & 45.4201 & 4.3954 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr29424 & 45.4201 & 4.3954 & France & Urban Background & O\textsubscript{x} & 2014-01-01 & 2020-01-01 \\ 
+fr29426 & 45.4753 & 4.5150 & France & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+fr29426 & 45.4753 & 4.5150 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+fr29426 & 45.4753 & 4.5150 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2009-01-01 \\ 
+fr30016 & 48.6859 & 6.1751 & France & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+fr30019 & 48.1728 & 6.4528 & France & Urban Background & O\textsubscript{3} & 2007-01-01 & 2019-01-01 \\ 
+fr30019 & 48.1728 & 6.4528 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+fr30019 & 48.1728 & 6.4528 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2019-01-01 \\ 
+fr30026 & 48.5848 & 6.4839 & France & Urban Traffic & NO\textsubscript{2} & 2015-01-01 & 2020-01-01 \\ 
+fr31001 & 44.8614 & -0.5794 & France & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+fr31002 & 44.8006 & -0.5881 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2008-01-01 \\ 
+fr31002 & 44.8006 & -0.5881 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+fr31002 & 44.8006 & -0.5881 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+fr31007 & 44.9003 & -0.5147 & France & Urban Industrial & NO\textsubscript{2} & 2007-01-01 & 2014-01-01 \\ 
+fr31013 & 43.3108 & -0.3911 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2009-01-01 \\ 
+fr31013 & 43.3108 & -0.3911 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+fr31013 & 43.3108 & -0.3911 & France & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2014-01-01 \\ 
+fr31016 & 43.4797 & -1.4881 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+fr31016 & 43.4797 & -1.4881 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+fr31016 & 43.4797 & -1.4881 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2014-01-01 \\ 
+fr31017 & 43.4940 & -1.5288 & France & Urban Traffic & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+fr33101 & 45.5647 & 5.9283 & France & Urban Background & O\textsubscript{3} & 2011-01-01 & 2018-01-01 \\ 
+fr33101 & 45.5647 & 5.9283 & France & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+fr33101 & 45.5647 & 5.9283 & France & Urban Background & O\textsubscript{x} & 2012-01-01 & 2020-01-01 \\ 
+fr33111 & 45.2747 & 6.3497 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+fr33120 & 45.9225 & 6.8700 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2020-01-01 \\ 
+fr33120 & 45.9225 & 6.8700 & France & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+fr33120 & 45.9225 & 6.8700 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr33121 & 45.6750 & 6.3897 & France & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2015-01-01 \\ 
+fr33201 & 45.8953 & 6.1183 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+fr33201 & 45.8953 & 6.1183 & France & Urban Background & O\textsubscript{3} & 2003-01-01 & 2015-01-01 \\ 
+fr33201 & 45.8953 & 6.1183 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2009-01-01 \\ 
+fr33202 & 45.9169 & 6.1356 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+fr33202 & 45.9169 & 6.1356 & France & Urban Background & O\textsubscript{3} & 2007-01-01 & 2017-01-01 \\ 
+fr33202 & 45.9169 & 6.1356 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+fr33211 & 46.1958 & 6.2406 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+fr33211 & 46.1958 & 6.2406 & France & Urban Background & O\textsubscript{3} & 2012-01-01 & 2020-01-01 \\ 
+fr33211 & 46.1958 & 6.2406 & France & Urban Background & O\textsubscript{x} & 2007-01-01 & 2020-01-01 \\ 
+fr35002 & 45.8900 & 0.9000 & France & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+fr35002 & 45.8900 & 0.9000 & France & Urban Background & O\textsubscript{x} & 2007-01-01 & 2012-01-01 \\ 
+fr35002 & 45.8900 & 0.9000 & France & Urban Background & O\textsubscript{3} & 2012-01-01 & 2018-01-01 \\ 
+fr35004 & 45.1587 & 1.5372 & France & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+fr35004 & 45.1587 & 1.5372 & France & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2019-01-01 \\ 
+fr35004 & 45.1587 & 1.5372 & France & Urban Background & O\textsubscript{x} & 2007-01-01 & 2020-01-01 \\ 
+fr35005 & 46.1700 & 1.8700 & France & Urban Background & O\textsubscript{3} & 2009-01-01 & 2016-01-01 \\ 
+fr35005 & 46.1700 & 1.8700 & France & Urban Background & O\textsubscript{x} & 2009-01-01 & 2016-01-01 \\ 
+fr35005 & 46.1700 & 1.8700 & France & Urban Background & NO\textsubscript{2} & 2014-01-01 & 2020-01-01 \\ 
+fr35006 & 45.2600 & 1.7600 & France & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2018-01-01 \\ 
+fr35006 & 45.2600 & 1.7600 & France & Urban Background & O\textsubscript{3} & 2007-01-01 & 2012-01-01 \\ 
+fr35006 & 45.2600 & 1.7600 & France & Urban Background & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+debb021 & 52.4014 & 13.0602 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2018-01-01 \\ 
+debe010 & 52.5430 & 13.3493 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+debe010 & 52.5430 & 13.3493 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+debe010 & 52.5430 & 13.3493 & Germany & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2017-01-01 \\ 
+debe018 & 52.4858 & 13.3488 & Germany & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2019-01-01 \\ 
+debe034 & 52.4895 & 13.4308 & Germany & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2018-01-01 \\ 
+debe061 & 52.4636 & 13.3183 & Germany & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2017-01-01 \\ 
+debe065 & 52.5141 & 13.4699 & Germany & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+debw009 & 49.4195 & 8.6767 & Germany & Urban Background & O\textsubscript{x} & 2009-01-01 & 2019-01-01 \\ 
+debw009 & 49.4195 & 8.6767 & Germany & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2012-01-01 \\ 
+debw009 & 49.4195 & 8.6767 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2017-01-01 \\ 
+debw013 & 48.8088 & 9.2297 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+debw013 & 48.8088 & 9.2297 & Germany & Urban Background & O\textsubscript{x} & 2010-01-01 & 2019-01-01 \\ 
+debw013 & 48.8088 & 9.2297 & Germany & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2017-01-01 \\ 
+debw015 & 49.1655 & 9.2248 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+debw015 & 49.1655 & 9.2248 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+debw015 & 49.1655 & 9.2248 & Germany & Urban Background & O\textsubscript{3} & 2007-01-01 & 2016-01-01 \\ 
+debw038 & 47.6601 & 9.4857 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2010-01-01 \\ 
+debw084 & 48.0015 & 7.8321 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2019-01-01 \\ 
+debw084 & 48.0015 & 7.8321 & Germany & Urban Background & O\textsubscript{3} & 2010-01-01 & 2018-01-01 \\ 
+debw084 & 48.0015 & 7.8321 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2009-01-01 \\ 
+deby001 & 49.3049 & 10.5723 & Germany & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+deby006 & 48.3646 & 10.8950 & Germany & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+deby007 & 48.3766 & 10.8884 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+deby009 & 49.8983 & 10.8877 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+deby052 & 48.3971 & 10.0083 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+deby053 & 49.4459 & 11.0884 & Germany & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+deby068 & 50.0484 & 10.2321 & Germany & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+deby075 & 49.6790 & 12.1594 & Germany & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2015-01-01 \\ 
+dehb001 & 53.0772 & 8.8158 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+dehb001 & 53.0772 & 8.8158 & Germany & Urban Background & O\textsubscript{3} & 2011-01-01 & 2016-01-01 \\ 
+dehb001 & 53.0772 & 8.8158 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+dehb002 & 53.0600 & 8.9170 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+dehb004 & 53.1809 & 8.6255 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2017-01-01 \\ 
+dehb004 & 53.1809 & 8.6255 & Germany & Urban Background & O\textsubscript{x} & 2008-01-01 & 2018-01-01 \\ 
+dehb004 & 53.1809 & 8.6255 & Germany & Urban Background & O\textsubscript{3} & 2008-01-01 & 2018-01-01 \\ 
+dehb005 & 53.5625 & 8.5694 & Germany & Urban Background & O\textsubscript{3} & 2005-01-01 & 2011-01-01 \\ 
+dehb005 & 53.5625 & 8.5694 & Germany & Urban Background & O\textsubscript{x} & 2003-01-01 & 2009-01-01 \\ 
+dehb005 & 53.5625 & 8.5694 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2015-01-01 \\ 
+dehb006 & 53.0787 & 8.8252 & Germany & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2016-01-01 \\ 
+dehe001 & 49.8723 & 8.6646 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2018-01-01 \\ 
+dehe001 & 49.8723 & 8.6646 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+dehe001 & 49.8723 & 8.6646 & Germany & Urban Background & O\textsubscript{x} & 2003-01-01 & 2015-01-01 \\ 
+dehe005 & 50.1018 & 8.5425 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2009-01-01 \\ 
+dehe005 & 50.1018 & 8.5425 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+dehe005 & 50.1018 & 8.5425 & Germany & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2016-01-01 \\ 
+dehe011 & 50.1358 & 8.9216 & Germany & Urban Background & NO\textsubscript{2} & 2009-01-01 & 2016-01-01 \\ 
+dehe020 & 50.5672 & 8.5006 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+dehh008 & 53.5641 & 9.9679 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2018-01-01 \\ 
+dehh008 & 53.5641 & 9.9679 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2017-01-01 \\ 
+dehh008 & 53.5641 & 9.9679 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+dehh016 & 53.5290 & 10.0817 & Germany & Urban Industrial & NO\textsubscript{2} & 2006-01-01 & 2016-01-01 \\ 
+dehh026 & 53.5606 & 9.9572 & Germany & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2011-01-01 \\ 
+deni038 & 52.2553 & 8.0529 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2014-01-01 \\ 
+deni054 & 52.3629 & 9.7061 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2013-01-01 \\ 
+denw034 & 51.5240 & 6.7484 & Germany & Urban Industrial & O\textsubscript{3} & 2012-01-01 & 2018-01-01 \\ 
+denw053 & 51.0193 & 6.8846 & Germany & Urban Background & O\textsubscript{3} & 2011-01-01 & 2018-01-01 \\ 
+denw071 & 51.2492 & 6.7324 & Germany & Urban Background & O\textsubscript{3} & 2007-01-01 & 2018-01-01 \\ 
+derp001 & 49.5150 & 8.4023 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2009-01-01 \\ 
+derp003 & 49.4555 & 8.4259 & Germany & Urban Industrial & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+derp007 & 50.0176 & 8.2168 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+derp009 & 49.9950 & 8.2740 & Germany & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2017-01-01 \\ 
+derp010 & 50.0010 & 8.2611 & Germany & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2014-01-01 \\ 
+derp011 & 50.0099 & 8.2658 & Germany & Urban Traffic & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+derp019 & 49.4460 & 7.7673 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2011-01-01 \\ 
+derp019 & 49.4460 & 7.7673 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2011-01-01 \\ 
+derp019 & 49.4460 & 7.7673 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+derp020 & 49.7542 & 6.6467 & Germany & Urban Traffic & NO\textsubscript{2} & 2015-01-01 & 2020-01-01 \\ 
+derp021 & 50.4247 & 7.4814 & Germany & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+derp022 & 49.8412 & 7.8662 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+derp024 & 50.3544 & 7.5966 & Germany & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2019-01-01 \\ 
+derp025 & 49.0523 & 8.2535 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2018-01-01 \\ 
+derp026 & 49.5333 & 8.3553 & Germany & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2017-01-01 \\ 
+desl003 & 49.3579 & 6.7335 & Germany & Urban Industrial & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+desl003 & 49.3579 & 6.7335 & Germany & Urban Industrial & O\textsubscript{3} & 2004-01-01 & 2011-01-01 \\ 
+desl003 & 49.3579 & 6.7335 & Germany & Urban Industrial & O\textsubscript{x} & 2005-01-01 & 2011-01-01 \\ 
+desl011 & 49.2372 & 7.0363 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2013-01-01 \\ 
+desl011 & 49.2372 & 7.0363 & Germany & Urban Background & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+desl011 & 49.2372 & 7.0363 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2017-01-01 \\ 
+desl012 & 49.2335 & 6.9876 & Germany & Urban Background & NO\textsubscript{2} & 2009-01-01 & 2020-01-01 \\ 
+desl017 & 49.2543 & 6.8677 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2019-01-01 \\ 
+desl017 & 49.2543 & 6.8677 & Germany & Urban Background & O\textsubscript{x} & 2004-01-01 & 2012-01-01 \\ 
+desl017 & 49.2543 & 6.8677 & Germany & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+desn001 & 50.5709 & 12.9973 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2009-01-01 \\ 
+desn004 & 51.1757 & 14.4438 & Germany & Urban Background & O\textsubscript{3} & 2007-01-01 & 2018-01-01 \\ 
+desn061 & 51.0649 & 13.7414 & Germany & Urban Traffic & O\textsubscript{3} & 2011-01-01 & 2020-01-01 \\ 
+dest011 & 51.8394 & 10.7901 & Germany & Urban Background & O\textsubscript{3} & 2007-01-01 & 2018-01-01 \\ 
+dest028 & 51.0546 & 12.1413 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2009-01-01 \\ 
+dest044 & 51.8970 & 11.0574 & Germany & Urban Background & O\textsubscript{3} & 2003-01-01 & 2009-01-01 \\ 
+dest050 & 51.4962 & 11.9791 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+dest066 & 51.8709 & 12.6637 & Germany & Urban Background & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+deth009 & 50.8779 & 12.0749 & Germany & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2014-01-01 \\ 
+deth011 & 50.9878 & 12.4376 & Germany & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+deth011 & 50.9878 & 12.4376 & Germany & Urban Background & O\textsubscript{x} & 2006-01-01 & 2011-01-01 \\ 
+deth011 & 50.9878 & 12.4376 & Germany & Urban Background & O\textsubscript{3} & 2006-01-01 & 2015-01-01 \\ 
+deth018 & 51.4972 & 10.7914 & Germany & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2011-01-01 \\ 
+deth020 & 50.9795 & 11.0379 & Germany & Urban Background & O\textsubscript{x} & 2003-01-01 & 2014-01-01 \\ 
+deth020 & 50.9795 & 11.0379 & Germany & Urban Background & O\textsubscript{3} & 2009-01-01 & 2014-01-01 \\ 
+deth020 & 50.9795 & 11.0379 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+deth041 & 50.9335 & 11.5971 & Germany & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2016-01-01 \\ 
+deth043 & 50.9849 & 11.0194 & Germany & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2019-01-01 \\ 
+gr0002a & 37.9782 & 23.7268 & Greece & Urban Traffic & O\textsubscript{3} & 2004-01-01 & 2019-01-01 \\ 
+gr0002a & 37.9782 & 23.7268 & Greece & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2020-01-01 \\ 
+gr0002a & 37.9782 & 23.7268 & Greece & Urban Traffic & O\textsubscript{x} & 2014-01-01 & 2019-01-01 \\ 
+gr0003a & 37.9880 & 23.7276 & Greece & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+gr0022a & 38.0308 & 23.7874 & Greece & Urban Traffic & O\textsubscript{x} & 2005-01-01 & 2011-01-01 \\ 
+gr0022a & 38.0308 & 23.7874 & Greece & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2012-01-01 \\ 
+gr0022a & 38.0308 & 23.7874 & Greece & Urban Traffic & O\textsubscript{3} & 2004-01-01 & 2013-01-01 \\ 
+gr0028a & 38.0208 & 23.6884 & Greece & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+gr0031a & 37.9320 & 23.7130 & Greece & Urban Background & NO\textsubscript{2} & 2009-01-01 & 2020-01-01 \\ 
+gr0031a & 37.9320 & 23.7130 & Greece & Urban Background & O\textsubscript{3} & 2007-01-01 & 2020-01-01 \\ 
+gr0032a & 37.9995 & 23.7330 & Greece & Urban Traffic & O\textsubscript{3} & 2003-01-01 & 2014-01-01 \\ 
+gr0032a & 37.9995 & 23.7330 & Greece & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+gr0032a & 37.9995 & 23.7330 & Greece & Urban Traffic & O\textsubscript{x} & 2007-01-01 & 2015-01-01 \\ 
+it0477a & 45.4956 & 9.1914 & Italy & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+it0591a & 45.8924 & 11.0394 & Italy & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2018-01-01 \\ 
+it0594a & 45.5408 & 10.2236 & Italy & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2009-01-01 \\ 
+it0705a & 45.4628 & 9.1958 & Italy & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2018-01-01 \\ 
+it0732a & 45.8361 & 8.8042 & Italy & Urban Background & O\textsubscript{x} & 2003-01-01 & 2015-01-01 \\ 
+it0732a & 45.8361 & 8.8042 & Italy & Urban Background & O\textsubscript{3} & 2004-01-01 & 2010-01-01 \\ 
+it0732a & 45.8361 & 8.8042 & Italy & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2014-01-01 \\ 
+it0771a & 45.8044 & 9.0836 & Italy & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2015-01-01 \\ 
+it0777a & 45.6980 & 9.4062 & Italy & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2013-01-01 \\ 
+it0828a & 41.8831 & 12.5090 & Italy & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2019-01-01 \\ 
+it0908a & 46.4703 & 10.3725 & Italy & Urban Background & O\textsubscript{x} & 2005-01-01 & 2011-01-01 \\ 
+it0908a & 46.4703 & 10.3725 & Italy & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2013-01-01 \\ 
+it0908a & 46.4703 & 10.3725 & Italy & Urban Background & O\textsubscript{3} & 2003-01-01 & 2011-01-01 \\ 
+it0953a & 41.9329 & 12.5069 & Italy & Urban Background & O\textsubscript{3} & 2003-01-01 & 2010-01-01 \\ 
+it0983a & 45.7358 & 7.3242 & Italy & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2018-01-01 \\ 
+it1016a & 45.4697 & 9.1981 & Italy & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2014-01-01 \\ 
+it1034a & 45.6608 & 9.1569 & Italy & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2016-01-01 \\ 
+it1037a & 46.0629 & 11.1262 & Italy & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2012-01-01 \\ 
+it1110a & 43.7389 & 10.4017 & Italy & Urban Background & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+it1176a & 41.8860 & 12.5416 & Italy & Urban Background & O\textsubscript{3} & 2004-01-01 & 2009-01-01 \\ 
+it1182a & 43.0889 & 12.4419 & Italy & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+it1246a & 45.5690 & 8.1876 & Italy & Urban Background & O\textsubscript{3} & 2015-01-01 & 2020-01-01 \\ 
+it1247a & 45.5588 & 8.0564 & Italy & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2015-01-01 \\ 
+it1247a & 45.5588 & 8.0564 & Italy & Urban Background & O\textsubscript{3} & 2011-01-01 & 2016-01-01 \\ 
+it1247a & 45.5588 & 8.0564 & Italy & Urban Background & O\textsubscript{x} & 2008-01-01 & 2013-01-01 \\ 
+it1654a & 43.8728 & 11.0919 & Italy & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+nl00236 & 51.4687 & 5.4723 & Netherlands & Urban Traffic & O\textsubscript{3} & 2003-01-01 & 2011-01-01 \\ 
+nl00236 & 51.4687 & 5.4723 & Netherlands & Urban Traffic & O\textsubscript{x} & 2003-01-01 & 2008-01-01 \\ 
+nl00236 & 51.4687 & 5.4723 & Netherlands & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2013-01-01 \\ 
+nl00237 & 51.4442 & 5.4448 & Netherlands & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2014-01-01 \\ 
+nl00404 & 52.0771 & 4.2892 & Netherlands & Urban Background & O\textsubscript{3} & 2007-01-01 & 2018-01-01 \\ 
+nl00404 & 52.0771 & 4.2892 & Netherlands & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+nl00404 & 52.0771 & 4.2892 & Netherlands & Urban Background & O\textsubscript{x} & 2007-01-01 & 2018-01-01 \\ 
+nl00418 & 51.9142 & 4.4799 & Netherlands & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+nl00636 & 52.1050 & 5.1245 & Netherlands & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2018-01-01 \\ 
+nl00639 & 52.0677 & 5.1205 & Netherlands & Urban Traffic & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+nl00639 & 52.0677 & 5.1205 & Netherlands & Urban Traffic & O\textsubscript{x} & 2005-01-01 & 2010-01-01 \\ 
+nl00639 & 52.0677 & 5.1205 & Netherlands & Urban Traffic & O\textsubscript{3} & 2010-01-01 & 2016-01-01 \\ 
+pl0008a & 50.2646 & 18.9750 & Poland & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2013-01-01 \\ 
+pl0012a & 50.0577 & 19.9262 & Poland & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+pl0039a & 50.0693 & 20.0535 & Poland & Urban Industrial & NO\textsubscript{2} & 2013-01-01 & 2018-01-01 \\ 
+pl0048a & 54.5608 & 18.4933 & Poland & Urban Background & O\textsubscript{3} & 2004-01-01 & 2009-01-01 \\ 
+pl0048a & 54.5608 & 18.4933 & Poland & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2018-01-01 \\ 
+pl0048a & 54.5608 & 18.4933 & Poland & Urban Background & O\textsubscript{x} & 2009-01-01 & 2020-01-01 \\ 
+pl0052a & 54.3803 & 18.6203 & Poland & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+pt03070 & 38.8947 & -9.1175 & Portugal & Urban Background & O\textsubscript{3} & 2006-01-01 & 2014-01-01 \\ 
+pt03071 & 38.7689 & -9.1081 & Portugal & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+pt03075 & 38.7203 & -9.1458 & Portugal & Urban Traffic & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+sk0001a & 48.1247 & 17.1255 & Slovakia & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2013-01-01 \\ 
+sk0001a & 48.1247 & 17.1255 & Slovakia & Urban Background & O\textsubscript{x} & 2012-01-01 & 2017-01-01 \\ 
+sk0001a & 48.1247 & 17.1255 & Slovakia & Urban Background & O\textsubscript{3} & 2012-01-01 & 2017-01-01 \\ 
+sk0002a & 48.1584 & 17.1289 & Slovakia & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+sk0020a & 49.2114 & 18.7712 & Slovakia & Urban Background & O\textsubscript{3} & 2014-01-01 & 2020-01-01 \\ 
+si0003a & 46.0655 & 14.5127 & Slovenia & Urban Background & O\textsubscript{3} & 2007-01-01 & 2014-01-01 \\ 
+es0124a & 40.4400 & -3.6392 & Spain & Urban Background & O\textsubscript{3} & 2013-01-01 & 2019-01-01 \\ 
+es0692a & 41.3705 & 2.1150 & Spain & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2020-01-01 \\ 
+es0805a & 43.2411 & -2.8837 & Spain & Urban Industrial & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+es0817a & 37.3842 & -5.9596 & Spain & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2020-01-01 \\ 
+es1038a & 43.3464 & -4.0642 & Spain & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+es1038a & 43.3464 & -4.0642 & Spain & Urban Background & O\textsubscript{3} & 2015-01-01 & 2020-01-01 \\ 
+es1038a & 43.3464 & -4.0642 & Spain & Urban Background & O\textsubscript{x} & 2010-01-01 & 2020-01-01 \\ 
+es1047a & 41.6514 & -0.9161 & Spain & Urban Traffic & O\textsubscript{3} & 2008-01-01 & 2018-01-01 \\ 
+es1047a & 41.6514 & -0.9161 & Spain & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+es1047a & 41.6514 & -0.9161 & Spain & Urban Traffic & O\textsubscript{x} & 2010-01-01 & 2018-01-01 \\ 
+es1072a & 36.1594 & -5.3484 & Spain & Urban Industrial & O\textsubscript{3} & 2003-01-01 & 2016-01-01 \\ 
+es1072a & 36.1594 & -5.3484 & Spain & Urban Industrial & O\textsubscript{x} & 2003-01-01 & 2015-01-01 \\ 
+es1072a & 36.1594 & -5.3484 & Spain & Urban Industrial & NO\textsubscript{2} & 2014-01-01 & 2020-01-01 \\ 
+es1125a & 41.7303 & 1.8253 & Spain & Urban Traffic & NO\textsubscript{2} & 2007-01-01 & 2018-01-01 \\ 
+es1131a & 28.4622 & -16.2619 & Spain & Urban Industrial & O\textsubscript{3} & 2006-01-01 & 2014-01-01 \\ 
+es1161a & 42.6039 & -5.5872 & Spain & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+es1181a & 39.4811 & -0.4472 & Spain & Urban Traffic & O\textsubscript{3} & 2007-01-01 & 2014-01-01 \\ 
+es1182a & 38.9667 & -0.1900 & Spain & Urban Traffic & O\textsubscript{3} & 2012-01-01 & 2020-01-01 \\ 
+es1185a & 39.6672 & -0.2347 & Spain & Urban Traffic & O\textsubscript{3} & 2003-01-01 & 2010-01-01 \\ 
+es1225a & 41.6158 & 0.6157 & Spain & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+es1231a & 41.4768 & 2.0890 & Spain & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+es1231a & 41.4768 & 2.0890 & Spain & Urban Background & O\textsubscript{x} & 2006-01-01 & 2011-01-01 \\ 
+es1231a & 41.4768 & 2.0890 & Spain & Urban Background & O\textsubscript{3} & 2005-01-01 & 2011-01-01 \\ 
+es1239a & 39.4561 & -0.3758 & Spain & Urban Traffic & O\textsubscript{x} & 2005-01-01 & 2013-01-01 \\ 
+es1239a & 39.4561 & -0.3758 & Spain & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2013-01-01 \\ 
+es1239a & 39.4561 & -0.3758 & Spain & Urban Traffic & O\textsubscript{3} & 2008-01-01 & 2015-01-01 \\ 
+es1244a & 43.2675 & -2.9352 & Spain & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+es1262a & 41.5612 & 2.1014 & Spain & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2020-01-01 \\ 
+es1268a & 43.3583 & -5.8664 & Spain & Urban Traffic & O\textsubscript{3} & 2006-01-01 & 2018-01-01 \\ 
+es1353a & 43.2941 & -5.6796 & Spain & Urban Background & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+es1358a & 43.5378 & -5.6461 & Spain & Urban Traffic & O\textsubscript{x} & 2011-01-01 & 2016-01-01 \\ 
+es1358a & 43.5378 & -5.6461 & Spain & Urban Traffic & O\textsubscript{3} & 2013-01-01 & 2018-01-01 \\ 
+es1358a & 43.5378 & -5.6461 & Spain & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2014-01-01 \\ 
+es1417a & 42.1361 & -0.4039 & Spain & Urban Traffic & O\textsubscript{3} & 2006-01-01 & 2013-01-01 \\ 
+es1421a & 40.3364 & -1.1067 & Spain & Urban Background & O\textsubscript{3} & 2006-01-01 & 2014-01-01 \\ 
+es1424a & 43.5589 & -5.9275 & Spain & Urban Traffic & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+es1424a & 43.5589 & -5.9275 & Spain & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2020-01-01 \\ 
+es1424a & 43.5589 & -5.9275 & Spain & Urban Traffic & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+es1426a & 40.4081 & -3.6453 & Spain & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2018-01-01 \\ 
+es1442a & 43.0642 & -2.4904 & Spain & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2016-01-01 \\ 
+es1443a & 42.3361 & -3.6361 & Spain & Urban Background & O\textsubscript{3} & 2005-01-01 & 2010-01-01 \\ 
+es1453a & 41.4474 & 2.2095 & Spain & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+es1472a & 42.8060 & -1.6530 & Spain & Urban Background & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+es1480a & 41.3987 & 2.1534 & Spain & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+es1490a & 43.1683 & -2.6379 & Spain & Urban Industrial & O\textsubscript{3} & 2004-01-01 & 2012-01-01 \\ 
+es1490a & 43.1683 & -2.6379 & Spain & Urban Industrial & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+es1490a & 43.1683 & -2.6379 & Spain & Urban Industrial & O\textsubscript{x} & 2006-01-01 & 2016-01-01 \\ 
+es1492a & 42.8561 & -2.6678 & Spain & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2012-01-01 \\ 
+es1494a & 43.3220 & -1.9607 & Spain & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2020-01-01 \\ 
+es1529a & 43.4678 & -3.7903 & Spain & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+es1530a & 43.0119 & -4.1356 & Spain & Urban Background & O\textsubscript{3} & 2008-01-01 & 2016-01-01 \\ 
+es1530a & 43.0119 & -4.1356 & Spain & Urban Background & NO\textsubscript{2} & 2007-01-01 & 2020-01-01 \\ 
+es1530a & 43.0119 & -4.1356 & Spain & Urban Background & O\textsubscript{x} & 2007-01-01 & 2016-01-01 \\ 
+es1537a & 40.6298 & -3.1716 & Spain & Urban Background & O\textsubscript{3} & 2009-01-01 & 2014-01-01 \\ 
+es1537a & 40.6298 & -3.1716 & Spain & Urban Background & O\textsubscript{x} & 2006-01-01 & 2013-01-01 \\ 
+es1537a & 40.6298 & -3.1716 & Spain & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+se0001a & 55.6064 & 13.0020 & Sweden & Urban Background & O\textsubscript{3} & 2011-01-01 & 2018-01-01 \\ 
+se0001a & 55.6064 & 13.0020 & Sweden & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+se0001a & 55.6064 & 13.0020 & Sweden & Urban Background & O\textsubscript{x} & 2011-01-01 & 2018-01-01 \\ 
+se0003a & 59.3172 & 18.0487 & Sweden & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2020-01-01 \\ 
+se0004a & 57.7090 & 11.9702 & Sweden & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+se0021a & 57.7009 & 11.9946 & Sweden & Urban Traffic & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+se0022a & 59.3160 & 18.0578 & Sweden & Urban Background & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+se0022a & 59.3160 & 18.0578 & Sweden & Urban Background & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+se0022a & 59.3160 & 18.0578 & Sweden & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2016-01-01 \\ 
+se0027a & 59.3408 & 18.0583 & Sweden & Urban Traffic & NO\textsubscript{2} & 2015-01-01 & 2020-01-01 \\ 
+ch0010a & 47.3776 & 8.5304 & Switzerland & Urban Background & O\textsubscript{x} & 2003-01-01 & 2020-01-01 \\ 
+ch0010a & 47.3776 & 8.5304 & Switzerland & Urban Background & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+ch0010a & 47.3776 & 8.5304 & Switzerland & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2017-01-01 \\ 
+ch0011a & 46.0111 & 8.9571 & Switzerland & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+ch0011a & 46.0111 & 8.9571 & Switzerland & Urban Background & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+ch0011a & 46.0111 & 8.9571 & Switzerland & Urban Background & O\textsubscript{3} & 2004-01-01 & 2017-01-01 \\ 
+ch0013a & 47.3868 & 8.5398 & Switzerland & Urban Traffic & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+ch0013a & 47.3868 & 8.5398 & Switzerland & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2017-01-01 \\ 
+ch0013a & 47.3868 & 8.5398 & Switzerland & Urban Traffic & O\textsubscript{x} & 2003-01-01 & 2020-01-01 \\ 
+ch0017a & 47.5659 & 7.5821 & Switzerland & Urban Background & O\textsubscript{3} & 2009-01-01 & 2017-01-01 \\ 
+ch0017a & 47.5659 & 7.5821 & Switzerland & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+ch0017a & 47.5659 & 7.5821 & Switzerland & Urban Background & O\textsubscript{x} & 2004-01-01 & 2020-01-01 \\ 
+ch0028a & 46.5220 & 6.6396 & Switzerland & Urban Traffic & O\textsubscript{x} & 2006-01-01 & 2020-01-01 \\ 
+ch0028a & 46.5220 & 6.6396 & Switzerland & Urban Traffic & O\textsubscript{3} & 2009-01-01 & 2018-01-01 \\ 
+ch0028a & 46.5220 & 6.6396 & Switzerland & Urban Traffic & NO\textsubscript{2} & 2005-01-01 & 2018-01-01 \\ 
+ch0031a & 46.9510 & 7.4409 & Switzerland & Urban Traffic & O\textsubscript{x} & 2003-01-01 & 2020-01-01 \\ 
+ch0031a & 46.9510 & 7.4409 & Switzerland & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2020-01-01 \\ 
+ch0031a & 46.9510 & 7.4409 & Switzerland & Urban Traffic & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+1137 & 29.7337 & -95.2576 & United States Of America & Urban & NO\textsubscript{2} & 2006-01-01 & 2017-01-01 \\ 
+1138 & 29.6700 & -95.1285 & United States Of America & Urban & O\textsubscript{3} & 2010-01-01 & 2015-01-01 \\ 
+1144 & 29.7680 & -95.2206 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2012-01-01 \\ 
+1162 & 29.9011 & -95.3261 & United States Of America & Suburban & NO\textsubscript{2} & 2009-01-01 & 2014-01-01 \\ 
+1168 & 29.8342 & -95.4892 & United States Of America & Suburban & NO\textsubscript{2} & 2006-01-01 & 2012-01-01 \\ 
+1206 & 34.8940 & -117.0248 & United States Of America & Urban & NO\textsubscript{2} & 2008-01-01 & 2019-01-01 \\ 
+1369 & 33.4838 & -112.1426 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2013-01-01 \\ 
+14337 & 33.5603 & -112.0662 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+14340 & 33.7064 & -111.8558 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+14341 & 33.4580 & -112.0466 & United States Of America & Urban & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+14348 & 32.2044 & -110.8781 & United States Of America & Suburban & NO\textsubscript{2} & 2007-01-01 & 2015-01-01 \\ 
+14348 & 32.2044 & -110.8781 & United States Of America & Suburban & O\textsubscript{3} & 2010-01-01 & 2017-01-01 \\ 
+14348 & 32.2044 & -110.8781 & United States Of America & Suburban & O\textsubscript{x} & 2011-01-01 & 2017-01-01 \\ 
+14356 & 34.7562 & -92.2813 & United States Of America & Urban & O\textsubscript{3} & 2005-01-01 & 2010-01-01 \\ 
+14365 & 37.9360 & -122.0262 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2009-01-01 \\ 
+14365 & 37.9360 & -122.0262 & United States Of America & Suburban & O\textsubscript{3} & 2008-01-01 & 2014-01-01 \\ 
+14365 & 37.9360 & -122.0262 & United States Of America & Suburban & O\textsubscript{x} & 2014-01-01 & 2019-01-01 \\ 
+14373 & 36.8416 & -119.8747 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2010-01-01 \\ 
+14382 & 35.5036 & -119.2726 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2016-01-01 \\ 
+14386 & 34.1444 & -117.8504 & United States Of America & Suburban & O\textsubscript{x} & 2005-01-01 & 2010-01-01 \\ 
+14386 & 34.1444 & -117.8504 & United States Of America & Suburban & NO\textsubscript{2} & 2010-01-01 & 2019-01-01 \\ 
+14386 & 34.1444 & -117.8504 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+14388 & 34.0666 & -118.2269 & United States Of America & Urban & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+14389 & 34.1992 & -118.5328 & United States Of America & Suburban & NO\textsubscript{2} & 2005-01-01 & 2014-01-01 \\ 
+14392 & 34.0670 & -117.7514 & United States Of America & Suburban & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+14400 & 37.9723 & -122.5200 & United States Of America & Urban & O\textsubscript{3} & 2009-01-01 & 2017-01-01 \\ 
+14400 & 37.9723 & -122.5200 & United States Of America & Urban & NO\textsubscript{2} & 2004-01-01 & 2013-01-01 \\ 
+14400 & 37.9723 & -122.5200 & United States Of America & Urban & O\textsubscript{x} & 2003-01-01 & 2008-01-01 \\ 
+14422 & 33.8528 & -116.5410 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2017-01-01 \\ 
+14422 & 33.8528 & -116.5410 & United States Of America & Suburban & O\textsubscript{x} & 2004-01-01 & 2016-01-01 \\ 
+14422 & 33.8528 & -116.5410 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2014-01-01 \\ 
+14423 & 33.9996 & -117.4160 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+14432 & 34.1000 & -117.4920 & United States Of America & Suburban & NO\textsubscript{2} & 2009-01-01 & 2019-01-01 \\ 
+14433 & 34.4164 & -117.2858 & United States Of America & Suburban & O\textsubscript{3} & 2008-01-01 & 2013-01-01 \\ 
+14434 & 34.0598 & -117.1473 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2010-01-01 \\ 
+14442 & 37.7659 & -122.3990 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2017-01-01 \\ 
+14442 & 37.7659 & -122.3990 & United States Of America & Urban & O\textsubscript{3} & 2013-01-01 & 2018-01-01 \\ 
+14442 & 37.7659 & -122.3990 & United States Of America & Urban & O\textsubscript{x} & 2003-01-01 & 2018-01-01 \\ 
+14448 & 35.3663 & -120.8427 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2009-01-01 \\ 
+14451 & 37.4829 & -122.2034 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2013-01-01 \\ 
+14451 & 37.4829 & -122.2034 & United States Of America & Suburban & O\textsubscript{x} & 2003-01-01 & 2017-01-01 \\ 
+14451 & 37.4829 & -122.2034 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2014-01-01 \\ 
+14470 & 34.6378 & -120.4575 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2015-01-01 \\ 
+14490 & 39.1388 & -121.6186 & United States Of America & Suburban & O\textsubscript{3} & 2006-01-01 & 2011-01-01 \\ 
+14519 & 40.5775 & -105.0789 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2015-01-01 \\ 
+14526 & 41.7847 & -72.6317 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+14540 & 28.3108 & -80.6153 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+14544 & 26.0876 & -80.1112 & United States Of America & Suburban & O\textsubscript{x} & 2006-01-01 & 2016-01-01 \\ 
+14544 & 26.0876 & -80.1112 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+14544 & 26.0876 & -80.1112 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+14547 & 30.5254 & -87.2036 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2010-01-01 \\ 
+14548 & 30.3681 & -87.2710 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2016-01-01 \\ 
+14550 & 27.9284 & -82.4545 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+14551 & 27.8925 & -82.5384 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2010-01-01 \\ 
+14557 & 25.7329 & -80.1618 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2015-01-01 \\ 
+14561 & 28.5964 & -81.3625 & United States Of America & Urban & O\textsubscript{3} & 2004-01-01 & 2011-01-01 \\ 
+14561 & 28.5964 & -81.3625 & United States Of America & Urban & O\textsubscript{x} & 2004-01-01 & 2012-01-01 \\ 
+14561 & 28.5964 & -81.3625 & United States Of America & Urban & NO\textsubscript{2} & 2008-01-01 & 2013-01-01 \\ 
+14564 & 27.9467 & -82.7318 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2016-01-01 \\ 
+14565 & 27.7859 & -82.7399 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+14565 & 27.7859 & -82.7399 & United States Of America & Suburban & O\textsubscript{x} & 2004-01-01 & 2016-01-01 \\ 
+14565 & 27.7859 & -82.7399 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2010-01-01 \\ 
+14567 & 27.3073 & -82.5704 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2010-01-01 \\ 
+14568 & 28.7461 & -81.3106 & United States Of America & Suburban & O\textsubscript{3} & 2010-01-01 & 2016-01-01 \\ 
+14613 & 38.6120 & -90.1605 & United States Of America & Suburban & NO\textsubscript{2} & 2007-01-01 & 2012-01-01 \\ 
+14661 & 37.7808 & -87.0753 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+14664 & 38.0650 & -84.4976 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2018-01-01 \\ 
+14675 & 37.0582 & -88.5725 & United States Of America & Suburban & NO\textsubscript{2} & 2009-01-01 & 2019-01-01 \\ 
+14682 & 30.1403 & -93.3684 & United States Of America & Suburban & O\textsubscript{3} & 2010-01-01 & 2015-01-01 \\ 
+14691 & 30.0412 & -90.2728 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+14701 & 30.5006 & -91.2136 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2016-01-01 \\ 
+14729 & 42.1944 & -72.5551 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+1474 & 33.4797 & -111.9172 & United States Of America & Suburban & O\textsubscript{3} & 2014-01-01 & 2019-01-01 \\ 
+14825 & 35.1343 & -106.5852 & United States Of America & Urban & O\textsubscript{x} & 2004-01-01 & 2018-01-01 \\ 
+14825 & 35.1343 & -106.5852 & United States Of America & Urban & O\textsubscript{3} & 2014-01-01 & 2019-01-01 \\ 
+14825 & 35.1343 & -106.5852 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+14911 & 35.3201 & -97.4841 & United States Of America & Suburban & O\textsubscript{3} & 2011-01-01 & 2017-01-01 \\ 
+14914 & 35.6141 & -97.4751 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2013-01-01 \\ 
+14925 & 40.7478 & -80.3164 & United States Of America & Urban & NO\textsubscript{2} & 2009-01-01 & 2018-01-01 \\ 
+14929 & 40.3097 & -78.9150 & United States Of America & Urban & NO\textsubscript{2} & 2009-01-01 & 2018-01-01 \\ 
+14931 & 42.1418 & -80.0386 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2017-01-01 \\ 
+14945 & 40.1467 & -79.9022 & United States Of America & Suburban & NO\textsubscript{2} & 2014-01-01 & 2019-01-01 \\ 
+14972 & 36.2051 & -86.7447 & United States Of America & Urban & NO\textsubscript{2} & 2004-01-01 & 2009-01-01 \\ 
+14988 & 29.5151 & -98.6202 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2014-01-01 \\ 
+15006 & 30.0364 & -94.0711 & United States Of America & Suburban & O\textsubscript{x} & 2006-01-01 & 2019-01-01 \\ 
+15006 & 30.0364 & -94.0711 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2019-01-01 \\ 
+15006 & 30.0364 & -94.0711 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2017-01-01 \\ 
+15007 & 29.8975 & -93.9911 & United States Of America & Urban & O\textsubscript{3} & 2005-01-01 & 2010-01-01 \\ 
+15009 & 27.8324 & -97.5554 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2012-01-01 \\ 
+15010 & 30.0853 & -93.7613 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2012-01-01 \\ 
+15024 & 38.8577 & -77.0592 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+15026 & 37.3444 & -77.2592 & United States Of America & Suburban & NO\textsubscript{2} & 2007-01-01 & 2018-01-01 \\ 
+15034 & 38.8529 & -77.6346 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+15035 & 37.2834 & -79.8845 & United States Of America & Suburban & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+15164 & 32.2952 & -110.9823 & United States Of America & Urban & O\textsubscript{x} & 2008-01-01 & 2014-01-01 \\ 
+15164 & 32.2952 & -110.9823 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2011-01-01 \\ 
+15164 & 32.2952 & -110.9823 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2012-01-01 \\ 
+15190 & 39.2335 & -121.0556 & United States Of America & Suburban & O\textsubscript{3} & 2010-01-01 & 2018-01-01 \\ 
+15197 & 33.9209 & -116.8584 & United States Of America & Suburban & NO\textsubscript{2} & 2011-01-01 & 2019-01-01 \\ 
+15197 & 33.9209 & -116.8584 & United States Of America & Suburban & O\textsubscript{x} & 2008-01-01 & 2017-01-01 \\ 
+15197 & 33.9209 & -116.8584 & United States Of America & Suburban & O\textsubscript{3} & 2010-01-01 & 2015-01-01 \\ 
+15210 & 34.4455 & -119.8284 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2013-01-01 \\ 
+15219 & 37.4883 & -120.8360 & United States Of America & Suburban & NO\textsubscript{2} & 2008-01-01 & 2018-01-01 \\ 
+15240 & 39.7437 & -105.1780 & United States Of America & Suburban & O\textsubscript{3} & 2006-01-01 & 2011-01-01 \\ 
+15285 & 29.1705 & -82.1006 & United States Of America & Urban & O\textsubscript{3} & 2004-01-01 & 2012-01-01 \\ 
+15288 & 28.3475 & -81.6365 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2019-01-01 \\ 
+15291 & 28.1956 & -82.7563 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2010-01-01 \\ 
+15292 & 27.9398 & -82.0001 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+15293 & 28.0289 & -81.9722 & United States Of America & Suburban & O\textsubscript{3} & 2012-01-01 & 2017-01-01 \\ 
+15295 & 29.2067 & -81.0525 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2008-01-01 \\ 
+15310 & 21.3238 & -158.0886 & United States Of America & Suburban & NO\textsubscript{2} & 2005-01-01 & 2014-01-01 \\ 
+15316 & 41.9652 & -87.8763 & United States Of America & Suburban & NO\textsubscript{2} & 2009-01-01 & 2018-01-01 \\ 
+15357 & 39.1172 & -94.6356 & United States Of America & Urban & NO\textsubscript{2} & 2005-01-01 & 2010-01-01 \\ 
+15376 & 30.4620 & -91.1792 & United States Of America & Urban & NO\textsubscript{2} & 2008-01-01 & 2016-01-01 \\ 
+15376 & 30.4620 & -91.1792 & United States Of America & Urban & O\textsubscript{3} & 2010-01-01 & 2019-01-01 \\ 
+15376 & 30.4620 & -91.1792 & United States Of America & Urban & O\textsubscript{x} & 2010-01-01 & 2017-01-01 \\ 
+15454 & 31.7962 & -106.5844 & United States Of America & Suburban & NO\textsubscript{2} & 2009-01-01 & 2018-01-01 \\ 
+15454 & 31.7962 & -106.5844 & United States Of America & Suburban & O\textsubscript{x} & 2003-01-01 & 2018-01-01 \\ 
+15454 & 31.7962 & -106.5844 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2011-01-01 \\ 
+15467 & 42.4996 & -79.3188 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2017-01-01 \\ 
+15489 & 35.2401 & -80.7857 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+15496 & 46.9338 & -96.8554 & United States Of America & Suburban & O\textsubscript{3} & 2012-01-01 & 2017-01-01 \\ 
+15496 & 46.9338 & -96.8554 & United States Of America & Suburban & NO\textsubscript{2} & 2007-01-01 & 2017-01-01 \\ 
+15496 & 46.9338 & -96.8554 & United States Of America & Suburban & O\textsubscript{x} & 2012-01-01 & 2017-01-01 \\ 
+15502 & 41.4921 & -81.6784 & United States Of America & Urban & NO\textsubscript{2} & 2006-01-01 & 2015-01-01 \\ 
+15560 & 33.1324 & -96.7864 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2014-01-01 \\ 
+15594 & 40.7364 & -111.8722 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2009-01-01 \\ 
+15609 & 39.0247 & -77.4892 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+16152 & 39.2977 & -76.6046 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2008-01-01 \\ 
+16767 & 43.6081 & -72.9828 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2012-01-01 \\ 
+1692 & 38.9218 & -77.0132 & United States Of America & Urban & O\textsubscript{x} & 2003-01-01 & 2012-01-01 \\ 
+1692 & 38.9218 & -77.0132 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2012-01-01 \\ 
+1692 & 38.9218 & -77.0132 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2015-01-01 \\ 
+17084 & 42.3489 & -71.0972 & United States Of America & Urban & NO\textsubscript{2} & 2011-01-01 & 2016-01-01 \\ 
+17217 & 42.8769 & -78.8095 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2015-01-01 \\ 
+1811 & 37.9818 & -120.3786 & United States Of America & Urban & O\textsubscript{3} & 2005-01-01 & 2016-01-01 \\ 
+1918 & 40.6414 & -74.2084 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+1959 & 36.1734 & -115.3327 & United States Of America & Suburban & O\textsubscript{3} & 2006-01-01 & 2019-01-01 \\ 
+1969 & 27.3503 & -82.4797 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2016-01-01 \\ 
+2139 & 32.9225 & -97.2821 & United States Of America & Suburban & O\textsubscript{3} & 2011-01-01 & 2017-01-01 \\ 
+2202 & 32.8423 & -116.7683 & United States Of America & Suburban & O\textsubscript{3} & 2006-01-01 & 2019-01-01 \\ 
+2235 & 38.6138 & -121.3680 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2018-01-01 \\ 
+2306 & 39.9653 & -76.6994 & United States Of America & Suburban & NO\textsubscript{2} & 2013-01-01 & 2018-01-01 \\ 
+2401 & 36.1698 & -115.2630 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2016-01-01 \\ 
+2431 & 40.6281 & -75.3411 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2018-01-01 \\ 
+2442 & 40.6703 & -74.1261 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2010-01-01 \\ 
+2464 & 37.6875 & -121.7842 & United States Of America & Urban & O\textsubscript{x} & 2009-01-01 & 2016-01-01 \\ 
+2464 & 37.6875 & -121.7842 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2012-01-01 \\ 
+2464 & 37.6875 & -121.7842 & United States Of America & Urban & O\textsubscript{3} & 2008-01-01 & 2014-01-01 \\ 
+2479 & 38.1025 & -122.2380 & United States Of America & Urban & O\textsubscript{x} & 2003-01-01 & 2011-01-01 \\ 
+2479 & 38.1025 & -122.2380 & United States Of America & Urban & O\textsubscript{3} & 2003-01-01 & 2012-01-01 \\ 
+2479 & 38.1025 & -122.2380 & United States Of America & Urban & NO\textsubscript{2} & 2011-01-01 & 2017-01-01 \\ 
+2600 & 39.8356 & -75.3725 & United States Of America & Urban & NO\textsubscript{2} & 2009-01-01 & 2019-01-01 \\ 
+2606 & 41.8553 & -87.7525 & United States Of America & Suburban & NO\textsubscript{2} & 2003-01-01 & 2013-01-01 \\ 
+2687 & 33.2170 & -117.3962 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2015-01-01 \\ 
+2758 & 26.2262 & -98.2911 & United States Of America & Suburban & O\textsubscript{3} & 2009-01-01 & 2015-01-01 \\ 
+2799 & 32.6312 & -117.0591 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2011-01-01 \\ 
+3104 & 32.9192 & -96.8085 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2013-01-01 \\ 
+6313 & 37.6422 & -120.9942 & United States Of America & Urban & O\textsubscript{3} & 2007-01-01 & 2012-01-01 \\ 
+6315 & 35.4380 & -119.0168 & United States Of America & Suburban & O\textsubscript{3} & 2006-01-01 & 2017-01-01 \\ 
+6317 & 38.3426 & -120.7644 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2009-01-01 \\ 
+6319 & 35.6147 & -120.6569 & United States Of America & Suburban & O\textsubscript{3} & 2013-01-01 & 2019-01-01 \\ 
+8024 & 33.6765 & -117.3310 & United States Of America & Suburban & O\textsubscript{x} & 2007-01-01 & 2015-01-01 \\ 
+8024 & 33.6765 & -117.3310 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2010-01-01 \\ 
+8024 & 33.6765 & -117.3310 & United States Of America & Suburban & O\textsubscript{3} & 2008-01-01 & 2015-01-01 \\ 
+8035 & 39.6453 & -119.8400 & United States Of America & Urban & O\textsubscript{3} & 2005-01-01 & 2017-01-01 \\ 
+8070 & 34.4481 & -119.2313 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2012-01-01 \\ 
+8089 & 34.1326 & -118.1271 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2014-01-01 \\ 
+8098 & 38.7253 & -120.8219 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2012-01-01 \\ 
+8138 & 38.7464 & -121.2650 & United States Of America & Suburban & O\textsubscript{3} & 2003-01-01 & 2011-01-01 \\ 
+8138 & 38.7464 & -121.2650 & United States Of America & Suburban & O\textsubscript{x} & 2003-01-01 & 2011-01-01 \\ 
+8138 & 38.7464 & -121.2650 & United States Of America & Suburban & NO\textsubscript{2} & 2011-01-01 & 2016-01-01 \\ 
+8156 & 36.4819 & -121.7333 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2016-01-01 \\ 
+8163 & 34.1067 & -117.2741 & United States Of America & Suburban & NO\textsubscript{2} & 2010-01-01 & 2019-01-01 \\ 
+8169 & 32.6762 & -115.4831 & United States Of America & Suburban & O\textsubscript{3} & 2004-01-01 & 2019-01-01 \\ 
+8169 & 32.6762 & -115.4831 & United States Of America & Suburban & O\textsubscript{x} & 2004-01-01 & 2017-01-01 \\ 
+8169 & 32.6762 & -115.4831 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2019-01-01 \\ 
+8172 & 36.9833 & -121.9882 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2017-01-01 \\ 
+8197 & 34.2763 & -118.6837 & United States Of America & Suburban & O\textsubscript{x} & 2005-01-01 & 2012-01-01 \\ 
+8197 & 34.2763 & -118.6837 & United States Of America & Suburban & O\textsubscript{3} & 2007-01-01 & 2012-01-01 \\ 
+8197 & 34.2763 & -118.6837 & United States Of America & Suburban & NO\textsubscript{2} & 2005-01-01 & 2011-01-01 \\ 
+8227 & 34.1365 & -117.9240 & United States Of America & Suburban & O\textsubscript{x} & 2004-01-01 & 2017-01-01 \\ 
+8227 & 34.1365 & -117.9240 & United States Of America & Suburban & NO\textsubscript{2} & 2004-01-01 & 2009-01-01 \\ 
+8227 & 34.1365 & -117.9240 & United States Of America & Suburban & O\textsubscript{3} & 2011-01-01 & 2018-01-01 \\ 
+8241 & 34.2102 & -118.8705 & United States Of America & Suburban & O\textsubscript{3} & 2005-01-01 & 2012-01-01 \\ 
+8249 & 34.1037 & -117.6291 & United States Of America & Urban & NO\textsubscript{2} & 2003-01-01 & 2016-01-01 \\ 
+gb0421a & 54.6054 & -1.2750 & United\_kingdom & Urban Industrial & NO\textsubscript{2} & 2014-01-01 & 2020-01-01 \\ 
+gb0538a & 53.4106 & -1.3961 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2005-01-01 & 2016-01-01 \\ 
+gb0566a & 51.5223 & -0.1259 & United\_kingdom & Urban Background & O\textsubscript{3} & 2010-01-01 & 2016-01-01 \\ 
+gb0566a & 51.5223 & -0.1259 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2003-01-01 & 2016-01-01 \\ 
+gb0566a & 51.5223 & -0.1259 & United\_kingdom & Urban Background & O\textsubscript{x} & 2003-01-01 & 2016-01-01 \\ 
+gb0567a & 54.5996 & -5.9288 & United\_kingdom & Urban Background & O\textsubscript{3} & 2008-01-01 & 2020-01-01 \\ 
+gb0568a & 54.9782 & -1.6105 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2008-01-01 & 2019-01-01 \\ 
+gb0568a & 54.9782 & -1.6105 & United\_kingdom & Urban Background & O\textsubscript{x} & 2009-01-01 & 2014-01-01 \\ 
+gb0568a & 54.9782 & -1.6105 & United\_kingdom & Urban Background & O\textsubscript{3} & 2008-01-01 & 2016-01-01 \\ 
+gb0580a & 51.4818 & -3.1762 & United\_kingdom & Urban Background & O\textsubscript{3} & 2010-01-01 & 2016-01-01 \\ 
+gb0580a & 51.4818 & -3.1762 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+gb0580a & 51.4818 & -3.1762 & United\_kingdom & Urban Background & O\textsubscript{x} & 2010-01-01 & 2016-01-01 \\ 
+gb0583a & 54.5693 & -1.2209 & United\_kingdom & Urban Industrial & O\textsubscript{3} & 2005-01-01 & 2014-01-01 \\ 
+gb0584a & 53.8038 & -1.5465 & United\_kingdom & Urban Background & O\textsubscript{x} & 2009-01-01 & 2015-01-01 \\ 
+gb0584a & 53.8038 & -1.5465 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2004-01-01 & 2015-01-01 \\ 
+gb0584a & 53.8038 & -1.5465 & United\_kingdom & Urban Background & O\textsubscript{3} & 2009-01-01 & 2016-01-01 \\ 
+gb0598a & 50.9081 & -1.3958 & United\_kingdom & Urban Background & O\textsubscript{3} & 2007-01-01 & 2020-01-01 \\ 
+gb0598a & 50.9081 & -1.3958 & United\_kingdom & Urban Background & O\textsubscript{x} & 2005-01-01 & 2012-01-01 \\ 
+gb0598a & 50.9081 & -1.3958 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2006-01-01 & 2011-01-01 \\ 
+gb0613a & 53.4815 & -2.2379 & United\_kingdom & Urban Background & O\textsubscript{3} & 2007-01-01 & 2016-01-01 \\ 
+gb0613a & 53.4815 & -2.2379 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+gb0613a & 53.4815 & -2.2379 & United\_kingdom & Urban Background & O\textsubscript{x} & 2007-01-01 & 2012-01-01 \\ 
+gb0620a & 51.5210 & -0.2135 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2012-01-01 & 2020-01-01 \\ 
+gb0624a & 51.5225 & -0.0422 & United\_kingdom & Urban Traffic & NO\textsubscript{2} & 2013-01-01 & 2019-01-01 \\ 
+gb0637a & 51.5993 & -0.0682 & United\_kingdom & Urban Traffic & NO\textsubscript{2} & 2009-01-01 & 2014-01-01 \\ 
+gb0642a & 51.4963 & -0.4609 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2011-01-01 & 2020-01-01 \\ 
+gb0642a & 51.4963 & -0.4609 & United\_kingdom & Urban Background & O\textsubscript{3} & 2009-01-01 & 2020-01-01 \\ 
+gb0642a & 51.4963 & -0.4609 & United\_kingdom & Urban Background & O\textsubscript{x} & 2004-01-01 & 2014-01-01 \\ 
+gb0646a & 52.9547 & -1.1464 & United\_kingdom & Urban Background & O\textsubscript{x} & 2003-01-01 & 2016-01-01 \\ 
+gb0646a & 52.9547 & -1.1464 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+gb0646a & 52.9547 & -1.1464 & United\_kingdom & Urban Background & O\textsubscript{3} & 2009-01-01 & 2016-01-01 \\ 
+gb0657a & 55.8592 & -4.2589 & United\_kingdom & Urban Traffic & NO\textsubscript{2} & 2008-01-01 & 2020-01-01 \\ 
+gb0681a & 53.5629 & -1.5104 & United\_kingdom & Urban Background & O\textsubscript{3} & 2010-01-01 & 2015-01-01 \\ 
+gb0681a & 53.5629 & -1.5104 & United\_kingdom & Urban Background & O\textsubscript{x} & 2010-01-01 & 2015-01-01 \\ 
+gb0681a & 53.5629 & -1.5104 & United\_kingdom & Urban Background & NO\textsubscript{2} & 2010-01-01 & 2020-01-01 \\ 
+gb0682a & 51.5225 & -0.1546 & United\_kingdom & Urban Traffic & NO\textsubscript{2} & 2003-01-01 & 2019-01-01 \\ 
+\bottomrule
+\end{longtable}
+\endgroup
