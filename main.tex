@@ -120,7 +120,7 @@
 
 
 \begin{abstract}
-Trends in urban O\textsubscript{3} and NO\textsubscript{2} across Europe and the United States of America were explored between 2000-2021. Using surface monitoring site data from the TOAR-II and European Environment Agency databases, piecewise quantile regression (PQR) analysis was performed on 228 O\textsubscript{3} time series (144 European, 84 USA) and 322 NO\textsubscript{2} times series (245 European, 77 USA). The PQR analysis permitted 2 break points over the 23 year period to balance the intent to describe changes over a large time period, while still capturing the abrupt changes that can occur in urban atmospheres. Regressions were performed over quantiles ranging from 0.05 to 0.95 and indications of a slowing in the increase of high European O\textsubscript{3} levels was observed. In Europe, more trends were found to having an increasing O\textsubscript{3} trend between 2015-2021 compared with 2000-2004. The reverse was true in the USA, with a reduction in the number of sites with increasing O\textsubscript{3} trends when the same periods were compared. An analysis of the change points revealed a large proportion of sites in Europe, were the second change point in NO\textsubscript{2} switched from a positive to negative trend, occurred in 2020 (41/43 second change points in this year). This was attributed the a reduction in NO\textsubscript{2} due to the COVID-19 pandemic, however, in some cases these increasing trends have sustained beyond the recovery from restrictions. 
+Trends in urban O\textsubscript{3} and NO\textsubscript{2} across Europe and the United States of America were explored between 2000-2021. Using surface monitoring site data from the TOAR-II and European Environment Agency databases, piecewise quantile regression (PQR) analysis was performed on 228 O\textsubscript{3} time series (144 European, 84 USA) and 322 NO\textsubscript{2} times series (245 European, 77 USA). The PQR analysis permitted 2 break points over the 23 year period to balance the intent to describe changes over a large time period, while still capturing the abrupt changes that can occur in urban atmospheres. Regressions were performed over quantiles ranging from 0.05 to 0.95 and indications of a slowing in the increase of high European O\textsubscript{3} levels was observed. In Europe, more trends were found to having an increasing O\textsubscript{3} trend between 2015-2021 compared with 2000-2004. The reverse was true in the USA, with a reduction in the number of sites with increasing O\textsubscript{3} trends when the same periods were compared. An analysis of the change points revealed a large proportion of sites in Europe, were the second change point in NO\textsubscript{2} switched from a positive to negative trend, occurred in 2020 (41/43 second change points in this year). This was attributed a reduction in NO\textsubscript{2} due to the COVID-19 pandemic, however, in some cases these increasing trends have sustained beyond the recovery from restrictions. 
 \end{abstract}
 
 \section{Introduction}  %% \introduction[modified heading if necessary]
@@ -132,7 +132,7 @@ Since the 1990s, a general downward trend in urban O\textsubscript{3} pollution 
 
 Since these earlier studies, much of the literature focuses on the impact of the COVID-19 pandemic on air pollutant concentrations and trends \citep{acp-20-15743-2020, doi:10.1126/sciadv.abd6696, acp-21-4169-2021, SOKHI2021106818}. A study of eleven cities across the world, all of which implemented stringent lockdown measures in early 2020, captured sudden decreases in deweathered NO\textsubscript{2} concentrations, concurrent with sudden increases in O\textsubscript{3}, in most locations \citep{doi:10.1126/sciadv.abd6696}. Another study employing machine learning models to predict business-as-usual levels of pollutants, estimated that NO\textsubscript{2} concentrations were 32\% lower than expected across 102 European urban background locations, whereas O\textsubscript{3} was 21\% higher \citep{acp-21-4169-2021}. It is highly likely that this global event has resulted in perturbations of both long-term NO\textsubscript{2} and O\textsubscript{3} trends, particularly in locations where lockdowns were stringent or lengthy.
 
-This study examines the trends in urban O\textsubscript{3} and NO\textsubscript{2} using monitoring site data from 2020 - 2023. It employs quantile regression and change point detection to construct trends that capture the broad structure of a complex time series, while remaining explainable with consists statistics. Section \ref{sect:method} details the method used to create the trends, section \ref{sect:overview_of_trends} provides a high-level overview of the trends with section \ref{sect:significance_of_trends} focusing on the significance of the trends and highlighting features that are discussed in detail later on. Section \ref{sect:trends_across_quantiles} explores the information that can be gained from trends calculated over a range of quantiles and finally section \ref{sect:case_studies} provides details on some of the features revealed earlier in the analysis. 
+This study examines the trends in urban O\textsubscript{3} and NO\textsubscript{2} using monitoring site data from 2020 - 2023. It employs quantile regression and change point detection to construct trends that capture the broad structure of a complex time series, while remaining explainable with concise statistics. Section \ref{sect:method} details the method used to create the trends, section \ref{sect:overview_of_trends} provides a high-level overview of the trends with section \ref{sect:significance_of_trends} focusing on the significance of the trends and highlighting features that are discussed in detail later on. Section \ref{sect:trends_across_quantiles} explores the information that can be gained from trends calculated over a range of quantiles and finally section \ref{sect:case_studies} provides details on some of the features revealed earlier in the analysis. 
 
 % To understand blah
 
@@ -242,7 +242,7 @@ In both Europe and the USA, median trend-derived O\textsubscript{3} mixing ratio
 
 \begin{figure*}[h!]
 \includegraphics[width=12cm]{figures/f7_cusum.pdf}
-\caption{Absolute change in trend line-derived median NO\textsubscript{2}, O\textsubscript{3} and O\textsubscript{x} mixing ratios for Europe and the USA, coloured by trend line percentile. The shaded region represents the median absolute deviation.}
+\caption{Absolute change in trend line-derived median NO\textsubscript{2} and O\textsubscript{3} mixing ratios for Europe and the USA, coloured by trend line percentile. The shaded region represents the median absolute deviation.}
 \label{fig:median_slopes_per_tau_cont_name_absolute}
 \end{figure*}
 
@@ -254,7 +254,7 @@ Trends in NO\textsubscript{2} in Europe and the USA between 2000 and 2021 are al
 
 \begin{figure*}[t]
 \includegraphics[width=12cm]{figures/f8_slopes.pdf}
-\caption{Median trend line slopes (ppb yr\textsuperscript{-1}) in NO\textsubscript{2}, O\textsubscript{3} and O\textsubscript{x} for Europe and the USA, coloured by trend line $\tau$ value. The shaded region represents the median absolute deviation.}
+\caption{Median trend line slopes (ppb yr\textsuperscript{-1}) in NO\textsubscript{2} and O\textsubscript{3}  for Europe and the USA, coloured by trend line $\tau$ value. The shaded region represents the median absolute deviation.}
 \label{fig:median_slopes_per_tau_cont_name_trends}
 \end{figure*}
 
@@ -279,7 +279,7 @@ Similarly to O\textsubscript{3}, more sites showed a positive to negative trend 
 \label{fig:us_changepoint_map}
 \end{sidewaysfigure}
 
-In the USA, a comparable number of directional switches in O\textsubscript{3} trend in the first change point occurred in the positive to negative direction (21), compared to negative to positive (17). The three largest magnitude trend changes from negative to positive occurred in Florida ($\Delta$2.43 ppb, \textit{15292}), with all of the ten highest magnitude cases in either Florida or California. Trends switching from positive to negative in the first change point scenario were smaller in magnitude, the biggest switch being in California ($\Delta$1.53 ppb), but with some noticeable contributions from the central states. The majority of second change points occurred between 2010-2019, though it is important to note that due to a lack of data availability, it is not possible for this analysis to pick out change points from 2020 onward in the USA dataset. In total, 14 sites switched from positive to negative, with a maximum change of $\Delta$2.25 ppb (California, 2019). A comparable number of sites (12) showed trends switching from negative to positive, with a maximum change of $\Delta$2.46 ppb (Nevada, 2019). In the NO\textsubscript{2} dataset, there is only one site showing a switch from negative to positive in the first change point ($\Delta$1.30 ppb, \textit{1369}, 2008), compared to 13 sites showing a positive to negative switch. Of these 13 sites, the largest magnitude is in Virginia ($\Delta$2.99 ppb, 2003). In contrast, 19 sites show a switch in NO\textsubscript{2} trend from negative to positive after the second change point, with the biggest change in California ($\Delta$2.16 ppb, \textit{1206}, 2019), with only one site showing a switch from positive to negative ($\Delta$0.48 ppb, \textit{1369}, 2013).
+In the USA, a comparable number of directional switches in O\textsubscript{3} trend in the first change point occurred in the positive to negative direction (21), compared to negative to positive (17). The three largest magnitude trend changes from negative to positive occurred in Florida ($\Delta$2.43 ppb, \textit{15292}), with all of the ten highest magnitude cases in either Florida or California. Trends switching from positive to negative in the first change point scenario were smaller in magnitude, the biggest switch being in California ($\Delta$1.53 ppb, \textit{8197}), but with some noticeable contributions from the central states. The majority of second change points occurred between 2010-2019, though it is important to note that due to a lack of data availability, it is not possible for this analysis to pick out change points from 2020 onward in the USA dataset. In total, 14 sites switched from positive to negative, with a maximum change of $\Delta$2.25 ppb (\textit{8169}, 2019). A comparable number of sites (12) showed trends switching from negative to positive, with a maximum change of $\Delta$2.46 ppb (\textit{1959}, 2019). In the NO\textsubscript{2} dataset, there is only one site showing a switch from negative to positive in the first change point ($\Delta$1.30 ppb, \textit{1369}, 2008), compared to 13 sites showing a positive to negative switch. Of these 13 sites, the largest magnitude is in Virginia ($\Delta$2.99  ppb, \textit{15024}, 2003). In contrast, 19 sites show a switch in NO\textsubscript{2} trend from negative to positive after the second change point, with the biggest change in California ($\Delta$2.16 ppb, \textit{1206}, 2019), with only one site showing a switch from positive to negative ($\Delta$0.48 ppb, \textit{1369}, 2013).
 
 Generally, the largest changes from negative to positive O\textsubscript{3} trends in the USA were in California and Florida in the first half of the 20 year period, with the reversal of this trend seen across California and Florida in the second change point. 8/14 and 4/14 of the sites showing a positive to negative transition in the second change point were located in California and Florida respectively. This is important, since a previous study highlighted that 4th highest daily maximum 8-hour O\textsubscript{3} (4MDA8) values between 2010-2014 were particularly high in California \citep{fleming_2018}. 
 
@@ -347,7 +347,8 @@ An assessment of the spatio-temporal distribution of the first and second change
 %\dataavailability{TEXT} %% use this section when having only data sets available
 
 
-\codedataavailability{TEXT} %% use this section when having data sets and software code available
+\codedataavailability{All data for this study can be downloaded from the relevant databases. 
+Code for performing the download as well as the analysis can be found at 10.5281/zenodo.14538198 \citep{drysdale_2024_14538198}} %% use this section when having data sets and software code available
 
 
 %\sampleavailability{TEXT} %% use this section when having geoscientific samples available
@@ -377,14 +378,14 @@ An assessment of the spatio-temporal distribution of the first and second change
 
 
 
-\authorcontribution{BSN and WSD equally contributed to all aspects of this manuscripts production} %% this section is mandatory
+\authorcontribution{BSN and WSD equally contributed to all aspects of this manuscript's production} %% this section is mandatory
 
 \competinginterests{The authors declare that they have no conflict of interest.} %% this section is mandatory even if you declare that no competing interests are present
 
 \begin{acknowledgements}
 The Viking cluster was used during this project, which is a high performance compute facility provided by the University of York. We are grateful for computational support from the University of York, IT Services and the Research IT team.
 
-The Authors acknowledge Prof. James Lee for their scientific advice and Prof. David Carslaw and Dr Stuart Lacy for their advice on the statistical analysis. We also thank Dr Stuart Lacy for their help with SQL and useful suggestions on managing large datasets. 
+The Authors acknowledge Prof. James Lee for their scientific advice and Prof. David Carslaw and Dr Stuart Lacy for their advice on the statistical analysis. We also thank Dr Stuart Lacy for their help with SQL and very useful suggestions on managing large datasets. 
 \end{acknowledgements}
 
 
