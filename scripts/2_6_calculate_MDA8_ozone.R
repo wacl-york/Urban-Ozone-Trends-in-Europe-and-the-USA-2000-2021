@@ -20,43 +20,71 @@ calc_mda8 = function(x){
 
 con = connect_to_db(FALSE)
 
-all_o3_data_collect = tbl(con, "all_data") |>
+stations = tbl(con, "name_station") |>
   filter(name == "o3") |>
-  select(date, station_id, value, name) |>
-  left_join(
-    tbl(con, "combinedMeta") |>
-      select(station_id, timezone),
-    by = "station_id"
-  ) |>
-  group_by(station_id) |>
-  collect()
+  pull(station_id)
 
-MDA8_list = list()
-
-stations = unique(all_o3_data_collect$station_id)
+if(dbExistsTable(con, "mda8_o3")){
+  dbRemoveTable(con, "mda8_o3")
+}
 
 cli::cli_progress_bar(total = length(stations))
 
+tzMeta = tbl(con, "combinedMeta") |>
+  select(station_id, timezone) |>
+  collect()
+
 for(i in 1:length(stations)){
-  MDA8_list[[i]] = all_o3_data_collect |>
-    filter(station_id == stations[i]) |>
+
+  station_data = tbl(con, "all_data") |>
+    filter(name == "o3",
+           station_id == local(stations[i])) |>
+    select(date, station_id, value, name) |>
+    collect() |>
+    arrange(date)
+
+  ts = tibble(
+    date = seq(
+      min(station_data$date),
+      max(station_data$date),
+      by = "1 hour"),
+    station_id = stations[i],
+    name = "o3"
+  )
+
+  mda8_data = station_data |>
+    full_join(ts, c("date","station_id","name")) |>
+    left_join(
+      tzMeta,
+      by = "station_id"
+    ) |>
     mutate(
       mda8 = rollapply(
         data = value,
         width = 8,
         FUN = calc_mda8,
         fill = NA,
-        align = "left"),
+        align = "left")) |>
+    rowwise() |>
+    mutate(
       local_date = with_tz(date, timezone)
     ) |>
     ungroup() |>
-    mutate(mda8 = ifelse(hour(local_date) %in% 0:6, NA, mda8))
+    mutate(
+      mda8 = ifelse(hour(local_date) %in% 0:6, NA, mda8),
+      day = date(local_date)
+      ) |>
+    group_by(day) |>
+    filter(mda8 == max(mda8, na.rm = T))
+
+
+  if(!dbExistsTable(con, "mda8_o3")){
+    dbWriteTable(con, "mda8_o3", mda8_data)
+  }else{
+    dbAppendTable(con, "mda8_o3", mda8_data)
+  }
 
   cli::cli_progress_update()
 }
-
-MDA8 = bind_rows(MDA8_list)
-
-dbWriteTable(con, "mda8_o3", MDA8, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
