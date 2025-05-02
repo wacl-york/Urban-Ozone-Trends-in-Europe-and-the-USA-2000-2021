@@ -75,7 +75,8 @@ for(i in 1:length(stations)){
       day = date(local_date)
       ) |>
     group_by(day) |>
-    filter(mda8 == max(mda8, na.rm = T))
+    filter(mda8 == max(mda8, na.rm = T)) |>
+    filter(row_number() == 1) # Sometimes there are multiple MDA8s that are the same, just take the first one (we only need one per day)
 
 
   if(!dbExistsTable(con, "mda8_o3")){
