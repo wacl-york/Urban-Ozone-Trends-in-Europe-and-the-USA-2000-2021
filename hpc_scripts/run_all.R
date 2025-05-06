@@ -1,6 +1,6 @@
 library(stringr)
 
-files = list.files("/users/wsd500/scratch/TOAR_paper/reg_batch/", full.names = T)
+files = list.files(paste0("/users/",user,"/scratch/TOAR_paper/reg_batch/"), full.names = T)
 
 
 for(i in 1:length(files)){

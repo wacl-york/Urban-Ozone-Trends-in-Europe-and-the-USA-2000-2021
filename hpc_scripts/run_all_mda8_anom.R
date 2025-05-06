@@ -2,7 +2,7 @@ library(stringr)
 
 user = system("echo $USER", intern = T)
 
-files = list.files("/users/wsd500/scratch/TOAR_paper/reg_batch_mda8_anom/", full.names = T)
+files = list.files(paste0("/users/",user,"/scratch/TOAR_paper/reg_batch_mda8_anom/"), full.names = T)
 
 
 for(i in 1:length(files)){
