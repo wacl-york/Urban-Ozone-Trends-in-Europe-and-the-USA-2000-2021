@@ -58,3 +58,7 @@ data_config.txt
 
 # exclude pdfs from analysis because some are large
 /analysis/*.pdf
+
+# exclude batch job files
+reg_batch_*/*
+sbatch/*
