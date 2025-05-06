@@ -18,6 +18,21 @@ calc_mda8 = function(x){
 
 }
 
+# Function to account for days where we have no mda8 data
+# Avoids the "no non-missing arguments to max" warnings, just incase something else is happening
+max_or_empty = function(x){
+
+  y = x[!is.na(x)]
+
+  if(length(y) == 0){
+    NA
+  }else{
+    max(y, na.rm = T)
+  }
+
+}
+
+
 con = connect_to_db(FALSE)
 
 stations = tbl(con, "name_station") |>
@@ -32,7 +47,14 @@ cli::cli_progress_bar(total = length(stations))
 
 tzMeta = tbl(con, "combinedMeta") |>
   select(station_id, timezone) |>
-  collect()
+  collect() |>
+  distinct()
+
+tsHour = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "hour")) |>
+  mutate(name = "o3")
+
+tsDay = tibble(day = seq(min(ymd("2000-01-01")), max(ymd("2023-12-31")), "day")) |>
+  mutate(x = row_number())
 
 for(i in 1:length(stations)){
 
@@ -43,17 +65,10 @@ for(i in 1:length(stations)){
     collect() |>
     arrange(date)
 
-  ts = tibble(
-    date = seq(
-      min(station_data$date),
-      max(station_data$date),
-      by = "1 hour"),
-    station_id = stations[i],
-    name = "o3"
-  )
+  tsHour$station_id = stations[i]
 
   mda8_data = station_data |>
-    full_join(ts, c("date","station_id","name")) |>
+    full_join(tsHour, c("date","station_id","name")) |>
     left_join(
       tzMeta,
       by = "station_id"
@@ -75,9 +90,9 @@ for(i in 1:length(stations)){
       day = date(local_date)
       ) |>
     group_by(day) |>
-    filter(mda8 == max(mda8, na.rm = T)) |>
-    filter(row_number() == 1) # Sometimes there are multiple MDA8s that are the same, just take the first one (we only need one per day)
-
+    filter(mda8 == max_or_empty(mda8)) |>
+    filter(row_number() == 1) |> # Sometimes there are multiple MDA8s that are the same, just take the first one (we only need one per day)
+    full_join(tsDay, by = "day")
 
   if(!dbExistsTable(con, "mda8_o3")){
     dbWriteTable(con, "mda8_o3", mda8_data)
