@@ -1,6 +1,6 @@
 library(stringr)
 
-files = list.files("reg_batch/", full.names = T)
+files = list.files("/users/wsd500/scratch/TOAR_paper/reg_batch/", full.names = T)
 
 
 for(i in 1:length(files)){
@@ -17,13 +17,13 @@ for(i in 1:length(files)){
 
 		print(jobStatus)
 		# if there are more states than specified here, it will be > 0 so something is still RUNNING or PENDING
-		if(sum(!jobStatus %in% c("COMPLETED", "TIMEOUT", "FAILED","OUT_OF_ME+")) > 0){ 
+		if(sum(!jobStatus %in% c("COMPLETED", "TIMEOUT", "FAILED","OUT_OF_ME+")) > 0){
 			next
 		}else{
 			jobRunning = FALSE
 		}
 
-	}	
+	}
 }
-	
+
 
