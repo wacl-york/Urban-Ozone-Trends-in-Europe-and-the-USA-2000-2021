@@ -71,7 +71,7 @@ for(i in 1:(fullArray+1)){
                 "module load R/4.4.0-gfbf-2023b",
                 "",
                 "# Commands to run",
-                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_1_qr_scenario_jobscript_mda8_anom.R $SLURM_ARRAY_TASK_ID ',
+                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_2_qr_scenario_jobscript_mda8_anom.R $SLURM_ARRAY_TASK_ID ',
                        array_idx_offset,' /mnt/scratch/projects/chem-cmde-2019/toar/data/regressions_mda8_o3/')))
   data_file = file(fileOut, open = "wt")
   writeLines(message, con = data_file)

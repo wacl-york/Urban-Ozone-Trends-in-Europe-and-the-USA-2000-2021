@@ -62,3 +62,6 @@ data_config.txt
 # exclude batch job files
 reg_batch_*/*
 sbatch/*
+
+# exclude batch job err and log files
+toar_regression_*/*
