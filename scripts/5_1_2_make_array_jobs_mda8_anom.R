@@ -72,7 +72,7 @@ for(i in 1:(fullArray+1)){
                 "",
                 "# Commands to run",
                 paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_2_qr_scenario_jobscript_mda8_anom.R $SLURM_ARRAY_TASK_ID ',
-                       array_idx_offset,' /mnt/scratch/projects/chem-cmde-2019/toar/data/regressions_mda8_o3/')))
+                       array_idx_offset,' /mnt/scratch/projects/chem-cmde-2019/toar/data/regressions_mda8_o3_anom/')))
   data_file = file(fileOut, open = "wt")
   writeLines(message, con = data_file)
   close(data_file)
