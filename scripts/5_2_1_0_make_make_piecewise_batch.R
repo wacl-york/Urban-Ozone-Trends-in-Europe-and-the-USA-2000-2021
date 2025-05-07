@@ -34,7 +34,7 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_3_create_piecewise_hpc.R $SLURM_ARRAY_TASK_ID')
+            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_3_0_0_create_piecewise_hpc.R $SLURM_ARRAY_TASK_ID')
 )
 
 data_file = file(paste0('/mnt/scratch/users/',user,'/toar/run_makepiecewise.sbatch'), open = "wt")
