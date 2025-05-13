@@ -8,7 +8,8 @@ con = dbConnect(duckdb::duckdb(),
 on.exit(dbDisconnect(con, shutdown = T))
 
 name_station = tbl(con, "name_station") |>
-  collect()
+  collect() |>
+  filter(name == "o3")
 
 user = system("echo $USER", intern = T)
 
@@ -34,7 +35,7 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_3_0_1_create_piecewise_hpc.R $SLURM_ARRAY_TASK_ID')
+            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_3_0_1_create_piecewise_hpc.R $SLURM_ARRAY_TASK_ID')
 )
 
 data_file = file(paste0('/mnt/scratch/users/',user,'/TOAR_paper/sbatch/run_makepiecewise_mda8.sbatch'), open = "wt")
