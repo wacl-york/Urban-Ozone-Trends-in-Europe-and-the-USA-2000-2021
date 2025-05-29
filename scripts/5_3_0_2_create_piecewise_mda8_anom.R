@@ -16,7 +16,9 @@ make_piecewise = function(array_id, user){
   on.exit(dbDisconnect(con, shutdown = T))
 
   name_station = tbl(con, "name_station") |>
-    collect()
+    collect() |>
+    filter(name == "o3") |>
+    arrange(station_id)
 
   name = name_station$name[array_id]
   station_id = name_station$station_id[array_id]

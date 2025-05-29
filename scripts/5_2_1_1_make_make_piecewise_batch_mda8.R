@@ -5,11 +5,12 @@ library(dplyr)
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
 
-on.exit(dbDisconnect(con, shutdown = T))
-
 name_station = tbl(con, "name_station") |>
   collect() |>
-  filter(name == "o3")
+  filter(name == "o3") |>
+  arrange(station_id)
+
+dbDisconnect(con, shutdown = T)
 
 user = system("echo $USER", intern = T)
 
