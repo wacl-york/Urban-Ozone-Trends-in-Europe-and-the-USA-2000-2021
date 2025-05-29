@@ -7,7 +7,7 @@ library(ggplot2)
 library(patchwork)
 
 con = dbConnect(duckdb::duckdb(),
-                dbdir = here(readLines(here("scratch/TOAR_paper/data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
 
 best_regs = tbl(con, "reg_mda8_r2") |>
   group_by(station_id, name, reg) |>
@@ -44,7 +44,7 @@ AQvis_plotTheme = function(){
         panel.grid.minor.y = element_blank(),
         panel.grid.minor.x = element_blank(),
         axis.ticks = element_line(colour = "black"),
-        #axis.line = element_line(colour = "black"), 
+        #axis.line = element_line(colour = "black"),
         panel.border = element_rect(colour = "black",fill = NA),
         legend.text = element_text(colour = "black", size = 12),
         legend.title = element_text(colour = "black", size = 15),
