@@ -23,6 +23,6 @@ print("beginning file read")
 
 filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", "piecewise_mda8_anom","**","*.csv")
 
-dbExecute(con, paste0("COPY piecewise FROM '",filePath,"' WITH (NULLSTR 'NA')"))
+dbExecute(con, paste0("COPY piecewise_mda8_anom FROM '",filePath,"' WITH (NULLSTR 'NA')"))
 
 dbDisconnect(con, shutdown = T)

@@ -30,5 +30,3 @@ filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", "piecewis
 dbExecute(con, paste0("COPY piecewise FROM '",filePath,"' WITH (NULLSTR 'NA')"))
 
 dbDisconnect(con, shutdown = T)
-
-│
