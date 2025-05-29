@@ -21,7 +21,7 @@ make_piecewise = function(array_id, user){
   name = name_station$name[array_id]
   station_id = name_station$station_id[array_id]
 
-  outDir = file.path('/mnt','scratch','users',user,'toar','piecewise_mda8',station_id,name)
+  outDir = file.path(readLines(here("data_config.txt"),n = 1),'data','piecewise_mda8',station_id,name)
 
   if(!dir.exists(outDir)){
     dir.create(outDir, recursive = T)
