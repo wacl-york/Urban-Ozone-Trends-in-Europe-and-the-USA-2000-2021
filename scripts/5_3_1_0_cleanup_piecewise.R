@@ -25,7 +25,9 @@ dbCreateTable(con, "piecewise", fields = header)
 
 print("begining file read")
 
-dbExecute(con, "COPY piecewise FROM '/users/wsd500/scratch/toar/piecewise/**/*.csv' WITH (NULLSTR 'NA')")
+filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", "piecewise","**","*.csv")
+
+dbExecute(con, paste0("COPY piecewise FROM '",filePath,"' WITH (NULLSTR 'NA')"))
 
 dbDisconnect(con, shutdown = T)
 

@@ -25,7 +25,9 @@ dbCreateTable(con, "piecewise_mda8_anom", fields = header)
 
 print("beginning file read")
 
-dbExecute(con, "COPY piecewise_mda8_anom FROM '/users/bsn502/scratch/toar/piecewise_mda8_anom/**/*.csv' WITH (NULLSTR 'NA')")
+filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", "piecewise_mda8_anom","**","*.csv")
+
+dbExecute(con, paste0("COPY piecewise FROM '",filePath,"' WITH (NULLSTR 'NA')"))
 
 dbDisconnect(con, shutdown = T)
 
