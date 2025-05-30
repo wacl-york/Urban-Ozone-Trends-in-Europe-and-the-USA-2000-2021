@@ -1,28 +1,39 @@
+library(cli)
 library(DBI)
 library(here)
 library(dplyr)
+library(purrr)
 
 con = dbConnect(duckdb::duckdb(),dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
 
-if(dbExistsTable(con, "piecewise_mda8")){
-  dbRemoveTable(con, "piecewise_mda8")
+tableName = "piecewise_mda8"
+
+if(dbExistsTable(con, tableName)){
+  dbRemoveTable(con, tableName)
 }
 
-header = c(
-  "x" = "numeric",
-  "tau" = "numeric",
-  "piecewise" = "numeric",
-  "scenario_idx" = "numeric",
-  "station_id" = "character",
-  "name" = "character"
-)
+filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", tableName)
 
-dbCreateTable(con, "piecewise_mda8", fields = header)
+stationDirs = list.dirs(filePath, recursive = F)
 
-print("beginning file read")
+cli::cli_progress_bar(total = length(stationDirs))
 
-filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", "piecewise_mda8","**","*.csv")
+for(i in 1:length(stationDirs)){
 
-dbExecute(con, paste0("COPY piecewise_mda8 FROM '",filePath,"' WITH (NULLSTR 'NA')"))
+  speciesDir = list.dirs(stationDirs[i], recursive = F)
+
+  for(j in 1:length(speciesDir)){
+
+    files = list.files(speciesDir[j], full.names = T)
+
+    dat = map_df(files, read.csv)
+
+    dbWriteTable(con, tableName, dat, append = T)
+
+  }
+
+  cli::cli_progress_update()
+
+}
 
 dbDisconnect(con, shutdown = T)
