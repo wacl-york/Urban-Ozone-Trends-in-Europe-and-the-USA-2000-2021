@@ -27,6 +27,8 @@ for(i in 1:length(stationDirs)){
     files = list.files(speciesDir[j], full.names = T)
 
     dat = map_df(files, read.csv)
+    
+    dat$station_id = as.character(dat$station_id)
 
     dbWriteTable(con, tableName, dat, append = T)
 

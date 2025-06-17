@@ -28,6 +28,8 @@ for(i in 1:length(stationDirs)){
 
     dat = map_df(files, read.csv)
 
+    dat$station_id = as.character(dat$station_id)
+
     dbWriteTable(con, tableName, dat, append = T)
 
   }
