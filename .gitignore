@@ -66,3 +66,9 @@ sbatch/*
 # exclude batch job err and log files
 toar_regression_*/*
 toar_make_piecewise*
+
+# exclude everything in LOGS folder
+LOGS/
+
+# exclude data_tables created locally, now transferred to project folder
+data_tables/
