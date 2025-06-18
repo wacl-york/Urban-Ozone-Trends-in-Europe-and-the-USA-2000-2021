@@ -12,31 +12,6 @@ if(dbExistsTable(con, "pqr_r2_max_mda8")){
   dbRemoveTable(con, "pqr_r2_max_mda8")
 }
 
-# valid_scen_header = c(
-#   "scenario_idx" = "numeric",
-#   "reg" = "character",
-#   "name" = "character",
-#   "station_id" = "character",
-#   "r2" = "numeric"
-# )
-
-#dbCreateTable(con, "valid_scen", valid_scen_header)
-
-# dbExecute(
-#   con,
-#   "
-#   INSERT INTO valid_scen
-#   SELECT scenario_idx, reg, name, station_id, r2
-#   FROM reg_anom_r2
-#   ANTI JOIN (
-#     SELECT DISTINCT station_id, name, scenario_idx, startYear, endYear , endYear - startYear AS endDiff
-#     FROM qr_regressions
-#     WHERE endDiff <= 2
-#   )
-#   USING (station_id, name, scenario_idx)
-#   WHERE (reg = 'pqr_1') OR (reg = 'pqr_2')
-# "
-# )
 
 dbExecute(
   con,
