@@ -87,7 +87,8 @@ gc()
 
 # get r2 from all regressions in the same data.frame
 regs_r2 = union_all(mda8_piecewise_r2, mda8_loess_r2) |>
-  collect()
+  collect() |>
+  filter(!is.na(name))
 
 dbWriteTable(con, "reg_mda8_r2",regs_r2, overwrite = T)
 
