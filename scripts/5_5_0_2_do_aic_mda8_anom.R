@@ -3,6 +3,7 @@ library(here)
 library(dplyr)
 library(tidyr)
 
+
 do_aic = function(array_id, user){
 
   dirOut = file.path("/users", user, "scratch", "toar", "aic_mda8_anom")
@@ -34,8 +35,8 @@ do_aic = function(array_id, user){
 
   datAic = dat |>
     mutate(mod = ifelse(reg == "qr",
-                        list(quantreg::rq(anom ~ x, tau = 0.5, data = data)),
-                        list(quantreg::rq(anom ~ x + piece + piece*x, tau = 0.5, data = data))),
+                        list(quantreg::rq(mda8_anom ~ x, tau = 0.5, data = data)),
+                        list(quantreg::rq(mda8_anom ~ x + piece + piece*x, tau = 0.5, data = data))),
            aic = AIC(mod)) |>
     ungroup() |>
     select(-data, -mod)
