@@ -105,7 +105,7 @@ toDo = best_regs_diff |>
 
 cli::cli_progress_bar(total = nrow(toDo))
 
-pdf(here("scratch/TOAR_paper/analysis","mda8_reg_inspect_2.pdf"), width = 16, height = 9)
+pdf(here("analysis","mda8_reg_inspect_2.pdf"), width = 16, height = 9)
 for(i in 1:nrow(toDo)){
 
   cli::cli_progress_update()

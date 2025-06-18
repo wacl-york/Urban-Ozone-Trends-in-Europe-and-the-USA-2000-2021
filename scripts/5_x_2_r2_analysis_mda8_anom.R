@@ -17,7 +17,7 @@ best_regs = tbl(con, "reg_mda8_anom_r2") |>
   pivot_wider(names_from = "reg", values_from = "r2") |>
   mutate(norm_reg = qr) |>
   pivot_longer(-c(station_id, name, norm_reg), names_to = "reg", values_to = "r2") |>
-  collect() |>
+  collect()
 
 
 order_o3 = best_regs |>
