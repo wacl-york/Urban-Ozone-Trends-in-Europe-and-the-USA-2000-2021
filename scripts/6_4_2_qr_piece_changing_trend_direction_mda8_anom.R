@@ -1,6 +1,7 @@
 library(DBI)
 library(dplyr)
 library(tidyr)
+library(here)
 
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
