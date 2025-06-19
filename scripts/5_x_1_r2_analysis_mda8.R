@@ -113,7 +113,7 @@ for(i in 1:nrow(toDo)){
   nm = toDo$name[i]
   cnt = toDo$country[i]
 
-  idx_pqr_1 = tbl(con, "reg_anom_r2") |>
+  idx_pqr_1 = tbl(con, "reg_mda8_r2") |>
     group_by(station_id, name, reg) |>
     filter(r2 == max(r2, na.rm = TRUE),
            name == !!nm,
@@ -123,7 +123,7 @@ for(i in 1:nrow(toDo)){
     collect() |>
     pluck("scenario_idx")
 
-  idx_pqr_2 = tbl(con, "reg_anom_r2") |>
+  idx_pqr_2 = tbl(con, "reg_mda8_r2") |>
     group_by(station_id, name, reg) |>
     filter(r2 == max(r2, na.rm = TRUE),
            name == !!nm,
@@ -142,19 +142,19 @@ for(i in 1:nrow(toDo)){
   st = paste(r2_dat$reg, round(r2_dat$r2, 3), sep = ": ", collapse = " | ")
 
   plotDat = bind_rows(
-    tbl(con, "reg_anom") |>
+    tbl(con, "reg_mda8") |>
     filter(station_id == !!stn,
            reg == "pqr_1",
            scenario_idx %in% c(idx_pqr_1,0),
            name == !!nm) |>
       collect(),
-    tbl(con, "reg_anom") |>
+    tbl(con, "reg_mda8") |>
       filter(station_id == !!stn,
              reg == "pqr_2",
              scenario_idx %in% c(idx_pqr_2,0),
              name == !!nm) |>
       collect(),
-    tbl(con, "reg_anom") |>
+    tbl(con, "reg_mda8") |>
       filter(station_id == !!stn,
              reg %in% c("loess", "qr"),
              name == !!nm) |>
@@ -163,7 +163,7 @@ for(i in 1:nrow(toDo)){
 
   g = plotDat |>
     ggplot()+
-    geom_line(aes(date, anom))+
+    geom_line(aes(date, mda8))+
     geom_line(aes(date, value, colour = reg), size = 2)+
     scale_x_datetime(date_breaks = "1 year", date_labels = "%Y", guide = guide_axis(n.dodge = 2))+
     labs(title = paste(cnt, stn, nm),
