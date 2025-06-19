@@ -1,0 +1,23 @@
+\begin{sidewaystable}[t]
+\caption{Trends in O\textsubscript{3} at sites in Europe in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{table:europe_slope_segs_mda8}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
+\toprule
+ &  & \multicolumn{4}{c}{Increasing} & \multicolumn{4}{c}{Decreasing} & \multicolumn{4}{c}{No Trend} \\ 
+\cmidrule(lr){3-6} \cmidrule(lr){7-10} \cmidrule(lr){11-14}
+Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{14}{l}{O\textsubscript{3}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+ & 0.05 & 48 & 78 & 95 & 99 & 65 & 41 & 34 & 29 & 93 & 78 & 53 & 61 \\ 
+ & 0.10 & 42 & 75 & 90 & 94 & 59 & 40 & 29 & 29 & 94 & 82 & 58 & 64 \\ 
+ & 0.25 & 37 & 59 & 79 & 84 & 57 & 51 & 35 & 32 & 105 & 83 & 67 & 69 \\ 
+ & 0.50 & 51 & 48 & 61 & 62 & 71 & 80 & 59 & 60 & 89 & 66 & 57 & 69 \\ 
+ & 0.75 & 83 & 37 & 42 & 44 & 79 & 91 & 68 & 64 & 52 & 63 & 67 & 80 \\ 
+ & 0.90 & 87 & 25 & 31 & 37 & 86 & 98 & 84 & 81 & 49 & 59 & 66 & 71 \\ 
+ & 0.95 & 84 & 25 & 31 & 36 & 97 & 107 & 89 & 88 & 40 & 54 & 56 & 64 \\ 
+\bottomrule
+\end{tabular*}
+\end{adjustbox}
+\end{sidewaystable}

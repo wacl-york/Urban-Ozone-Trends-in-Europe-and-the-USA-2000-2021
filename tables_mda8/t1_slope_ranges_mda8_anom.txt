@@ -1,0 +1,19 @@
+\begin{table}[t]
+\caption{5 th, 50 th and 95 th percentiles of the $\tau$ = 0.5 slopes in Europe and the USA.}
+\label{table:slope_ranges}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrrrrrr}
+\toprule
+ &  & \multicolumn{6}{c}{Slope / ppbv year\textsuperscript{-1}} \\ 
+\cmidrule(lr){3-8}
+ &  & \multicolumn{3}{c}{Europe} & \multicolumn{3}{c}{United States of America} \\ 
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}
+Species & Percentile & Increasing & Decreasing & No Trend & Increasing & Decreasing & No Trend \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{8}{l}{O\textsubscript{3}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+ & 5 th & 0.11 & -1.66 & -0.21 & 0.08 & -1.33 & -0.17 \\ 
+ & 50 th & 0.42 & -0.35 & 0.03 & 0.41 & -0.33 & 0.00 \\ 
+ & 95 th & 1.66 & -0.10 & 0.23 & 1.61 & -0.09 & 0.21 \\ 
+\bottomrule
+\end{tabular*}
+\end{table}
