@@ -21,6 +21,7 @@ for(i in 1:length(stationFiles)){
            country = pluck(station, "country"),
            lng = round(pluck(station, "coordinates", "lng"),5),
            lat = round(pluck(station, "coordinates", "lat" ),5),
+           timezone = pluck(station, "timezone"),
            variable_name = pluck(variable, "name"),
            variable_unit = pluck(variable, "units"),
            data_start_date = ymd_hms(data_start_date),
@@ -38,6 +39,7 @@ for(i in 1:length(stationFiles)){
            aggregation,
            lng,
            lat,
+           timezone,
            variable_unit)
 
   if(i == 1){

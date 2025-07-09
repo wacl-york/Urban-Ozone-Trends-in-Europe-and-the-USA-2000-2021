@@ -16,21 +16,21 @@ con = connect_to_db(FALSE)
 toarMeta = tbl(con,"toarMeta") |>
   filter(str_detect(station_type, "urban"),
          country == "United States of America") |>
-  select(station_id, latitude = lat, longitude = lng, country, station_type, date_start = data_start_date, date_end = data_end_date) |>
+  select(station_id, latitude = lat, longitude = lng, country, station_type, date_start = data_start_date, date_end = data_end_date, timezone) |>
   mutate(station_id = as.character(station_id)) |>
   collect()
 
 # Collect EEA meta information
 eeaMeta = tbl(con,"eeaMeta") |>
-  select(station_id = site, latitude, longitude, country, station_type = site_type, date_start, date_end) |>
+  select(station_id = site, latitude, longitude, country, station_type = site_type, date_start, date_end, timezone) |>
 collect()
 
 # Bind meta information
 combinedMeta = bind_rows(toarMeta, eeaMeta)
 
 # Write combined meta information to a table in the database
-dbWriteTable(con,"combinedMeta",combinedMeta)
+dbWriteTable(con, "combinedMeta", combinedMeta, overwrite = T)
 
 # Disconnect from the database
-dbDisconnect(con)
+dbDisconnect(con, shutdown = T)
 

@@ -5,10 +5,12 @@ library(dplyr)
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
 
-on.exit(dbDisconnect(con, shutdown = T))
-
 name_station = tbl(con, "name_station") |>
-  collect()
+  collect() |>
+  filter(name == "o3") |>
+  arrange(station_id)
+
+dbDisconnect(con, shutdown = T)
 
 user = system("echo $USER", intern = T)
 
@@ -34,9 +36,9 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_3_create_piecewise_hpc.R $SLURM_ARRAY_TASK_ID')
+            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_3_0_1_create_piecewise_mda8.R $SLURM_ARRAY_TASK_ID')
 )
 
-data_file = file(paste0('/mnt/scratch/users/',user,'/toar/run_makepiecewise.sbatch'), open = "wt")
+data_file = file(paste0('/mnt/scratch/users/',user,'/TOAR_paper/sbatch/run_makepiecewise_mda8.sbatch'), open = "wt")
 writeLines(message, con = data_file)
 close(data_file)

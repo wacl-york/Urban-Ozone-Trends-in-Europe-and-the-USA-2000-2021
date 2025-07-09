@@ -1,0 +1,23 @@
+\begin{sidewaystable}[t]
+\caption{Trends in O\textsubscript{3} at sites in the United States of America in annual groups between 2000 and 2021 inclusive. If a site as a change point within a group, both slopes are added to the tally. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{table:usa_slope_segs}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrr}
+\toprule
+ &  & \multicolumn{4}{c}{Increasing} & \multicolumn{4}{c}{Decreasing} & \multicolumn{4}{c}{No Trend} \\ 
+\cmidrule(lr){3-6} \cmidrule(lr){7-10} \cmidrule(lr){11-14}
+Species & $\tau$ & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 & 00 - 04 & 05 - 09 & 10 - 14 & 15 - 21 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{14}{l}{O\textsubscript{3}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+ & 0.05 & 53 & 51 & 47 & 41 & 19 & 13 & 24 & 39 & 35 & 27 & 29 & 40 \\ 
+ & 0.10 & 47 & 45 & 42 & 37 & 22 & 19 & 29 & 47 & 35 & 28 & 29 & 33 \\ 
+ & 0.25 & 37 & 34 & 34 & 26 & 27 & 31 & 42 & 52 & 40 & 29 & 29 & 37 \\ 
+ & 0.50 & 21 & 15 & 17 & 19 & 32 & 40 & 52 & 59 & 48 & 40 & 33 & 35 \\ 
+ & 0.75 & 20 & 10 & 13 & 21 & 47 & 60 & 62 & 57 & 34 & 23 & 25 & 32 \\ 
+ & 0.90 & 13 & 5 & 8 & 16 & 57 & 68 & 67 & 61 & 31 & 18 & 22 & 31 \\ 
+ & 0.95 & 10 & 4 & 8 & 18 & 60 & 71 & 66 & 57 & 32 & 15 & 21 & 36 \\ 
+\bottomrule
+\end{tabular*}
+\end{adjustbox}
+\end{sidewaystable}

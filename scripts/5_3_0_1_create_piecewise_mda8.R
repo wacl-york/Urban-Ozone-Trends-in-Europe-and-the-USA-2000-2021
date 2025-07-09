@@ -8,21 +8,23 @@ library(lubridate)
 
 
 make_piecewise = function(array_id, user){
- 
+
   # Connect to database
   con = dbConnect(duckdb::duckdb(),
                   dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
-  
+
   on.exit(dbDisconnect(con, shutdown = T))
 
   name_station = tbl(con, "name_station") |>
-    collect()
+    collect() |>
+    filter(name == "o3") |>
+    arrange(station_id)
 
   name = name_station$name[array_id]
   station_id = name_station$station_id[array_id]
-  
-  outDir = file.path('/mnt','scratch','users',user,'toar','piecewise',station_id,name)
-  
+
+  outDir = file.path(readLines(here("data_config.txt"),n = 1),'data','piecewise_mda8',station_id,name)
+
   if(!dir.exists(outDir)){
     dir.create(outDir, recursive = T)
   }
@@ -42,9 +44,9 @@ make_piecewise = function(array_id, user){
   maxEndYear = dat |>
     filter(date == max(date, na.rm = TRUE)) |>
     collect()
-  
+
   maxEndYear = maxEndYear$date+months(1)
-  
+
   for(j in 1:nrow(regression_scenarios)){
 
     print(paste(j, "/", nrow(regression_scenarios)))
@@ -53,7 +55,7 @@ make_piecewise = function(array_id, user){
 
     fileOut = file.path(outDir,  paste0(paste(station_id, name, regression_scenario, sep = "_"), ".csv"))
 
-    thisScenario = tbl(con, "qr_regressions") |>
+    thisScenario = tbl(con, "qr_regressions_mda8") |>
       filter(
         station_id == !!station_id,
         name == !!name,

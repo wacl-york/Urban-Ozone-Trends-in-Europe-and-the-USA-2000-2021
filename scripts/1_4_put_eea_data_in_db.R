@@ -1,4 +1,6 @@
+library(sf)
 library(DBI)
+library(lutz)
 library(here)
 library(dplyr)
 library(saqgetr)
@@ -15,6 +17,11 @@ eeaMeta = get_saq_sites() |>
   filter(site_area == "urban",
          date_start <= ymd(start),
          date_end >= ymd(end))
+
+eeaMetaSf = eeaMeta |>
+  st_as_sf(coords = c("longitude", "latitude"))
+
+eeaMeta$timezone = tz_lookup(eeaMetaSf, method = "accurate")
 
 dbWriteTable(con, "eeaMeta",eeaMeta, overwrite = T)
 
@@ -57,5 +64,6 @@ for(i in 1:nrow(toDo)){
     dbAppendTable(con, "eeaData", temp)
   }
 
-
 }
+
+dbDisconnect(con, shutdown = TRUE)
