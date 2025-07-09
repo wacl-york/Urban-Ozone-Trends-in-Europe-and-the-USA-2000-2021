@@ -28,6 +28,11 @@ mda8_all = tbl(con, "mda8_o3") |>
   collect() |>
   mutate(mda8_ppb = ifelse(str_detect(timezone, "America"), mda8, mda8 / 1.96))
 
+# Create tbl with just station_id and timezone for binding later.
+timezone_dat = tbl(con, "mda8_o3") |>
+  select(station_id, timezone) |>
+  distinct()
+
 ##########################################################################################################
 
 ### Calculate 4MDA8 ###
@@ -41,13 +46,16 @@ mda8_all = tbl(con, "mda8_o3") |>
 # Group data by year, station_id and timezone, then arrange in descending order and select the 4th highest by group.
 metric_4MDA8 = mda8_warm |>
   mutate(year = year(local_date)) |>
-  select(year, station_id, timezone, mda8 = mda8_ppb) |>
+  select(year, station_id, timezone, value = mda8_ppb) |>
   na.omit() |>
   group_by(year, station_id, timezone) |>
-  arrange(desc(mda8), .by_group = T) |>
+  arrange(desc(value), .by_group = T) |>
   mutate(rank = row_number()) |>
   filter(rank == 4) |>
-  select(-rank)
+  select(-rank) |>
+  mutate(metric = "4MDA8") |>
+  ungroup() |>
+  select(-timezone)
 
 ##########################################################################################################
 
@@ -63,12 +71,14 @@ metric_NDGT70 = mda8_all |>
   mutate(exceeded_limit = case_when(mda8 > 70 ~ "YES",
                    .default = "NO")) |>
   group_by(year, station_id, timezone, exceeded_limit) |>
-  summarise(NDGT70 = n(), .groups = "drop") |>
+  summarise(value = n(), .groups = "drop") |>
   ungroup() |>
-  pivot_wider(values_from = NDGT70, names_from = exceeded_limit) |>
-  mutate(NDGT70 = case_when(is.na(YES) ~ 0,
+  pivot_wider(values_from = value, names_from = exceeded_limit) |>
+  mutate(value = case_when(is.na(YES) ~ 0,
                             .default = YES)) |>
-  collect()
+  collect() |>
+  mutate(metric = "NDGT70") |>
+  select(-c(NO, YES, timezone))
 
 
 ##########################################################################################################
@@ -82,9 +92,10 @@ metric_SOMO35 = mda8_all |>
   mutate(year = year(local_date)) |>
   mutate(SOMO35 = mda8_ppb-35,
          SOMO35 = ifelse(SOMO35<0, 0, SOMO35)) |>
-  select(year, station_id, timezone, SOMO35) |>
-  group_by(year, station_id, timezone) |>
-  summarise_all("sum")
+  select(year, station_id, value = SOMO35) |>
+  group_by(year, station_id) |>
+  summarise_all("sum") |>
+  mutate(metric = "SOMO35")
 
 
 ##########################################################################################################
@@ -111,6 +122,8 @@ sites_of_interest = unique(mda8_all$station_id)
 # When there are 68 or more non-NA values (75% coverage), group by station_id and order by day, then calculate
 # the mean of the daily maximum values over a centred 3-month (90 day) windows (44 days before, that day, then 45 days after)
 # If there is not enough data to calculate, then NA.
+# Filtering at the end of the data set is done depending if the data is US or European
+# (45 days before end of 2021 or 2023 respectively).
 metric_3MMDA1 = o3_daily_max |>
   filter(station_id %in% sites_of_interest) |>
   mutate(
@@ -131,17 +144,18 @@ metric_3MMDA1 = o3_daily_max |>
     ")
     ) |>
   filter(day > "2000-02-13") |>
+  left_join(timezone_dat, by = "station_id") |>
+  mutate(o3_3MMDA1 = case_when(str_detect(timezone, "America") & day > "2021-11-16" ~ NA,
+                               !str_detect(timezone, "America") & day > "2023-11-16" ~ NA,
+                               .default = o3_3MMDA1)) |>
   mutate(year = year(day)) |>
   ungroup() |>
-  select(year, station_id, o3_3MMDA1) |>
+  select(year, station_id, value = o3_3MMDA1) |>
   group_by(year, station_id) |>
-  filter(o3_3MMDA1 == max(o3_3MMDA1, na.rm = T)) |>
+  filter(value == max(value, na.rm = T)) |>
   distinct() |>
-  collect()
-  # Remove the first 44 days because there isn't a full 3-month rolling window.
-
-# test =  metric_3MMDA1 |>
-#   left_join(metric_4MDA8)
+  collect() |>
+  mutate(metric = "3MMDA1")
 
 ##########################################################################################################
 
@@ -151,10 +165,37 @@ metric_3MMDA1 = o3_daily_max |>
 
 metric_AVGMDA8 = mda8_warm |>
   mutate(year = year(local_date)) |>
-  select(year, station_id, timezone, mda8 = mda8_ppb) |>
-  group_by(year, station_id, timezone) |>
-  summarise_all("mean")
+  select(year, station_id, value = mda8_ppb) |>
+  group_by(year, station_id) |>
+  summarise_all("mean", na.rm = T) |>
+  mutate(metric = "AVGMDA8")
 
 ##########################################################################################################
 
-dbDisconnect(con)
+dbDisconnect(con, shutdown = T)
+
+##########################################################################################################
+
+yr_lookup = tibble(x = 1:24,
+                   year = 2000:2023)
+
+mda8_metrics = bind_rows(metric_4MDA8, metric_NDGT70, metric_SOMO35, metric_3MMDA1, metric_AVGMDA8) |>
+  left_join(yr_lookup, "year")
+
+rm(list=setdiff(ls(), "mda8_metrics"))
+
+
+##########################################################################################################
+
+con = dbConnect(duckdb::duckdb(),
+                dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = FALSE)
+
+if(dbExistsTable(con, "mda8_metrics")){
+  dbRemoveTable(con, "mda8_metrics")
+}
+
+dbWriteTable(con, "mda8_metrics", mda8_metrics, overwrite = T)
+
+dbDisconnect(con, shutdown = T)
+
+##########################################################################################################
