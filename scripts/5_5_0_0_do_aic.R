@@ -31,17 +31,29 @@ do_aic = function(array_id, user){
     nest_by(scenario_idx, reg, name, station_id) |>
     mutate(npiece = length(unique(data$piece)))
 
-  datAic = list(
+  listAic = list()
+
+  listAic$qr = tryCatch({ # mainly to catch the odd QR timeout, which doesnt really affect the downstream analysis
     dat |>
       filter(reg == "qr") |>
       mutate(
         mod = list(quantreg::rq(mda8 ~ x, tau = 0.5, data = data))
-      ),
+      )},
+    error = function(e){
+      NULL
+    })
+
+  listAic$pqr = tryCatch({
     dat |>
       filter(reg %in% c("pqr_1","pqr_2")) |>
       mutate(
         mod = list(quantreg::rq(mda8 ~ x + piece + piece*x, tau = 0.5, data = data))
-      )) |>
+      )},
+    error = function(e){
+      NULL
+    })
+
+  datAic = listAic |>
     bind_rows() |>
     mutate(
       aic = AIC(mod)
