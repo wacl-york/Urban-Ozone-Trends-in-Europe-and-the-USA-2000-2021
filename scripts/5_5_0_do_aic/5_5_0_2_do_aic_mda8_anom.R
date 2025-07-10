@@ -6,7 +6,7 @@ library(tidyr)
 
 do_aic = function(array_id, user){
 
-  dirOut = file.path("/users", user, "scratch", "toar", "aic_mda8_anom")
+  dirOut = here(readLines(here("data_config.txt"),n = 1),"data","aic_mda8_anom")
   if(!dir.exists(dirOut)){
     dir.create(dirOut)
   }

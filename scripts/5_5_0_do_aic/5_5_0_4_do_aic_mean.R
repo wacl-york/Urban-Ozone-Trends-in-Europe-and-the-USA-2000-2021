@@ -5,10 +5,7 @@ library(tidyr)
 
 do_aic = function(array_id, user){
 
-  print(array_id)
-  print(user)
-
-  dirOut = here(readLines(here("data_config.txt"),n = 1),"data","aic_mda8")
+  dirOut = file.path("/users", user, "scratch", "toar", "aic")
   if(!dir.exists(dirOut)){
     dir.create(dirOut)
   }
@@ -19,15 +16,14 @@ do_aic = function(array_id, user){
 
   on.exit(dbDisconnect(con, shutdown = T))
 
-  nm_stn = tbl(con, "reg_mda8_r2") |>
+  nm_stn = tbl(con, "reg_anom_r2_mean") |>
     select(station_id, name) |>
     collect() |>
-    distinct() |>
-    filter(!is.na(name))
+    distinct()
 
-  fileOut = file.path(dirOut, paste0("aic_mda8_",nm_stn$station_id[array_id],"_",nm_stn$name[array_id],".csv"))
+  fileOut = file.path(dirOut, paste0("aic_mean_",nm_stn$station_id[array_id],"_",nm_stn$name[array_id],".csv"))
 
-  dat = tbl(con, "reg_mda8") |>
+  dat = tbl(con, "reg_anom_mean") |>
     filter(station_id == !!nm_stn$station_id[array_id],
            name == !!nm_stn$name[array_id],
            reg != "loess") |> # cannot calculate logLik for LOESS
@@ -41,7 +37,7 @@ do_aic = function(array_id, user){
     dat |>
       filter(reg == "qr") |>
       mutate(
-        mod = list(quantreg::rq(mda8 ~ x, tau = 0.5, data = data))
+        mod = list(quantreg::rq(anom ~ x, tau = 0.5, data = data))
       )},
     error = function(e){
       NULL
@@ -51,7 +47,7 @@ do_aic = function(array_id, user){
     dat |>
       filter(reg %in% c("pqr_1","pqr_2")) |>
       mutate(
-        mod = list(quantreg::rq(mda8 ~ x + piece + piece*x, tau = 0.5, data = data))
+        mod = list(quantreg::rq(anom ~ x + piece + piece*x, tau = 0.5, data = data))
       )},
     error = function(e){
       NULL
