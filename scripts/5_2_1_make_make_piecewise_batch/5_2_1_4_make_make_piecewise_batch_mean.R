@@ -5,17 +5,15 @@ library(dplyr)
 con = dbConnect(duckdb::duckdb(),
                 dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
 
-name_station = tbl(con, "name_station") |>
-  collect() |>
-  filter(name == "o3") |>
-  arrange(station_id)
+on.exit(dbDisconnect(con, shutdown = T))
 
-dbDisconnect(con, shutdown = T)
+name_station = tbl(con, "name_station") |>
+  collect()
 
 user = system("echo $USER", intern = T)
 
 message = c("#!/usr/bin/env bash",
-            "#SBATCH --job-name=toar_make_piecewise_mda8 # Job name",
+            "#SBATCH --job-name=toar_make_piecewise # Job name",
             "#SBATCH --ntasks=1                      # Number of MPI tasks to request",
             "#SBATCH --cpus-per-task=1               # Number of CPU cores per MPI task",
             "#SBATCH --mem=2G                      # Total memory to request",
@@ -36,9 +34,9 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_3_0_create_piecewise/5_3_0_1_create_piecewise_mda8.R $SLURM_ARRAY_TASK_ID')
+            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_3_0_4_create_piecewise_mean.R $SLURM_ARRAY_TASK_ID')
 )
 
-data_file = file(paste0('/mnt/scratch/users/',user,'/TOAR_paper/sbatch/run_makepiecewise_mda8.sbatch'), open = "wt")
+data_file = file(paste0('/mnt/scratch/users/',user,'/toar/run_makepiecewise_mean.sbatch'), open = "wt")
 writeLines(message, con = data_file)
 close(data_file)

@@ -8,7 +8,7 @@ con = dbConnect(duckdb::duckdb(),dbdir = here(readLines(here("data_config.txt"),
 
 # pieceFiles = system('find /users/wsd500/scratch/toar/piecewise -type f -name "*.csv"', intern = T)
 
-tableName = "aic_mda8"
+tableName = "aic_mean"
 
 if(dbExistsTable(con, tableName)){
   dbRemoveTable(con, tableName)

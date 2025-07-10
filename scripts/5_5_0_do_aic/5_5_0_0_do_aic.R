@@ -37,7 +37,7 @@ do_aic = function(array_id, user){
     dat |>
       filter(reg == "qr") |>
       mutate(
-        mod = list(quantreg::rq(mda8 ~ x, tau = 0.5, data = data))
+        mod = list(quantreg::rq(anom ~ x, tau = 0.5, data = data))
       )},
     error = function(e){
       NULL
@@ -47,7 +47,7 @@ do_aic = function(array_id, user){
     dat |>
       filter(reg %in% c("pqr_1","pqr_2")) |>
       mutate(
-        mod = list(quantreg::rq(mda8 ~ x + piece + piece*x, tau = 0.5, data = data))
+        mod = list(quantreg::rq(anom ~ x + piece + piece*x, tau = 0.5, data = data))
       )},
     error = function(e){
       NULL
