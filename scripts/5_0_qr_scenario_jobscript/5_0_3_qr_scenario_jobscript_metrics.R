@@ -54,6 +54,9 @@ do_qr_sub = function(dat,
     tempDat = dat |>
       dplyr::filter(dplyr::between(lubridate::year(date), min(years), max(years)))
 
+    if(nrow(tempDat) <= 3){
+      return(NULL)
+    }
 
     tempFit = tryCatch({
       foo <- rq(value~x, data = tempDat, tau = tau) |>
@@ -179,21 +182,29 @@ switch(
 
 regList = list()
 for(i in 1:nrow(parts)){
-  regList[[i]] = do_qr_sub(dat, c(parts$startYear[i], parts$endYear[i])) |>
-    mutate(scenario_idx = idx,
-           startYear = parts$startYear[i],
-           endYear = parts$endYear[i])
+  qr_sub = do_qr_sub(dat, c(parts$startYear[i], parts$endYear[i]))
+
+  if(!is.null(qr_sub)){
+    regList[[i]] = qr_sub |>
+      mutate(scenario_idx = idx,
+             startYear = parts$startYear[i],
+             endYear = parts$endYear[i])
+  }
+
 }
 
 mda8_metric_regressions = bind_rows(regList)
 
-fileOutName = paste0(paste("mda8_metric_reg", nm, id, idx, sep = "_"), ".csv")
-fileOutPath = file.path(fileOutRoot, id)
+if(!is.null(mda8_metric_regressions)){
 
-if(!dir.exists(fileOutPath)){
-  dir.create(fileOutPath, recursive = TRUE)
+  fileOutName = paste0(paste("mda8_metric_reg", nm, id, idx, sep = "_"), ".csv")
+  fileOutPath = file.path(fileOutRoot, id)
+
+  if(!dir.exists(fileOutPath)){
+    dir.create(fileOutPath, recursive = TRUE)
+  }
+
+  write.csv(mda8_metric_regressions,
+            file.path(fileOutPath, fileOutName),
+            row.names = F)
 }
-
-write.csv(mda8_metric_regressions,
-          file.path(fileOutPath, fileOutName),
-          row.names = F)

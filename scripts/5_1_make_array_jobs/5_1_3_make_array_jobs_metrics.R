@@ -46,7 +46,7 @@ for(i in 1:(fullArray+1)){
               "#SBATCH --ntasks=1                      # Number of MPI tasks to request",
               "#SBATCH --cpus-per-task=1               # Number of CPU cores per MPI task",
               "#SBATCH --mem=1G                      # Total memory to request",
-              "#SBATCH --time=0-00:30:00               # Time limit (DD-HH:MM:SS)",
+              "#SBATCH --time=0-01:00:00               # Time limit (DD-HH:MM:SS)",
               "#SBATCH --account=chem-cmde-2019        # Project account to use",
               "#SBATCH --mail-type=END,FAIL            # Mail events (NONE, BEGIN, END, FAIL, ALL)",
               paste0("#SBATCH --mail-user=",user,"@york.ac.uk   # Where to send mail"),
@@ -70,7 +70,7 @@ for(i in 1:(fullArray+1)){
                 "module load R/4.4.0-gfbf-2023b",
                 "",
                 "# Commands to run",
-                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_3_qr_scenario_jobscript_metrics.R $SLURM_ARRAY_TASK_ID ',
+                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_qr_scenario_jobscript/5_0_3_qr_scenario_jobscript_metrics.R $SLURM_ARRAY_TASK_ID ',
                        array_idx_offset,' /mnt/scratch/projects/chem-cmde-2019/toar/data/regressions_metrics/')))
   data_file = file(fileOut, open = "wt")
   writeLines(message, con = data_file)
