@@ -113,7 +113,9 @@ o3_daily_max = tbl(con, "all_data") |>
   group_by(day, station_id) |>
   filter(value == max(value, na.rm = T)) |>
   distinct() |>
-  rename(daily_max = value)
+  rename(daily_max = value) |>
+  left_join(timezone_dat, by = "station_id") |>
+  mutate(daily_max = ifelse(str_detect(timezone, "America"), daily_max, daily_max / 1.96))
 
 # Define sites of interest as we are pulling from "all data" table
 sites_of_interest = unique(mda8_all$station_id)
@@ -144,7 +146,7 @@ metric_3MMDA1 = o3_daily_max |>
     ")
     ) |>
   filter(day > "2000-02-13") |>
-  left_join(timezone_dat, by = "station_id") |>
+  #left_join(timezone_dat, by = "station_id") |>
   mutate(o3_3MMDA1 = case_when(str_detect(timezone, "America") & day > "2021-11-16" ~ NA,
                                !str_detect(timezone, "America") & day > "2023-11-16" ~ NA,
                                .default = o3_3MMDA1)) |>

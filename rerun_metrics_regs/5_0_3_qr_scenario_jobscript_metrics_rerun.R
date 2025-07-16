@@ -117,17 +117,16 @@ do_qr_sub = function(dat,
 
 args = commandArgs(trailingOnly = TRUE)
 # args are: slurm array id, offset and fileoutput path root
-# slurm array jobs are limited to max 10,000, we need to do ~ 130,000
-# so run 13 array jobs, changing the offset by 10,000 each time (0, 10,000, ...)
-# args[1]+ args[2] = scenario number unique to job.
-# scenarioNumber just refers to the row of the regression_scenarios table and
-# is not related to scenario_idx. scenarioNumber is a unique combination of
-# name station_id and scenario_idx
+# notRunID = args[1]+1
+# scenarioNumber = jobNotComplete$array_offset[notRunID] + jobNotComplete$slurm_array_task_id[notRunID]
+# args[2] is the output path
 
-# arg three is the output path so we can test this locally
+notRunID = as.numeric(args[1])+1
+fileOutRoot = args[2]
 
-scenarioNumber = as.numeric(args[1])+as.numeric(args[2])
-fileOutRoot = args[3]
+jobNotComplete = read.csv("rerun_metrics_regs/metrics_jobNotComplete.csv")
+
+scenarioNumber = jobNotComplete$array_offset[notRunID] + jobNotComplete$slurm_array_task_id[notRunID]
 
 con = dbConnect(duckdb::duckdb(),
                 dbdir =  here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"),
