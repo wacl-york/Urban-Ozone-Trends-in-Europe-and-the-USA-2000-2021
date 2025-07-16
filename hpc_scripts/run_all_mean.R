@@ -1,5 +1,7 @@
 library(stringr)
 
+user = system("echo $USER", intern = T)
+
 files = list.files(paste0("/users/",user,"/scratch/TOAR_paper/reg_batch_mean/"), full.names = T)
 
 

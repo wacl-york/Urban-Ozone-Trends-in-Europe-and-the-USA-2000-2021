@@ -14,9 +14,13 @@ tableName = "piecewise_mean"
 
 filePath = file.path(readLines(here("data_config.txt"),n = 1), "data", tableName)
 
-files = list.files(filePath, recursive = T, full.names = T)
+files = tibble(path = list.files(filePath, recursive = T, full.names = T)) |>
+  mutate(fileName = basename(path),
+         species = str_remove(fileName, ".csv") |>
+           word(2, sep = "_")) |>
+  filter(species == c("o3", "no2", "ox")[spc_idx])
 
-daemons(31)
+daemons(32)
 
 dat = map(files,
           in_parallel(
@@ -31,6 +35,7 @@ dat = map(files,
 daemons(0)
 
 con = dbConnect(duckdb::duckdb(),dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db_mean.duckdb"), read_only = FALSE)
-dbWriteTable(con, tableName, dat, append = T)
-dbDisconnect(con, shutdown = T)
 
+dbWriteTable(con, tableName, dat, append = T)
+
+dbDisconnect(con, shutdown = T)

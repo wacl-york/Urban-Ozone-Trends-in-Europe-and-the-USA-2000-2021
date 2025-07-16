@@ -66,7 +66,7 @@ for(i in 1:(fullArray+1)){
                 "module load R/4.4.0-gfbf-2023b",
                 "",
                 "# Commands to run",
-                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/toar/scripts/5_0_0_qr_scenario_jobscript.R $SLURM_ARRAY_TASK_ID ',
+                paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/5_0_qr_scenario_jobscript/5_0_4_qr_scenario_jobscript_mean.R $SLURM_ARRAY_TASK_ID ',
                        array_idx_offset,' /mnt/scratch/projects/chem-cmde-2019/toar/data/regressions_mean/')))
   data_file = file(fileOut, open = "wt")
   writeLines(message, con = data_file)
@@ -99,12 +99,12 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0("Rscript --vanilla /users/",user,"/scratch/toar/run_all_mean.R")
+            paste0("Rscript --vanilla /users/",user,"/scratch/TOAR_paper/hpc_scripts/run_all_mean.R")
 )
 
 
 
-data_file = file("runall_mean_reg.sbatch", open = "wt")
+data_file = file(here::here("sbatch","runall_mean_reg.sbatch"), open = "wt")
 writeLines(message, con = data_file)
 close(data_file)
 

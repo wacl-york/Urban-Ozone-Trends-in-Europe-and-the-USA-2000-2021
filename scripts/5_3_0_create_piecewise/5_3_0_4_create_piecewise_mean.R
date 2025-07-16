@@ -11,7 +11,7 @@ make_piecewise = function(array_id, user){
 
   # Connect to database
   con = dbConnect(duckdb::duckdb(),
-                  dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db.duckdb"), read_only = TRUE)
+                  dbdir = here(readLines(here("data_config.txt"),n = 1),"data","db_mean.duckdb"), read_only = TRUE)
 
   on.exit(dbDisconnect(con, shutdown = T))
 
