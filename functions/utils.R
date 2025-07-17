@@ -6,7 +6,7 @@ data_path = function(...){
 
 connect_to_db = function(read_only = TRUE){
   con = DBI::dbConnect(duckdb::duckdb(),
-                        dbdir = data_path("data","db2.duckdb"),
+                        dbdir = data_path("data2","db.duckdb"),
                         read_only = read_only)
 
   return(con)
