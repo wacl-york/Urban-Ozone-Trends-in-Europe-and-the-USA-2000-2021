@@ -3,11 +3,11 @@ library(dplyr)
 
 source(here::here('functions','utils.R'))
 
-con = connect_to_db(read_only = FALSE)
+con = connect_to_db(FALSE)
 
 # Sites to remove - determined via inspection -----------------------------
 remove_sites_inspect = tribble(
-  ~station_id, ~spc,
+  ~station_id, ~name,
   "bg0013a", "o3",
   "bg0043a", "o3",
   "bg0040a", "no2",
@@ -24,10 +24,9 @@ remove_sites_inspect = tribble(
 
 # Have we removed site used in an Ox calculation?  ------------------------
 # Lets remove it.
-remove_sites_ox = tbl(con, "name_station") |>
+remove_sites_ox = tbl(con, "all_data_series") |>
   filter(name == "ox") |>
   filter(station_id %in% remove_sites_inspect$station_id) |>
-  rename(spc = name) |>
   collect()
 
 remove_sites = remove_sites_inspect |>

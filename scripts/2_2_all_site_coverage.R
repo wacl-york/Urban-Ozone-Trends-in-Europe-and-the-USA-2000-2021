@@ -5,14 +5,6 @@ library(lubridate)
 
 source(here::here('functions','utils.R'))
 
-any_less_than_60 = function(percs){
-
-  y = sum(percs<60)
-
-  y == 0
-
-}
-
 con = connect_to_db(FALSE)
 
 # still keep the coverage check over 2000-2022 as the toar database doesn't have the extra data,
@@ -30,8 +22,8 @@ coverage_total = tbl(con, "all_data") |>
   count() |>
   mutate(perc = (n/x)*100) |>
   collect() |>
-  mutate(total_coverage_check = perc >= 70)
+  mutate(total_coverage_check = perc >= 80)
 
-dbWriteTable(con, "coverage_total", coverage, overwrite = T)
+dbWriteTable(con, "coverage_total", coverage_total, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
