@@ -1,12 +1,9 @@
 library(DBI)
 library(dplyr)
 
-source(here::here('functions','connect_to_db.R'))
-
-# NB:/ moved inspect code to "remove_site_inspect.R"
+source(here::here('functions','utils.R'))
 
 con = connect_to_db(read_only = FALSE)
-
 
 # Sites to remove - determined via inspection -----------------------------
 remove_sites_inspect = tribble(
@@ -21,7 +18,8 @@ remove_sites_inspect = tribble(
   "it0963a", "no2",
   "pt03072", "no2",
   "gr0031a", "ox",
-  "ie0028a", "no2"
+  "ie0028a", "no2",
+  "es1131a", "o3"
 )
 
 # Have we removed site used in an Ox calculation?  ------------------------

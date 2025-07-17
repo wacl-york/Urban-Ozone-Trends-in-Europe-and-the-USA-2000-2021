@@ -4,7 +4,7 @@ library(dplyr)
 library(purrr)
 library(lubridate)
 
-source(here::here('functions','connect_to_db.R'))
+source(here::here('functions','utils.R'))
 
 inputDir = here(readLines("data_config.txt",n = 1),"data","toar","stations")
 

@@ -3,7 +3,15 @@ library(here)
 library(dplyr)
 library(lubridate)
 
-source(here::here('functions','connect_to_db.R'))
+source(here::here('functions','utils.R'))
+
+any_less_than_60 = function(percs){
+
+  y = sum(percs<60)
+
+  y == 0
+
+}
 
 con = connect_to_db(FALSE)
 
@@ -15,16 +23,15 @@ endDate = ymd_hm("2022-01-01 00:00")
 ts = tibble(date = seq(startDate, endDate, "hour"))
 x = nrow(ts)
 
-coverage = tbl(con, "all_data") |>
+coverage_total = tbl(con, "all_data") |>
   group_by(station_id, name) |>
   filter(!is.na(value),
          between(date, startDate, endDate)) |>
   count() |>
   mutate(perc = (n/x)*100) |>
   collect() |>
-  mutate(coverage_check = perc >= 90)
+  mutate(total_coverage_check = perc >= 70)
 
-dbWriteTable(con, "coverage", coverage, overwrite = T)
+dbWriteTable(con, "coverage_total", coverage, overwrite = T)
 
 dbDisconnect(con, shutdown = T)
-

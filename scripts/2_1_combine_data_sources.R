@@ -2,33 +2,11 @@ library(DBI)
 library(here)
 library(dplyr)
 library(toarR)
-library(saqgetr)
 
-source(here::here('functions','connect_to_db.R'))
+source(here::here('functions','utils.R'))
 
 con = connect_to_db(FALSE)
-
-# Lookup existing sites ---------------------------------------------------
-
-if("all_data" %in% dbListTables(con)){
-  added = tbl(con, "all_data") |>
-    select(station_id) |>
-    distinct() |>
-    mutate(station_id = as.character(station_id))
-
-  dbWriteTable(con, "all_data_stations", collect(added), overwrite = TRUE)
-
-}else{
-  temp = tribble(
-    ~station_id
-  ) |>
-    mutate(station_id = as.character(station_id))
-
-  dbWriteTable(con, "all_data_stations", temp,overwrite = TRUE)
-
-  added = tbl(con, "all_data_stations")
-}
-
+# nb:/ this needs ~ 50 Gb of memory
 # TOAR --------------------------------------------------------------------
 
 dbWriteTable(con, "toarFlags", list_controlled_vocabulary("Data Flag"), overwrite = TRUE)
@@ -57,12 +35,9 @@ toarData = tbl(con, "toarData") |>
          lat,
          lng) |>
   mutate(station_id = as.character(station_id)) |>
-  anti_join(added, "station_id") |>
   collect()
 
 dbWriteTable(con, "all_data", toarData, overwrite = TRUE)
-
-# insert_tbl_into_db(con, toarData, "all_data")
 
 # EEA ---------------------------------------------------------------------
 
@@ -83,12 +58,37 @@ eeaData = tbl(con, "eeaData") |>
          value,
          lat,
          lng) |>
-  anti_join(added, "station_id") |>
+  group_by(date, # ~ 20 of the eeaData sites have greater than 100% data due to overlapping processes.
+           station_id, # These data appear to be identical, so we just average here to get a single value per hour
+           station_type,
+           name,
+           lat,
+           lng) |>
+  summarise_all(mean, na.rm = T) |>
+  mutate(value = value / 1.96) |> # ugm-3 -> ppb
   collect()
 
 dbAppendTable(con, "all_data", eeaData)
 
-# insert_tbl_into_db(con, eeaData, "all_data")
+# Calculate Ox ------------------------------------------------------------
+
+oxStations = tbl(con, "all_data") |>
+  select(name, station_id) |>
+  distinct() |>
+  collect() |>
+  nest_by(station_id) |>
+  filter(nrow(data) > 1) |>
+  pull(station_id)
+
+ox = tbl(con, "all_data") |>
+  filter(station_id %in% oxStations) |>
+  pivot_wider() |>
+  mutate(ox = no2+o3) |>
+  pivot_longer(c(no2, o3, ox)) |>
+  filter(name == "ox") |>
+  collect()
+
+dbAppendTable(con, "all_data", ox)
 
 # -------------------------------------------------------------------------
 
