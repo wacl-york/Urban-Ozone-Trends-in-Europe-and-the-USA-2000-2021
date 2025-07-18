@@ -33,15 +33,14 @@ checks = data.frame(
   qa_variablity = NA
 )
 
-dir_list = list(
-  out = file.path(data_path(), "series"),
-  checks = file.path(dir_out, "checks"),
-  hour = file.path(dir_out, "dat_hour"),
-  mda8 = file.path(dir_out, "dat_mda8"),
-  metrics = file.path(dir_out, "dat_metrics"),
-  coverage_annual = file.path(dir_out, "dat_coverage_annual"),
-  coverage_warm = file.path(dir_out, "dat_coverage_warm")
-)
+dir_list = list(out = file.path(data_path(), "series"))
+dir_list$checks = file.path(dir_list$out, "checks")
+dir_list$hour = file.path(dir_list$out, "dat_hour")
+dir_list$mda8 = file.path(dir_list$out, "dat_mda8")
+dir_list$metrics = file.path(dir_list$out, "dat_metrics")
+dir_list$coverage_annual = file.path(dir_list$out, "dat_coverage_annual")
+dir_list$coverage_warm = file.path(dir_list$out, "dat_coverage_warm")
+
 
 path_list = list()
 
@@ -54,12 +53,9 @@ for(i in 1:length(dir_list)){
 
 }
 
-
 skip = FALSE # set TRUE if a check fails, then we don't bother with the subsequent checks
 
-
 # Remove Sites Due to Visual Inspection ----------------------------------
-
 
 log_message("Remove Sites",stn, nm)
 
@@ -70,14 +66,12 @@ remove_sites = tbl(con, "remove_sites") |>
 
 if(nrow(remove_sites) > 0){
   checks$notOnRemoveList = FALSE
-
+  log_message("Skip",stn, nm)
   skip = TRUE
   write.csv(checks, path_list$checks, row.names = F)
 }else{
   checks$notOnRemoveList = TRUE
 }
-
-
 
 # Pre Coverage ------------------------------------------------------------
 if(!skip){
@@ -89,7 +83,7 @@ if(!skip){
 
   if(!coverage_total$total_coverage_check){
     checks$passPreCoverageCheck = FALSE
-
+    log_message("Skip",stn, nm)
     skip = TRUE
     write.csv(checks, path_list$checks, row.names = F)
 
@@ -97,7 +91,6 @@ if(!skip){
     checks$passPreCoverageCheck = TRUE
   }
 }
-
 
 # QA ----------------------------------------------------------------------
 
@@ -194,6 +187,7 @@ if(!skip){
     mutate(total_coverage_check = perc >= 80)
 
   if(!coverage_after_QA$total_coverage_check){
+    log_message("Skip",stn, nm)
     skip = TRUE
     write.csv(checks, path_list$checks, row.names = F)
   }else{
@@ -206,7 +200,7 @@ if(!skip){
 
 if(!skip){
   # Create Climatology ------------------------------------------------------
-
+  log_message("Checks passed - creating data",stn, nm)
   log_message("Climatology",stn, nm)
 
   clim = dat |>
@@ -216,12 +210,11 @@ if(!skip){
     ungroup()
 
 
-# # Calculate Anom --------------------------------------------------------
+  # Calculate Anom --------------------------------------------------------
 
   dat = dat |>
     left_join(clim, "m") |>
     mutate(anom = value-clim_mean)
-
 
   # Local Date --------------------------------------------------------------
 
@@ -248,19 +241,20 @@ if(!skip){
            name = nm) |>
     select(x, date, local_date, station_id, name, timezone, value, anom)
 
-
   # Annual Coverage ---------------------------------------------------------
-
+  log_message("make coverage_annual",stn, nm)
   coverage_annual = hour_dat |>
     mutate(date = floor_date(date, "year")) |>
     mutate(value = ifelse(is.na(value), 0, 1)) |>
     group_by(date) |>
     summarise(n = sum(value)) |>
     mutate(perc = (n/8760)*100,
-           coverage_check = perc > 60)
+           coverage_check = perc > 60,
+           station_id = stn,
+           name = nm)
 
   # Warm Coverage -----------------------------------------------------------
-
+  log_message("make coverage_warm",stn, nm)
   coverage_warm = hour_dat |>
     filter(month(date) %in% c(4,5,6,7,8,9)) |>
     mutate(date = floor_date(date, "year")) |>
@@ -268,10 +262,11 @@ if(!skip){
     group_by(date) |>
     summarise(n = sum(value)) |>
     mutate(perc = (n/4380)*100,
-           coverage_check = perc > 60)
+           coverage_check = perc > 60,
+           station_id = stn,
+           name = nm)
 
   # Extra O3 calcs ----------------------------------------------------------
-
 
   if(nm == "o3"){
     ## MDA8 --------------------------------------------------------------------
@@ -280,7 +275,7 @@ if(!skip){
     tsDay = tibble(day = seq(min(ymd("2000-01-01")), max(ymd("2023-12-31")), "day")) |>
       mutate(x = row_number())
 
-    mda8_data = hour_dat |>
+    mda8_dat = hour_dat |>
       select(local_date, value) |>
       mutate(
         mda8 = rollapply(
@@ -307,7 +302,7 @@ if(!skip){
     ## Metrics -----------------------------------------------------------------
     log_message("Metrics",stn, nm)
 
-    mda8_warm = mda8_data |>
+    mda8_warm = mda8_dat |>
       filter(month(date) %in% c(4,5,6,7,8,9))
 
     tsYear = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "year")) |>
@@ -348,7 +343,7 @@ if(!skip){
 
     log_message("NDGT70",stn, nm)
     ### Annual count of number of days of MDA8 > 70 ppb.
-    metrics$metric_NDGT70 = mda8_data |>
+    metrics$metric_NDGT70 = mda8_dat |>
       mutate(
         date = floor_date(date, "year"),
         exceeded_limit = mda8 > 70
@@ -371,7 +366,7 @@ if(!skip){
     ### The sum of the positive differences between the daily maximum 8-h ozone mixing ratio and the cut-off
     ### value set at 35 ppb (70 µg m–3) calculated for all days in a year.
 
-    metrics$metric_SOMO35 = mda8_data |>
+    metrics$metric_SOMO35 = mda8_dat |>
       mutate(
         date = floor_date(date, "year"),
         SOMO35 = mda8-35) |>
@@ -457,19 +452,27 @@ if(!skip){
 
     metric_dat = bind_rows(metrics)
 
+    ## Write Data - O3 Only --------------------------------------------------------------
+    log_message("Write mda8_dat",stn, nm)
+    write.csv(mda8_dat, path_list$mda8, row.names = F)
+
+    log_message("Write metric_dat",stn, nm)
+    write.csv(metric_dat, path_list$metrics, row.names = F)
+
   }
 
+
+  # Write Data --------------------------------------------------------------
+
+  log_message("Write coverage_warm",stn, nm)
+  write.csv(coverage_warm, path_list$coverage_warm, row.names = F)
+
+  log_message("Write coverage_annual",stn, nm)
+  write.csv(coverage_annual, path_list$coverage_annual, row.names = F)
+
+  log_message("Write hour_dat",stn, nm)
+  write.csv(hour_dat, path_list$hour, row.names = F)
+
 }
-
-# Write Data --------------------------------------------------------------
-
-write.csv(hour_dat, path_list$hour, row.names = F)
-write.csv(mda8_dat, path_list$mda8, row.names = F)
-write.csv(metric_dat, path_list$metrics, row.names = F)
-write.csv(coverage_warm, path_list$coverage_warm, row.names = F)
-write.csv(coverage_annual, path_list$coverage_annual, row.names = F)
-
-
-# d/c ---------------------------------------------------------------------
 
 dbDisconnect(con, shutdown = T)
