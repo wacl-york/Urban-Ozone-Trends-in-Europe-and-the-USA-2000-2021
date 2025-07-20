@@ -36,6 +36,9 @@ checks = data.frame(
 dir_list = list(out = file.path(data_path(), "series"))
 dir_list$checks = file.path(dir_list$out, "checks")
 dir_list$hour = file.path(dir_list$out, "dat_hour")
+dir_list$daily_all = file.path(dir_list$out, "dat_daily_all")
+dir_list$daily_day = file.path(dir_list$out, "dat_daily_day")
+dir_list$daily_night = file.path(dir_list$out, "dat_daily_night")
 dir_list$mda8 = file.path(dir_list$out, "dat_mda8")
 dir_list$metrics = file.path(dir_list$out, "dat_metrics")
 dir_list$coverage_annual = file.path(dir_list$out, "dat_coverage_annual")
@@ -216,7 +219,7 @@ if(!skip){
     left_join(clim, "m") |>
     mutate(anom = value-clim_mean)
 
-  # Local Date --------------------------------------------------------------
+  # Dat Hour --------------------------------------------------------------
 
   log_message("make hour_dat",stn, nm)
 
@@ -240,6 +243,52 @@ if(!skip){
     mutate(station_id = stn,
            name = nm) |>
     select(x, date, local_date, station_id, name, timezone, value, anom)
+
+
+  # Dat day -----------------------------------------------------------------
+
+  log_message("make daily_dat",stn, nm)
+
+  tsDay = tibble(date = seq(min(ymd("2000-01-01")), max(ymd("2023-12-31")), "day")) |>
+    mutate(x = row_number())
+
+  log_message("make daily_all_dat",stn, nm)
+
+  daily_all_dat = hour_dat |>
+    mutate(date = floor_date(date, "day")) |>
+    group_by(date, station_id, name, timezone) |>
+    summarise(value = mean(value, na.rm = T)) |>
+    left_join(tsDay, y = _, "date") |>
+    mutate(m = month(date)) |>
+    left_join(clim, "m") |>
+    mutate(anom = value-clim_mean) |>
+    select(-m, -clim_mean)
+
+  log_message("make daily_day_dat",stn, nm)
+
+  daily_day_dat = hour_dat |>
+    filter(hour(date) %in% 8:19) |>
+    mutate(date = floor_date(date, "day")) |>
+    group_by(date, station_id, name, timezone) |>
+    summarise(value = mean(value, na.rm = T)) |>
+    left_join(tsDay, y = _, "date") |>
+    mutate(m = month(date)) |>
+    left_join(clim, "m") |>
+    mutate(anom = value-clim_mean) |>
+    select(-m, -clim_mean)
+
+  log_message("make daily_night_dat",stn, nm)
+
+  daily_night_dat = hour_dat |>
+    filter(!hour(date) %in% 8:19) |>
+    mutate(date = floor_date(date, "day")) |>
+    group_by(date, station_id, name, timezone) |>
+    summarise(value = mean(value, na.rm = T)) |>
+    left_join(tsDay, y = _, "date") |>
+    mutate(m = month(date)) |>
+    left_join(clim, "m") |>
+    mutate(anom = value-clim_mean) |>
+    select(-m, -clim_mean)
 
   # Annual Coverage ---------------------------------------------------------
   log_message("make coverage_annual",stn, nm)
@@ -296,8 +345,11 @@ if(!skip){
       filter(!is.na(x)) |>
       mutate(station_id = stn,
              name = nm,
-             timezone = tzMeta) |>
-      select(x, date = day, station_id, name, timezone, mda8)
+             timezone = tzMeta,
+             m = month(day)) |>
+      left_join(clim, "m") |>
+      mutate(mda8_anom = mda8-clim_mean) |>
+      select(x, date = day, station_id, name, timezone, mda8, mda8_anom)
 
     ## Metrics -----------------------------------------------------------------
     log_message("Metrics",stn, nm)
@@ -432,6 +484,54 @@ if(!skip){
       mutate(value = ifelse(coverage_check, value, NA)) |>
       select(-coverage_check)
 
+    ### Calculate 6MMDA1 --------------------------------------------------------
+    log_message("6MMDA1",stn, nm)
+    ### Annual maximum of the three-month average of daily 1-hour maximum ozone value.
+    ### Three month running mean values calculated were assigned to the mid-point of the 3 month period.
+
+    # Calculate the daily max hourly o3 value
+
+    calc_6mmda1 = function(x){
+
+      y = x[!is.na(x)]
+
+      if(length(y) < 182*0.75){
+        return(NA)
+      }
+
+      mean(x, na.rm = T)
+
+    }
+
+    metrics$metric_6MMDA1 = hour_dat |>
+      mutate(date = floor_date(date, "day")) |>
+      select(date, station_id, name, timezone, value) |>
+      group_by(date) |>
+      filter(value == max_or_empty(value)) |>
+      ungroup() |>
+      mutate(
+        x_6mmda1 = rollapply(
+          data = value,
+          width = 182,
+          FUN = calc_6mmda1,
+          fill = NA,
+          align = "center")
+      ) |>
+      select(date, station_id, name, timezone, value = x_6mmda1) |>
+      mutate(
+        date = floor_date(date, "year"),
+        metric = "6MMDA1"
+      ) |>
+      group_by(date) |>
+      filter(value == max_or_empty(value)) |>
+      ungroup() |>
+      left_join(
+        select(coverage_annual, date, coverage_check),
+        "date"
+      ) |>
+      mutate(value = ifelse(coverage_check, value, NA)) |>
+      select(-coverage_check)
+
 
     ### Calculate AVGMDA8 -------------------------------------------------------
     log_message("AVGMDA8",stn, nm)
@@ -450,7 +550,8 @@ if(!skip){
       mutate(value = ifelse(coverage_check, value, NA)) |>
       select(-coverage_check)
 
-    metric_dat = bind_rows(metrics)
+    metric_dat = bind_rows(metrics) |>
+      left_join(tsYear, "date")
 
     ## Write Data - O3 Only --------------------------------------------------------------
     log_message("Write mda8_dat",stn, nm)
@@ -472,6 +573,15 @@ if(!skip){
 
   log_message("Write hour_dat",stn, nm)
   write.csv(hour_dat, path_list$hour, row.names = F)
+
+  log_message("Write daily_all_dat",stn, nm)
+  write.csv(daily_all_dat, path_list$daily_all, row.names = F)
+
+  log_message("Write daily_day_dat",stn, nm)
+  write.csv(daily_day_dat, path_list$daily_day, row.names = F)
+
+  log_message("Write daily_night_dat",stn, nm)
+  write.csv(daily_night_dat, path_list$daily_night, row.names = F)
 
 }
 

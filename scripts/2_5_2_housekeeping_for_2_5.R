@@ -2,15 +2,21 @@ library(DBI)
 library(dplyr)
 library(purrr)
 library(mirai)
+library(tidyr)
 library(stringr)
 
+
 source(here::here('functions','utils.R'))
+source(here::here('functions','regression.R'))
 
 con = connect_to_db(FALSE)
 
 dir_list = list(out = file.path(data_path(), "series"))
 dir_list$checks = file.path(dir_list$out, "checks")
 dir_list$hour = file.path(dir_list$out, "dat_hour")
+dir_list$daily_all = file.path(dir_list$out, "dat_daily_all")
+dir_list$daily_day = file.path(dir_list$out, "dat_daily_day")
+dir_list$daily_night = file.path(dir_list$out, "dat_daily_night")
 dir_list$mda8 = file.path(dir_list$out, "dat_mda8")
 dir_list$metrics = file.path(dir_list$out, "dat_metrics")
 dir_list$coverage_annual = file.path(dir_list$out, "dat_coverage_annual")
@@ -19,9 +25,7 @@ dir_list$logs = file.path(dir_list$out, "logs")
 
 # series_checks -----------------------------------------------------------
 
-
-
-if(dbExistsTable("series_checks")){
+if(dbExistsTable(con,"series_checks")){
   dbRemoveTable(con, "series_checks")
 }
 
@@ -48,7 +52,7 @@ dbExecute(
 
 # dat_hour ----------------------------------------------------------------
 
-if(dbExistsTable("dat_hour")){
+if(dbExistsTable(con,"dat_hour")){
   dbRemoveTable(con, "dat_hour")
 }
 
@@ -60,8 +64,8 @@ dbExecute(
     FROM read_csv('{{dir_list$hour}}/*.csv',
       columns = {
       'x': 'DECIMAL',
-      'date': 'DATE',
-      'local_date': 'DATE',
+      'date': 'TIMESTAMP',
+      'local_date': 'TIMESTAMP',
       'station_id': 'VARCHAR',
       'name': 'VARCHAR',
       'timezone': 'VARCHAR',
@@ -72,9 +76,81 @@ dbExecute(
 )
 
 
+# dat_daily_all -----------------------------------------------------------------
+
+if(dbExistsTable(con,"dat_daily_all")){
+  dbRemoveTable(con, "dat_daily_all")
+}
+
+dbExecute(
+  con,
+  glue::glue("
+  CREATE TABLE dat_daily_all AS
+    SELECT *
+    FROM read_csv('{{dir_list$daily_all}}/*.csv',
+      columns = {
+      'date': 'TIMESTAMP',
+      'x': 'DECIMAL',
+      'station_id': 'VARCHAR',
+      'name': 'VARCHAR',
+      'timezone': 'VARCHAR',
+      'value': 'DECIMAL',
+      'anom': 'DECIMAL'
+      },
+      nullstr = 'NA')", .open = "{{", .close = "}}", sep = "")
+)
+
+# dat_daily_day -----------------------------------------------------------------
+
+if(dbExistsTable(con,"dat_daily_day")){
+  dbRemoveTable(con, "dat_daily_day")
+}
+
+dbExecute(
+  con,
+  glue::glue("
+  CREATE TABLE dat_daily_day AS
+    SELECT *
+    FROM read_csv('{{dir_list$daily_day}}/*.csv',
+      columns = {
+      'date': 'TIMESTAMP',
+      'x': 'DECIMAL',
+      'station_id': 'VARCHAR',
+      'name': 'VARCHAR',
+      'timezone': 'VARCHAR',
+      'value': 'DECIMAL',
+      'anom': 'DECIMAL'
+      },
+      nullstr = 'NA')", .open = "{{", .close = "}}", sep = "")
+)
+
+# dat_daily_day -----------------------------------------------------------------
+
+if(dbExistsTable(con,"dat_daily_night")){
+  dbRemoveTable(con, "dat_daily_night")
+}
+
+dbExecute(
+  con,
+  glue::glue("
+  CREATE TABLE dat_daily_night AS
+    SELECT *
+    FROM read_csv('{{dir_list$daily_night}}/*.csv',
+      columns = {
+      'date': 'TIMESTAMP',
+      'x': 'DECIMAL',
+      'station_id': 'VARCHAR',
+      'name': 'VARCHAR',
+      'timezone': 'VARCHAR',
+      'value': 'DECIMAL',
+      'anom': 'DECIMAL'
+      },
+      nullstr = 'NA')", .open = "{{", .close = "}}", sep = "")
+)
+
 # dat_mda8 ----------------------------------------------------------------
 
-if(dbExistsTable("dat_mda8")){
+if(dbExistsTable(con,"dat_mda8")){
   dbRemoveTable(con, "dat_mda8")
 }
 
@@ -90,7 +166,8 @@ dbExecute(
       'station_id': 'VARCHAR',
       'name': 'VARCHAR',
       'timezone': 'VARCHAR',
-      'mda8': 'DECIMAL'
+      'mda8': 'DECIMAL',
+      'mda8_anom': 'DECIMAL'
       },
       nullstr = 'NA')", .open = "{{", .close = "}}", sep = "")
 )
@@ -98,7 +175,7 @@ dbExecute(
 
 # dat_metrics -------------------------------------------------------------
 
-if(dbExistsTable("dat_metrics")){
+if(dbExistsTable(con,"dat_metrics")){
   dbRemoveTable(con, "dat_metrics")
 }
 
@@ -114,14 +191,15 @@ dbExecute(
       'name': 'VARCHAR',
       'timezone': 'VARCHAR',
       'value': 'DECIMAL',
-      'metric': 'VARCHAR'
+      'metric': 'VARCHAR',
+      'x': 'DECIMAL'
       },
       nullstr = 'NA')", .open = "{{", .close = "}}", sep = "")
 )
 
 # coverage_warm  -------------------------------------------------------------
 
-if(dbExistsTable("coverage_warm")){
+if(dbExistsTable(con,"coverage_warm")){
   dbRemoveTable(con, "coverage_warm")
 }
 
@@ -144,7 +222,7 @@ dbExecute(
 
 # coverage_annual ---------------------------------------------------------
 
-if(dbExistsTable("coverage_annual")){
+if(dbExistsTable(con,"coverage_annual")){
   dbRemoveTable(con, "coverage_annual")
 }
 
@@ -211,6 +289,51 @@ valid_series = tbl(con, "dat_hour") |>
   left_join(steps_reached, by = c("name", "station_id"))
 
 dbWriteTable(con, "valid_series", valid_series, overwrite = T)
+
+
+# regression_type ---------------------------------------------------------
+
+regression_type = valid_series |>
+  select(name, station_id) |>
+  mutate(
+    daily_all = T,
+    daily_day = T,
+    daily_night = T,
+    daily_all_warm = T,
+    daily_all_cold = T,
+    daily_day_warm = T,
+    daily_day_cold = T,
+    daily_night_warm = T,
+    daily_night_cold = T,
+    mda8_all = name == "o3",
+    mda8_warm = name == "o3",
+    mda8_cold = name == "o3",
+    metric = name == "o3"
+  ) |>
+  pivot_longer(-c(name, station_id), names_to = "type") |>
+  filter(value)
+
+dbWriteTable(con, "regression_type", regression_type, overwrite = T)
+
+
+# Regression Scenarios ----------------------------------------------------
+
+regression_scenarios = tbl(con, "dat_daily_all") |>
+  mutate(date = date_trunc("year", date)) |>
+  left_join(tbl(con, "coverage_annual"), c("date", "station_id", "name")) |>
+  filter(coverage_check) |>
+  group_by(station_id, name) |>
+  summarise(minDate = min(date),
+            maxDate = max(date)) |>
+  collect() |>
+  rowwise() |>
+  mutate(scenarios = determine_scenarios(minDate, maxDate) |>
+           list()) |>
+  ungroup() |>
+  tidyr::unnest(scenarios)
+
+
+dbWriteTable(con, "regression_scenarios", regression_scenarios, overwrite = T)
 
 # d/c ---------------------------------------------------------------------
 
