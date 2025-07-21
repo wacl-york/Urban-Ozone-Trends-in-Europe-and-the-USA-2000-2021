@@ -17,8 +17,8 @@ valid_series = tbl(con, "valid_series") |>
   collect() |>
   arrange(station_id, name)
 
-# series_id = as.numeric(commandArgs(trailingOnly = T)[1])+1
-series_id = 1056
+series_id = as.numeric(commandArgs(trailingOnly = T)[1])+1
+# series_id = 97
 
 nm = valid_series$name[series_id]
 stn = valid_series$station_id[series_id]
@@ -134,6 +134,7 @@ for(thisScenario in 1:nrow(scenarios)){
     )
 
   # daily_day_warm ----------------------------------------------------------
+
   reg_list$daily_day_warm[[thisScenario]] = dat |>
     filter(month(date) %in% warm_months) |>
     do_qr_aic(cp1, cp2, calcError = FALSE) |>
@@ -142,7 +143,6 @@ for(thisScenario in 1:nrow(scenarios)){
       station_id = stn,
       name = nm
     )
-
 
   # daily_day_cold ----------------------------------------------------------
 
@@ -291,49 +291,74 @@ for(thisScenario in 1:nrow(scenarios)){
     for(i in 1:length(metrics)){
 
       skip = FALSE
-      if(!is.na(cp1)){
-        part = dat |>
-          filter(date < cp1,
-                 metric == metrics[i],
-                 !is.na(y))
-
-        if(nrow(part) <= 1){
-          skip = TRUE
-        }
-      }
-
-      if(!is.na(cp2)){
-        part = dat |>
-          filter(date >= cp1,
-                 date < cp2,
-                 metric == metrics[i],
-                 !is.na(y))
-
-        if(nrow(part) <= 1){
-          skip = TRUE
-        }
-
-        part = dat |>
-          filter(date >= cp2,
-                 metric == metrics[i],
-                 !is.na(y))
-
-        if(nrow(part) <= 1){
-          skip = TRUE
-        }
-
+      if(!is.na(cp1) & !is.na(cp2)){
+        partLengths = c(
+          dat |>
+            filter(date < cp1,
+                   metric == metrics[i],
+                   !is.na(y)) |>
+            nrow(),
+          dat |>
+            filter(date >= cp1,
+                   date < cp2,
+                   metric == metrics[i],
+                   !is.na(y)) |>
+            nrow(),
+          dat |>
+            filter(date >= cp1,
+                   date < cp2,
+                   metric == metrics[i],
+                   !is.na(y)) |>
+            nrow()
+        )
 
       }
+
+      if(!is.na(cp1) & is.na(cp2)){
+        partLengths = c(
+          dat |>
+            filter(date < cp1,
+                   metric == metrics[i],
+                   !is.na(y)) |>
+            nrow(),
+          dat |>
+            filter(date >= cp1,
+                   metric == metrics[i],
+                   !is.na(y)) |>
+            nrow()
+        )
+
+      }
+
+      if(is.na(cp1) & is.na(cp2)){ # we should never reach this state as the coverage checks should disallow it, but including it here for completeness
+        partLengths = c(
+          dat |>
+            filter(metric == metrics[i],
+                   !is.na(y)) |>
+            nrow()
+        )
+
+      }
+
+      if(sum(partLengths <= 3) > 0 ){ # if there are 3 or less non NA rows in a part, then we skip it
+        skip = TRUE
+      }
+
       if(!skip){
-        metricList[[i]] = dat |>
-          filter(metric == metrics[i]) |>
-          do_qr_aic(cp1, cp2, calcError = FALSE) |>
-          mutate(
-            scenario_idx = scenario_idx,
-            station_id = stn,
-            name = nm,
-            metric = metrics[i]
-          )
+        metricList[[i]] = tryCatch({ # when try catch was added, only 9 series were failing due to oddities in the
+          dat |>
+            filter(metric == metrics[i]) |>
+            do_qr_aic(cp1, cp2, calcError = FALSE) |>
+            mutate(
+              scenario_idx = scenario_idx,
+              station_id = stn,
+              name = nm,
+              metric = metrics[i]
+            )},
+          error = function(e){
+            log_message(paste0("metric -(",i,")- ",metrics[i], " scenario: " ,scenario_idx, "error: ",e), stn, nm)
+            NULL
+            })
       }else{
         metricList[[i]] = NULL
       }

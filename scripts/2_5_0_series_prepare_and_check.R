@@ -476,6 +476,7 @@ if(!skip){
       ) |>
       group_by(date) |>
       filter(value == max_or_empty(value)) |>
+      distinct() |> # sometimes there are 2 max values per year, and this messes up the regressions downstream.
       ungroup() |>
       left_join(
         select(coverage_annual, date, coverage_check),
@@ -525,6 +526,7 @@ if(!skip){
       group_by(date) |>
       filter(value == max_or_empty(value)) |>
       ungroup() |>
+      distinct() |> # sometimes there are 2 max values per year, and this messes up the regressions downstream.
       left_join(
         select(coverage_annual, date, coverage_check),
         "date"
