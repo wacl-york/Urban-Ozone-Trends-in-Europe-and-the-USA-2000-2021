@@ -37,9 +37,23 @@ clean_qr_coef = function(fit){
 
 do_qr_sub = function(dat,
                      years = c(2000,2021),
-                     calcError = TRUE){
+                     calcError = TRUE,
+                     tau = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95)){
 
-  tau = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95)
+  # the outputs from rq are a differnt shape if length(tau) == 1.
+  # It is simpler to handle the length(tau) > 1 everytime, so if we call this functions
+  # with length(tau) == 1, we just make it length(tau) == 2, then drop the made up tau before we return.
+  # Gross.
+  # the user specified tau is kept in tau[1], so we filter for that at the end.
+
+  tau = unique(tau)
+  if(length(tau) == 1){
+    tau = c(tau, tau/2)
+    tauHack = TRUE
+  }else{
+    tauHack = FALSE
+  }
+
 
   if(nrow(dat) > 0){
 
@@ -61,7 +75,7 @@ do_qr_sub = function(dat,
     if(calcError){
       tempSe = tryCatch({
         bs_results <- mbfun(y~x,
-                            data = tempDat,
+                            data = filter(tempDat, !is.na(y)),
                             tau = tau) |>
           replicate(1000, expr = _)
 
@@ -102,6 +116,14 @@ do_qr_sub = function(dat,
       cleanTempPv
     )
 
+    if(tauHack){
+
+      theTau = tau[1]
+
+      tempStat = tempStat |>
+        dplyr::filter(tau == theTau)
+    }
+
     tempStat
 
   }else{
@@ -124,10 +146,11 @@ determine_scenarios = function(minDate, maxDate){
   max_date_range = seq.Date(lubridate::ymd("2002-01-01"), lubridate::ymd("2022-01-01"), "12 month") # we know our time series can't start before 2000, so start possible scenarios from 2002
 
   scenarios_all = purrr::map_df(max_date_range, ~create_scenario(.x, max_date_range)) |> # 2 change points
+    dplyr::filter(cp1 < cp2) |>
     dplyr::bind_rows(dplyr::tibble(cp1 = max_date_range, cp2 = NA)) |> # 1 change point
     dplyr::mutate(scenario_idx = row_number())
 
-  test = scenarios_all |>
+  scenarios_all |>
     rowwise() |>
     dplyr::filter(
       (min(c(lubridate::year(cp1), lubridate::year(cp2)), na.rm = T) > (lubridate::year(minDate)+1)), # no change points within the first two years
@@ -137,7 +160,7 @@ determine_scenarios = function(minDate, maxDate){
 
 }
 
-do_qr_aic = function(dat, cp1, cp2, calcError = TRUE){
+do_qr_aic = function(dat, cp1, cp2, calcError = TRUE, tau = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95)){
 
   switch(
     sum(!is.na(cp1), !is.na(cp2))+1,
@@ -172,7 +195,8 @@ do_qr_aic = function(dat, cp1, cp2, calcError = TRUE){
     regList[[i]] = do_qr_sub(
       dat,
       years = c(parts$startYear[i], parts$endYear[i]),
-      calcError = calcError
+      calcError = calcError,
+      tau = tau
     ) |>
       dplyr::mutate(
         startYear = parts$startYear[i],
@@ -184,8 +208,6 @@ do_qr_aic = function(dat, cp1, cp2, calcError = TRUE){
   dat = dat |>
     dplyr::mutate(yr = lubridate::year(date)) |>
     dplyr::left_join(parts, by = dplyr::join_by(between(yr, startYear, endYear, bounds = "[)")))
-
-  tau = c(0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95)
 
   if(nrow(parts) == 1){ # QR
 

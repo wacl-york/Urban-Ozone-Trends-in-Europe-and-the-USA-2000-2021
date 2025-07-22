@@ -323,15 +323,14 @@ regression_scenarios = tbl(con, "dat_daily_all") |>
   left_join(tbl(con, "coverage_annual"), c("date", "station_id", "name")) |>
   filter(coverage_check) |>
   group_by(station_id, name) |>
-  summarise(minDate = min(date),
-            maxDate = max(date)) |>
+  summarise(minDate = min(date, na.rm = T),
+            maxDate = max(date, na.rm = T)) |>
   collect() |>
   rowwise() |>
   mutate(scenarios = determine_scenarios(minDate, maxDate) |>
            list()) |>
   ungroup() |>
   tidyr::unnest(scenarios)
-
 
 dbWriteTable(con, "regression_scenarios", regression_scenarios, overwrite = T)
 

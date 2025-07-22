@@ -10,7 +10,11 @@ regDirs = tibble(path = list.dirs(data_path("regs"), recursive = F)) |>
   mutate(type = basename(path),
          tableName = paste0("reg_all_",type))
 
+cli::cli_progress_bar(total = nrow(regDirs))
+
 for(i in 1:nrow(regDirs)){
+
+  cli::cli_progress_update()
 
   if(regDirs$type[i] == "logs"){
 
@@ -79,6 +83,5 @@ for(i in 1:nrow(regDirs)){
   )
 
 }
-
 
 dbDisconnect(con, shutdown = T)
