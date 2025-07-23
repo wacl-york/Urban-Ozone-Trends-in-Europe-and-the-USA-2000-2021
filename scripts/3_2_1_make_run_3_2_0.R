@@ -14,8 +14,8 @@ dbDisconnect(con, shutdown = T)
 
 user = system("echo $USER", intern = T)
 
-outputFile = here(data_path(), "piecewise", "logs","%x_%j_%a.log")
-errFile = here(data_path(), "piecewise", "logs","%x_%j_%a.err")
+outputFile = here(data_path(), "piecewise", "logs","freeTau","%x_%j_%a.log")
+errFile = here(data_path(), "piecewise", "logs","freeTau","%x_%j_%a.err")
 
 message = c("#!/usr/bin/env bash",
             "#SBATCH --job-name=run_regression_on_series_type # Job name",

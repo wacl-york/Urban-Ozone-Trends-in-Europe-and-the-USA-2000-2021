@@ -8,6 +8,9 @@ library(lubridate)
 source(here::here('functions','utils.R'))
 source(here::here('functions','regression.R'))
 
+
+# Setup -------------------------------------------------------------------
+
 con = connect_to_db()
 
 valid_series = tbl(con, "valid_series") |>
@@ -30,16 +33,22 @@ scenario_type = scenario_data |>
   )) |>
   select(scenario_idx, scenarioType)
 
-# series_id = 1
+# series_id = 2
 series_id = as.numeric(commandArgs(trailingOnly = T)[1])+1
 
 nm = valid_series$name[series_id]
 stn = valid_series$station_id[series_id]
 
 warm_months = 4:9
-day_hours = 8:19
 
+
+# Regs To Do --------------------------------------------------------------
+# Determing Regs to do:
+# - filter out non-anom mda8 and metrics where tau != 0.5
+# - filter for the min aic across all scenarios
+log_message("Determining regs to do",stn, nm)
 regs_to_do = min_aic_regs |>
+  filter(!(str_detect(dataType, "mda8") & !str_detect(dataType, "mda8_anom"))) |>
   filter(name == nm,
          station_id == stn) |>
   collect() |>
@@ -53,66 +62,113 @@ regs_to_do = min_aic_regs |>
               list()) |>
   ungroup() |>
   left_join(scenario_data, "scenario_idx") |>
-  mutate(dataSource = case_when(
-    str_detect(dataType, "daily_all") ~ "dat_daily_all",
-    str_detect(dataType, "daily_day") ~ "dat_daily_day",
-    str_detect(dataType, "daily_night") ~ "dat_daily_night",
-    str_detect(dataType, "mda8_anom") ~ "dat_mda8_anom",
-    str_detect(dataType, "mda8") ~ "dat_mda8",
-    str_detect(dataType, "metrics") ~ "dat_metrics"
-  )) |>
   arrange(dataType) |>
-  left_join(scenario_type, "scenario_idx") |>
-  filter(dataSource != "dat_mda8")
+  left_join(scenario_type, "scenario_idx")
 
+# Get releveant data. A table per dataType
+log_message("Getting Data",stn, nm)
 datList = list(
-  dat_daily_all = tbl(con, "dat_daily_all") |>
+
+  reg_all_daily_all = tbl(con, "dat_daily_all") |>
     filter(name == nm,
            station_id == stn) |>
     collect() |>
     mutate(y = anom),
 
-  dat_daily_day = tbl(con, "dat_daily_day") |>
+  reg_all_daily_all_cold = tbl(con, "dat_daily_all") |>
+    filter(name == nm,
+           station_id == stn,
+           !month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = anom),
+
+  reg_all_daily_all_warm = tbl(con, "dat_daily_all") |>
+    filter(name == nm,
+           station_id == stn,
+           month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = anom),
+
+  reg_all_daily_day = tbl(con, "dat_daily_day") |>
     filter(name == nm,
            station_id == stn) |>
     collect() |>
     mutate(y = anom),
 
-  dat_daily_night = tbl(con, "dat_daily_night") |>
+  reg_all_daily_day_cold = tbl(con, "dat_daily_day") |>
+    filter(name == nm,
+           station_id == stn,
+           !month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = anom),
+
+  reg_all_daily_day_warm = tbl(con, "dat_daily_day") |>
+    filter(name == nm,
+           station_id == stn,
+           month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = anom),
+
+  reg_all_daily_night = tbl(con, "dat_daily_night") |>
     filter(name == nm,
            station_id == stn) |>
     collect() |>
     mutate(y = anom),
 
-  dat_mda8 = tbl(con, "dat_mda8") |>
+  reg_all_daily_night_cold = tbl(con, "dat_daily_night") |>
     filter(name == nm,
-           station_id == stn) |>
+           station_id == stn,
+           !month(date) %in% warm_months) |>
     collect() |>
-    mutate(y = mda8),
+    mutate(y = anom),
 
-  dat_mda8_anom = tbl(con, "dat_mda8") |>
+  reg_all_daily_night_warm = tbl(con, "dat_daily_night") |>
+    filter(name == nm,
+           station_id == stn,
+           month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = anom),
+
+  reg_all_mda8_anom_all = tbl(con, "dat_mda8") |>
     filter(name == nm,
            station_id == stn) |>
     collect() |>
     mutate(y = mda8_anom),
 
-  dat_metrics = tbl(con, "dat_metrics") |>
+  reg_all_mda8_anom_cold = tbl(con, "dat_mda8") |>
+    filter(name == nm,
+           station_id == stn,
+           !month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = mda8_anom),
+
+  reg_all_mda8_anom_warm = tbl(con, "dat_mda8") |>
+    filter(name == nm,
+           station_id == stn,
+           month(date) %in% warm_months) |>
+    collect() |>
+    mutate(y = mda8_anom),
+
+  reg_all_metrics = tbl(con, "dat_metrics") |>
     filter(name == nm,
            station_id == stn) |>
     collect() |>
     mutate(y = value)
 )
 
+dbDisconnect(con, shutdown = T)
+
 outList = list()
 
 for(i in 1:nrow(regs_to_do)){
 
-  dat = datList[[regs_to_do$dataSource[i]]] |>
-    mutate(yr = year(date))
+  dat = datList[[regs_to_do$dataType[i]]] |>
+    mutate(yr = year(date)) # year is needed to assign piecewise pieces
 
   dt = regs_to_do$dataType[i]
 
-  if(regs_to_do$dataSource[i] == "dat_metrics"){
+  # filter for the given metric
+  if(str_detect(regs_to_do$dataType[i], "metrics")){
     dat = dat |>
       filter(metric == regs_to_do$metric[i])
 
@@ -122,10 +178,9 @@ for(i in 1:nrow(regs_to_do)){
 
   log_message(paste0("calculating - ",dt),stn, nm)
 
-
-  nfree = length(outList$freeTauList[[dt]])+1
-
-  outList$freeTauList[[dt]][[nfree]] = do_qr_aic(
+  # calculate regressions
+  nStats = length(outList$statsList[[dt]])+1
+  outList$statsList[[dt]][[nStats]] = do_qr_aic(
     dat = dat,
     cp1 = regs_to_do$cp1[i],
     cp2 = regs_to_do$cp2[i],
@@ -140,8 +195,9 @@ for(i in 1:nrow(regs_to_do)){
     mutate(station_id = stn,
            name = nm)
 
-  npiece = length(outList$piecewiseList[[dt]])+1
-  outList$piecewiseList[[dt]][[npiece]] = outList$freeTauList[[dt]][[nfree]] |>
+  # calcaulte model values from regression coefficents
+  nData = length(outList$dataList[[dt]])+1
+  outList$dataList[[dt]][[nData]] = outList$statsList[[dt]][[nStats]] |>
     filter(type == "fit") |>
     pivot_wider(names_from = "stat") |>
     left_join(
@@ -158,16 +214,20 @@ for(i in 1:nrow(regs_to_do)){
       )) |>
     mutate(piecewise = ((slope*x) + intercept))
 
+  # If this is a metric, record the name of it in the stats table
+  if(str_detect(regs_to_do$dataType[i], "metrics")){
+    outList$statsList[[dt]][[nStats]] = outList$statsList[[dt]][[nStats]] |>
+      mutate(metric = regs_to_do$metric[i])
+  }
+
 }
 
-dbDisconnect(con, shutdown = T)
-
-freeTau = map(outList$freeTauList, \(x) reduce(x, bind_rows))
+statsDat = map(outList$statsList, \(x) reduce(x, bind_rows))
 
 if(nm == "o3"){
-  freeTauMetrics = freeTau[str_detect(names(freeTau), "metrics_")]
-  freeTau = freeTau[!str_detect(names(freeTau), "metrics_")]
-  freeTau$reg_all_metrics = reduce(freeTauMetrics,bind_rows)
+  statsMetrics = statsDat[str_detect(names(statsDat), "metrics_")]
+  statsDat = statsDat[!str_detect(names(statsDat), "metrics_")]
+  statsDat$reg_all_metrics = reduce(statsMetrics,bind_rows)
 }
 
 dirOut = data_path("piecewise","stats", "freeTau")
@@ -175,9 +235,9 @@ if(!dir.exists(dirOut)){
   dir.create(dirOut, recursive = T)
 }
 
-for(i in 1:length(freeTau)){
+for(i in 1:length(statsDat)){
 
-  type = names(freeTau)[[i]]
+  type = names(statsDat)[[i]]
 
   log_message(paste0("writing stats - ", type), stn, nm)
 
@@ -188,16 +248,16 @@ for(i in 1:length(freeTau)){
   }
 
   fileName = file.path(subDir,paste0(type,"_piecewise_stats_freeTau_",stn,"_", nm, ".csv"))
-  write.csv(freeTau[[i]], fileName, row.names = F)
+  write.csv(statsDat[[i]], fileName, row.names = F)
 
 }
 
-piecewise = map(outList$piecewiseList, \(x) reduce(x, bind_rows))
+datDat = map(outList$dataList, \(x) reduce(x, bind_rows))
 
 if(nm == "o3"){
-  pieceWiseMetrics = piecewise[str_detect(names(piecewise), "metrics_")]
-  piecewise = piecewise[!str_detect(names(piecewise), "metrics_")]
-  piecewise$reg_all_metrics = reduce(pieceWiseMetrics,bind_rows)
+  datDatMetrics = datDat[str_detect(names(datDat), "metrics_")]
+  datDat = datDat[!str_detect(names(datDat), "metrics_")]
+  datDat$reg_all_metrics = reduce(datDatMetrics,bind_rows)
 }
 
 dirOut = data_path("piecewise", "data", "freeTau")
@@ -206,9 +266,9 @@ if(!dir.exists(dirOut)){
   dir.create(dirOut, recursive = T)
 }
 
-for(i in 1:length(piecewise)){
+for(i in 1:length(datDat)){
 
-  type = names(piecewise)[[i]]
+  type = names(datDat)[[i]]
 
   log_message(paste0("writing data - ", type), stn, nm)
 
@@ -219,6 +279,6 @@ for(i in 1:length(piecewise)){
   }
 
   fileName = file.path(subDir,paste0(type,"_piecewise_data_freeTau_",stn,"_", nm, ".csv"))
-  write.csv(piecewise[[i]], fileName, row.names = F)
+  write.csv(datDat[[i]], fileName, row.names = F)
 
 }
