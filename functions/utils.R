@@ -30,3 +30,21 @@ read_log = function(path){
 
 }
 
+get_scenario_types = function(){
+
+  con = connect_to_db()
+
+  on.exit(dbDisconnect(con, shutdown = T))
+
+  tbl(con, "regression_scenarios") |>
+    select(cp1, cp2, scenario_idx) |>
+    distinct() |>
+    collect() |>
+    arrange(scenario_idx) |>
+    mutate(scenarioType = case_when(
+      (!is.na(cp1) & !is.na(cp2)) ~ "PQR_2",
+      (!is.na(cp1) & is.na(cp2)) ~ "PQR_1",
+      (is.na(cp1) & is.na(cp2)) ~ "QR"
+    ))
+
+}
