@@ -34,7 +34,7 @@ for(i in 1:nrow(dirTable)){
             columns = {
               'stat': 'VARCHAR',
               'tau': 'DECIMAL',
-              'value': 'DECIMAL',
+              'value': 'DECIMAL(22,16)',
               'type': 'VARCHAR',
               'startYear': 'DECIMAL',
               'endYear': 'DECIMAL',
@@ -58,7 +58,7 @@ for(i in 1:nrow(dirTable)){
             columns = {
               'stat': 'VARCHAR',
               'tau': 'DECIMAL',
-              'value': 'DECIMAL',
+              'value': 'DECIMAL(22,16)',
               'type': 'VARCHAR',
               'startYear': 'DECIMAL',
               'endYear': 'DECIMAL',
@@ -107,8 +107,8 @@ for(i in 1:nrow(dirTable)){
               'scenario_idx': 'DECIMAL',
               'station_id': 'VARCHAR',
               'name': 'VARCHAR',
-              'intercept': 'DECIMAL',
-              'slope': 'DECIMAL',
+              'intercept': 'DECIMAL(22,16)',
+              'slope': 'DECIMAL(22,16)',
               'date': 'TIMESTAMP',
               'timezone': 'VARCHAR',
               'value': 'DECIMAL',
@@ -116,7 +116,7 @@ for(i in 1:nrow(dirTable)){
               'x': 'DECIMAL',
               'y': 'DECIMAL',
               'yr': 'DECIMAL',
-              'piecewise': 'DECIMAL'
+              'piecewise': 'DECIMAL(22,16)'
             },
             nullstr = ['NA','-Inf', 'Inf'])", .open = "{{", .close = "}}", sep = "")
     )
@@ -140,8 +140,8 @@ for(i in 1:nrow(dirTable)){
               'scenario_idx': 'DECIMAL',
               'station_id': 'VARCHAR',
               'name': 'VARCHAR',
-              'intercept': 'DECIMAL',
-              'slope': 'DECIMAL',
+              'intercept': 'DECIMAL(22,16)',
+              'slope': 'DECIMAL(22,16)',
               'x': 'DECIMAL',
               'date': 'TIMESTAMP',
               'timezone': 'VARCHAR',
@@ -149,7 +149,7 @@ for(i in 1:nrow(dirTable)){
               'mda8_anom': 'DECIMAL',
               'y': 'DECIMAL',
               'yr': 'DECIMAL',
-              'piecewise': 'DECIMAL'
+              'piecewise': 'DECIMAL(22,16)'
             },
             nullstr = ['NA','-Inf', 'Inf'])", .open = "{{", .close = "}}", sep = "")
       )
@@ -171,8 +171,8 @@ for(i in 1:nrow(dirTable)){
               'scenario_idx': 'DECIMAL',
               'station_id': 'VARCHAR',
               'name': 'VARCHAR',
-              'intercept': 'DECIMAL',
-              'slope': 'DECIMAL',
+              'intercept': 'DECIMAL(22,16)',
+              'slope': 'DECIMAL(22,16)',
               'date': 'TIMESTAMP',
               'x': 'DECIMAL',
               'timezone': 'VARCHAR',
@@ -180,7 +180,7 @@ for(i in 1:nrow(dirTable)){
               'anom': 'DECIMAL',
               'y': 'DECIMAL',
               'yr': 'DECIMAL',
-              'piecewise': 'DECIMAL'
+              'piecewise': 'DECIMAL(22,16)'
             },
             nullstr = ['NA','-Inf', 'Inf'])", .open = "{{", .close = "}}", sep = "")
       )
