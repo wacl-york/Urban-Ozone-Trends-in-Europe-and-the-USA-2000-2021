@@ -158,7 +158,15 @@ for(i in 1:length(tables)){
       mutate(n = ifelse(dir == "dec", n*-1, n)) |>
       format_spc_name()
 
-    for(spc in c("O<sub>3</sub>", "NO<sub>2</sub>", "O<sub>x</sub>")){
+    if(str_detect(tableName, "mda8")){
+
+      species = "O<sub>3</sub>"
+
+    }else{
+      species = c("O<sub>3</sub>", "NO<sub>2</sub>", "O<sub>x</sub>")
+    }
+
+    for(spc in species){
 
       plotList[[spc]] = plotDat |>
         filter(name == spc) |>
