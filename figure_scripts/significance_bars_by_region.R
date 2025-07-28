@@ -202,7 +202,7 @@ for(i in 1:length(tables)){
 
   fileOut = here::here("figures", paste0("significance_bars_by_region_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 
-  pdf(fileOut,width = 8, height = 6)
+  pdf(fileOut,width = 10, height = 8)
   print(plotList)
   dev.off()
 
