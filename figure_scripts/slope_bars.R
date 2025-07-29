@@ -17,28 +17,28 @@ expand_slopes = function(df){
 make_slopeBin = function(df) {
   df |>
     mutate(slopeBin = case_when(
-      fit <= -2 ~ "slope <= -2",
-      fit > -2 & fit <= -1.33 ~ "-2 < slope <= -1.33",
-      fit > -1.33 & fit <= -0.67 ~ "-1.33 < slope <= -0.67",
-      fit > -0.67 & fit < 0 ~ "-0.67 < slope < 0",
+      fit <= -1 ~ "slope <= -1",
+      fit > -1 & fit <= -0.67 ~ "-1 < slope <= -0.67",
+      fit > -0.67 & fit <= -0.33 ~ "-0.67 < slope <= -0.33",
+      fit > -0.33 & fit < 0 ~ "-0.33 < slope < 0",
       fit == 0 ~ "slope = 0",
-      fit > 0 & fit <= 0.67 ~ "0 < slope <= 0.67",
-      fit > 0.67 & fit <= 1.33 ~ "0.67 < slope <= 1.33",
-      fit > 1.33 & fit <= 2 ~ "1.33 < slope <= 2",
-      fit > 2 ~ "slope > 2",
+      fit > 0 & fit <= 0.33 ~ "0 < slope <= 0.33",
+      fit > 0.33 & fit <= 0.67 ~ "0.33 < slope <= 0.67",
+      fit > 0.67 & fit <= 1 ~ "0.67 < slope <= 1",
+      fit > 1 ~ "slope > 1",
       TRUE ~ NA
     ) |>
       factor(
         levels = rev(c(
-          "-0.67 < slope < 0",
-          "-1.33 < slope <= -0.67",
-          "-2 < slope <= -1.33",
-          "slope <= -2",
+          "-0.33 < slope < 0",
+          "-0.67 < slope <= -0.33",
+          "-1 < slope <= -0.67",
+          "slope <= -1",
           "slope = 0",
-          "0 < slope <= 0.67",
-          "0.67 < slope <= 1.33",
-          "1.33 < slope <= 2",
-          "slope > 2"
+          "0 < slope <= 0.33",
+          "0.33 < slope <= 0.67",
+          "0.67 < slope <= 1",
+          "slope > 1"
         ))
       )
     )
