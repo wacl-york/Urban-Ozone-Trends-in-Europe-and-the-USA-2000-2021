@@ -29,7 +29,7 @@ make_slopeBin = function(df) {
       TRUE ~ NA
     ) |>
       factor(
-        levels = rev(c(
+        levels = c(
           "slope >= 1",
           "0.67 < slope < 1",
           "0.33 < slope <= 0.67",
@@ -39,7 +39,7 @@ make_slopeBin = function(df) {
           "-0.67 < slope <= -0.33",
           "-1 < slope <= -0.67",
           "slope <= -1"
-        ))
+        )
       )
     )
 }
