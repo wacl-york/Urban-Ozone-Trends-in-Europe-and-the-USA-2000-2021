@@ -14,36 +14,34 @@ expand_slopes = function(df){
     left_join(df, join_by(between(year, startYear, endYear, bounds = "[]")))
 }
 
-make_pvStr = function(df){
-
+make_slopeBin = function(df) {
   df |>
-    mutate(pvStr = case_when(
-      pv <= 0.05 & fit < 0 ~ "p <= 0.05 (dec)",
-      between(pv, 0.05, 0.1) & fit < 0 ~ "0.05 < p <= 0.10 (dec)",
-      between(pv, 0.1, 0.33) & fit < 0 ~ "0.10  < p <= 0.33 (dec)",
-      pv >= 0.33 & fit < 0 ~ "p > 0.33 (dec)",
-      pv >= 0.33 & fit > 0 ~ "p > 0.33 (inc)",
-      between(pv, 0.1, 0.33) & fit > 0 ~ "0.10  < p <= 0.33 (inc)",
-      between(pv, 0.05, 0.1) & fit > 0 ~ "0.05 < p <= 0.10 (inc)",
-      pv <= 0.05 & fit > 0 ~ "p <= 0.05 (inc)",
+    mutate(slopeBin = case_when(
+      fit <= -2 ~ "slope <= -2",
+      fit > -2 & fit <= -1.33 ~ "-2 < slope <= -1.33",
+      fit > -1.33 & fit <= -0.67 ~ "-1.33 < slope <= -0.67",
+      fit > -0.67 & fit < 0 ~ "-0.67 < slope < 0",
+      fit == 0 ~ "slope = 0",
+      fit > 0 & fit <= 0.67 ~ "0 < slope <= 0.67",
+      fit > 0.67 & fit <= 1.33 ~ "0.67 < slope <= 1.33",
+      fit > 1.33 & fit <= 2 ~ "1.33 < slope <= 2",
+      fit > 2 ~ "slope > 2",
       TRUE ~ NA
     ) |>
       factor(
-        levels = rev(
-          c(
-            "p > 0.33 (dec)",
-            "0.10  < p <= 0.33 (dec)",
-            "0.05 < p <= 0.10 (dec)",
-            "p <= 0.05 (dec)",
-            "p > 0.33 (inc)",
-            "0.10  < p <= 0.33 (inc)",
-            "0.05 < p <= 0.10 (inc)",
-            "p <= 0.05 (inc)"
-          )
-        )
+        levels = rev(c(
+          "slope <= -2",
+          "-2 < slope <= -1.33",
+          "-1.33 < slope <= -0.67",
+          "-0.67 < slope < 0",
+          "slope = 0",
+          "0 < slope <= 0.67",
+          "0.67 < slope <= 1.33",
+          "1.33 < slope <= 2",
+          "slope > 2"
+        ))
       )
     )
-
 }
 
 
@@ -84,7 +82,7 @@ clean_df = tibble(
   tau     = double(),     # <dbl>
   dir     = character(),  # <chr>
   year    = integer(),    # <int>
-  pvStr   = factor(),     # <fct>
+  slopeBin  = character(),     # <chr>
   n       = double(),     # <dbl>
   table    = character()   # <chr>
 )
@@ -96,7 +94,7 @@ clean_df_metrics = tibble(
   tau     = double(),     # <dbl>
   dir     = character(),  # <chr>
   year    = integer(),    # <int>
-  pvStr   = factor(),     # <fct>
+  slopeBin   = factor(),     # <chr>
   metric  = character(),  # <chr>
   n       = double(),     # <dbl>
   table    = character()   # <chr>
@@ -126,7 +124,8 @@ for(i in 1:length(tables)){
       filter(
         fit != 0, # there are a few times the slope is zero, but we can 't plot that here so just get rid. They are always p == 1.
       ) |>
-      make_pvStr() |>
+      make_slopeBin()|>
+      mutate(dir = ifelse(fit > 0, "inc", "dec")) |>
       left_join(tbl(con, "combinedMeta") |>
                   select(station_id, country, timezone) |>
                   distinct() |>
@@ -139,9 +138,8 @@ for(i in 1:length(tables)){
                                 timezone %in% c("America/Chicago", "America/New_York") ~ "Eastern and Central US",
                                 timezone %in% c("America/Los_Angeles", "America/Phoenix", "America/Denver", "Pacific/Honolulu") ~ "Western US and Hawaii",
                                 .default = NA),
-                                country = ifelse(country == "United States of America", country, "Europe"),
-                    dir = ifelse(str_detect(pvStr, "inc"), "inc", "dec")) |>
-      group_by(name, country, tau, region, dir, year, pvStr, metric) |>
+                                country = ifelse(country == "United States of America", country, "Europe")) |>
+      group_by(name, country, tau, region, dir, year, slopeBin, metric) |>
       count() |>
       ungroup() |>
       mutate(n = ifelse(dir == "dec", n*-1, n)) |>
@@ -150,7 +148,7 @@ for(i in 1:length(tables)){
 
     plotList$metric = plotDat |>
       ggplot()+
-      geom_bar(aes(year,n, fill = pvStr), stat = "identity", position = "stack")+
+      geom_bar(aes(year,n, fill = slopeBin), stat = "identity", position = "stack")+
       geom_hline(aes(yintercept = 0))+
       scale_fill_manual(values = p_colours, name = "")+
       scale_y_continuous(name = "Number of Time Series")+
@@ -174,13 +172,15 @@ for(i in 1:length(tables)){
       mutate(data = data |>
                expand_slopes() |>
                list()) |>
-      unnest(data)
+      unnest(data) |>
+      mutate(fit = fit*365)
 
     plotDat = slopes |>
       filter(
         fit != 0, # there are a few times the slope is zero, but we can 't plot that here so just get rid. They are always p == 1.
       ) |>
-      make_pvStr() |>
+      make_slopeBin() |>
+      mutate(dir = ifelse(fit > 0, "inc", "dec")) |>
       left_join(tbl(con, "combinedMeta") |>
                   select(station_id, country, timezone) |>
                   distinct() |>
@@ -193,9 +193,8 @@ for(i in 1:length(tables)){
                                 timezone %in% c("America/Chicago", "America/New_York") ~ "Eastern and Central US",
                                 timezone %in% c("America/Los_Angeles", "America/Phoenix", "America/Denver", "Pacific/Honolulu") ~ "Western US and Hawaii",
                                 .default = NA),
-             country = ifelse(country == "United States of America", country, "Europe"),
-             dir = ifelse(str_detect(pvStr, "inc"), "inc", "dec")) |>
-      group_by(name, country, region, tau, dir, year, pvStr) |>
+             country = ifelse(country == "United States of America", country, "Europe")) |>
+      group_by(name, country, region, tau, dir, year, slopeBin) |>
       count() |>
       ungroup() |>
       mutate(n = ifelse(dir == "dec", n*-1, n)) |>
@@ -216,7 +215,7 @@ for(i in 1:length(tables)){
         filter(name == spc,
                tau %in% c(0.05, 0.5, 0.95)) |>
         ggplot()+
-        geom_bar(aes(year,n, fill = pvStr), stat = "identity", position = "stack")+
+        geom_bar(aes(year,n, fill = slopeBin), stat = "identity", position = "stack")+
         geom_hline(aes(yintercept = 0))+
         scale_fill_manual(values = p_colours, name = "")+
         scale_y_continuous(name = "Number of Time Series")+
@@ -232,11 +231,12 @@ for(i in 1:length(tables)){
 
   }
 
-  #fileOut = here::here("figures", paste0("significance_bars_by_region_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
+  fileOut = here::here("figures", paste0("slope_bars_by_region_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 
-  #pdf(fileOut,width = 10, height = 8)
-  #print(plotList)
-  #dev.off()
+  pdf(fileOut,width = 10, height = 8)
+  print(plotList)
+  dev.off()
+
   table_df  = clean_df
   table_df_metrics = clean_df_metrics
 
@@ -250,7 +250,7 @@ table_df = table_df |>
   group_by(name, country, region, tau, year, table) |>
   mutate(n_sum = sum(abs(n), na.rm = T)) |>
   ungroup() |>
-  group_by(name, country, region, tau, dir, year, pvStr, table) |>
+  group_by(name, country, region, tau, dir, year, slopeBin, table) |>
   mutate(perc_n = (abs(n)/n_sum)*100) |>
   ungroup()
 
