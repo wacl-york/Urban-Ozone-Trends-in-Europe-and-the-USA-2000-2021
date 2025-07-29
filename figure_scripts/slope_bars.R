@@ -30,10 +30,10 @@ make_slopeBin = function(df) {
     ) |>
       factor(
         levels = rev(c(
-          "slope <= -2",
-          "-2 < slope <= -1.33",
-          "-1.33 < slope <= -0.67",
           "-0.67 < slope < 0",
+          "-1.33 < slope <= -0.67",
+          "-2 < slope <= -1.33",
+          "slope <= -2",
           "slope = 0",
           "0 < slope <= 0.67",
           "0.67 < slope <= 1.33",
