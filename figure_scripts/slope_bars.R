@@ -21,7 +21,7 @@ make_slopeBin = function(df) {
       fit > -1 & fit <= -0.67        ~ "-1 < slope <= -0.67",
       fit > -0.67 & fit <= -0.33     ~ "-0.67 < slope <= -0.33",
       fit > -0.33 & fit < 0          ~ "-0.33 < slope < 0",
-      fit == 0                       ~ "slope = 0",
+      # fit == 0                       ~ "slope = 0",
       fit > 0 & fit <= 0.33          ~ "0 < slope <= 0.33",
       fit > 0.33 & fit <= 0.67       ~ "0.33 < slope <= 0.67",
       fit > 0.67 & fit < 1           ~ "0.67 < slope < 1",
@@ -29,16 +29,17 @@ make_slopeBin = function(df) {
       TRUE ~ NA
     ) |>
       factor(
-        levels = c(
-          "slope >= 1",
-          "0.67 < slope < 1",
-          "0.33 < slope <= 0.67",
-          "0 < slope <= 0.33",
-          "slope = 0",
-          "-0.33 < slope < 0",
-          "-0.67 < slope <= -0.33",
-          "-1 < slope <= -0.67",
-          "slope <= -1"
+        levels = rev(
+          c(
+            "-0.33 < slope < 0",
+            "-0.67 < slope <= -0.33",
+            "-1 < slope <= -0.67",
+            "slope <= -1",
+            "0 < slope <= 0.33",
+            "0.33 < slope <= 0.67",
+            "0.67 < slope < 1",
+            "slope >= 1"
+          )
         )
       )
     )
@@ -184,7 +185,13 @@ for(i in 1:length(tables)){
 
   }
 
-  fileOut = here::here("figures", paste0("slope_bars_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
+  dirOut = here::here("figures","slope_bars")
+
+  if(!dir.exists(dirOut)){
+    dir.create(dirOut)
+  }
+
+  fileOut = here::here(dirOut, paste0("slope_bars_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 
   pdf(fileOut,width = 12, height = 8)
   print(plotList)
