@@ -201,15 +201,15 @@ for(i in 1:length(tables)){
           legend.byrow = T)+
     ggtitle(tableName)
 
-  dirOut = here::here("figures","o3_map")
+  dirOut = data_path("figures", "o3_map")
 
   if(!dir.exists(dirOut)){
-    dir.create(dirOut)
+    dir.create(dirOut, recursive = T)
   }
 
   fileOut = here::here(dirOut, paste0("o3_map_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 
-  pdf(fileOut,width = 12, height = 8)
+  pdf(fileOut,width = 24, height = 16)
   print(plotList)
   dev.off()
 
