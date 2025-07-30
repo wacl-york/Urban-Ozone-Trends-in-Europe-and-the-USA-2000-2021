@@ -6,58 +6,9 @@ library(stringr)
 library(ggplot2)
 
 source(here::here('functions','utils.R'))
-
-expand_slopes = function(df){
-  years = tibble(year = min(df$startYear):max(df$endYear))
-
-  years |>
-    left_join(df, join_by(between(year, startYear, endYear, bounds = "[]")))
-}
-
-make_pvStr = function(df){
-
-  df |>
-    mutate(pvStr = case_when(
-      pv <= 0.05 & fit < 0 ~ "p <= 0.05 (dec)",
-      between(pv, 0.05, 0.1) & fit < 0 ~ "0.05 < p <= 0.10 (dec)",
-      between(pv, 0.1, 0.33) & fit < 0 ~ "0.10  < p <= 0.33 (dec)",
-      pv >= 0.33 & fit < 0 ~ "p > 0.33 (dec)",
-      pv >= 0.33 & fit > 0 ~ "p > 0.33 (inc)",
-      between(pv, 0.1, 0.33) & fit > 0 ~ "0.10  < p <= 0.33 (inc)",
-      between(pv, 0.05, 0.1) & fit > 0 ~ "0.05 < p <= 0.10 (inc)",
-      pv <= 0.05 & fit > 0 ~ "p <= 0.05 (inc)",
-      TRUE ~ NA
-    ) |>
-      factor(
-        levels = rev(
-          c(
-            "p > 0.33 (dec)",
-            "0.10  < p <= 0.33 (dec)",
-            "0.05 < p <= 0.10 (dec)",
-            "p <= 0.05 (dec)",
-            "p > 0.33 (inc)",
-            "0.10  < p <= 0.33 (inc)",
-            "0.05 < p <= 0.10 (inc)",
-            "p <= 0.05 (inc)"
-          )
-        )
-      )
-    )
-
-}
+source(here::here('functions','plotting_utils.R'))
 
 
-format_spc_name = function(df){
-  df |>
-    mutate(name = case_when(name == "no2" ~ "NO<sub>2</sub>",
-                            name == "o3" ~ "O<sub>3</sub>",
-                            name == "ox" ~ "O<sub>x</sub>" ) |>
-             factor(levels = c("O<sub>3</sub>", "NO<sub>2</sub>", "O<sub>x</sub>")),
-           n = case_when(country == "United States of America" & year %in% c(2000:2001, 2020:2023) ~ NA,
-                         country == "Europe" & year %in% c(2000:2001, 2021:2023) ~ NA,
-                         TRUE ~ n
-           ))
-}
 
 # -------------------------------------------------------------------------
 
