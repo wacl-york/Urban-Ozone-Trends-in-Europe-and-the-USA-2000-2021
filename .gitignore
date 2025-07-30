@@ -76,3 +76,7 @@ data_tables/
 
 # exclude science_attepts folder
 science_attempts
+
+# exclude maps for now, becusae they are massive
+figures/o3_map
+
