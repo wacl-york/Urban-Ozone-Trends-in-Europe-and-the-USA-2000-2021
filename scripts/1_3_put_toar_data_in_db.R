@@ -5,7 +5,7 @@ library(dplyr)
 library(stringr)
 library(lubridate)
 
-source(here::here('functions','connect_to_db.R'))
+source(here::here('functions','utils.R'))
 
 con = connect_to_db(FALSE)
 

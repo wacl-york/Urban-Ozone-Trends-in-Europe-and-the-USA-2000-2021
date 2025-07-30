@@ -73,3 +73,10 @@ LOGS/
 
 # exclude data_tables created locally, now transferred to project folder
 data_tables/
+
+# exclude science_attepts folder
+science_attempts
+
+# exclude maps for now, becusae they are massive
+figures/o3_map
+
