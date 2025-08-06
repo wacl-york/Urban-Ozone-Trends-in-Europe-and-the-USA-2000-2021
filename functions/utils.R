@@ -48,3 +48,13 @@ get_scenario_types = function(){
     ))
 
 }
+
+
+
+combinedMetaRegion = function(con){
+
+  dplyr::tbl(con, "combinedMeta") |>
+    dplyr::mutate(region = ifelse(country == "United States of America", country, "Europe"))
+
+
+}
