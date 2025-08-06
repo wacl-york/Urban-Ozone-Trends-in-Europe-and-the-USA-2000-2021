@@ -17,7 +17,7 @@ tables = dbListTables(con)[str_detect(dbListTables(con), "piecewise_stats_freeTa
 
 mycrs = 4087 #8857
 
-world = rnaturalearth::ne_coastline(scale = "large", returnclass = "sf") |>
+world = rnaturalearth::ne_coastline(scale = "small", returnclass = "sf") |>
   st_transform(mycrs)
 
 limUS = tibble(lng = c(-130,-50), lat = c(25,50)) |>
@@ -123,7 +123,7 @@ for(i in 1:length(tables)){
 
   }else{
     lineGroups = slopes |>
-    calc_arrow_end(rangeMax = 2,
+    calc_arrow_end(rangeMax = 3.5,
                    slope = "fit",
                    length = 3) |>
       rename(latitude_start = latitude,
