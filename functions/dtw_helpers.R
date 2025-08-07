@@ -18,7 +18,8 @@ prep_dtw_data = function(con,
     datRaw = tbl(con, tableName) |>
       left_join(
         combinedMetaRegion(con) |>
-          select(region, station_id),
+          select(region, station_id) |>
+          distinct(),
         by = "station_id"
       ) |>
       filter(
@@ -28,17 +29,19 @@ prep_dtw_data = function(con,
       )
 
     dat = datRaw |>
+      select(-x) |>
+      collect() |>
+      nest_by(station_id) |>
+      mutate(data = data |>
+               left_join(tsPad, y = _, "date") |>
+               list()) |>
+      unnest(data) |>
       group_by(station_id) |>
       mutate(y = ifelse(is.na(!!yname), mean(!!yname, na.rm = T), !!yname),
              y = (y-mean(y, na.rm = T))/sd(y, na.rm = T)
       ) |>
-      select(date, station_id, y, value) |>
-      collect() |>
-      mutate(date = floor_date(date, "month")) |>
-      group_by(date, station_id) |>
-      summarise(y = quantile(y, probs = tau, na.rm = T), .groups = "drop") |>
-      left_join(tsPad, "date") |>
-      select(-date) |>
+      select(x, station_id, y) |>
+      mutate(y = ifelse(is.na(y), 0, y)) |>  # if y is still NA, it is because the sd is NA. Happens with metrics where all can be 0 e.g NDGT70 - replace with 0
       arrange(station_id,x) |>
       pivot_wider(names_from = "station_id", values_from = "y") |>
       select(-x) |>
@@ -59,7 +62,8 @@ prep_dtw_data = function(con,
     datRaw = tbl(con, tableName) |>
       left_join(
         combinedMetaRegion(con) |>
-          select(region, station_id),
+          select(region, station_id) |>
+          distinct(),
         by = "station_id"
       ) |>
       filter(
@@ -67,7 +71,8 @@ prep_dtw_data = function(con,
         region == rgn
       ) |>
       mutate(m = month(date)) |>
-      filter(m %in% mnths)
+      filter(m %in% mnths) |>
+      select(-x)
 
     season_anom = datRaw |>
       group_by(m, station_id) |>
@@ -78,17 +83,21 @@ prep_dtw_data = function(con,
         season_anom,
         by = c("station_id", "m")
       ) |>
+      collect() |>
+      nest_by(station_id) |>
+      mutate(data = data |>
+               mutate(date = floor_date(date, "month")) |>
+               left_join(tsPad, y = _, "date") |>
+               list()
+               ) |>
+      unnest(data) |>
       group_by(station_id) |>
       mutate(y = ifelse(is.na(!!yname), season, !!yname),
              y = (y-mean(y, na.rm = T))/sd(y, na.rm = T)
       ) |>
-      select(date, station_id, y) |>
-      collect() |>
-      mutate(date = floor_date(date, "month")) |>
-      group_by(date, station_id) |>
+      select(x, station_id, y) |>
+      group_by(x, station_id) |>
       summarise(y = quantile(y, probs = tau, na.rm = T), .groups = "drop") |>
-      left_join(tsPad, "date") |>
-      select(-date) |>
       arrange(station_id,x) |>
       pivot_wider(names_from = "station_id", values_from = "y") |>
       select(-x) |>

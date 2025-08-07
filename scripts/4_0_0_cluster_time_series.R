@@ -50,6 +50,12 @@ for(rgn in c("United States of America", "Europe")){
   for(i in 1:nrow(scenarios)){
     type = scenarios$type[i]
 
+    # only bother with the meterics in the tau == 0.5 case - tau is not actually used for these as they are already annual, but so we dont waste time re computing them
+    if(str_detect(type, "metric") & tau != 0.5){
+      message(paste("[log]","Skipping Metric at non-0.5 tau",type,rgn, tau, sep = ";"))
+      next
+    }
+
     message(paste("[log]","Creating Data",type,rgn, tau, sep = ";"))
 
     datList[[type]] = prep_dtw_data(
@@ -101,7 +107,8 @@ for(rgn in c("United States of America", "Europe")){
 
     stationClustersList[[type]] = tibble(cluster = clustList[[type]][[which(nClust == clustSelect[[type]])]]@cluster,
                                          station_id = names(clustList[[type]][[which(nClust == clustSelect[[type]])]]@cluster),
-                                         type = type
+                                         type = type,
+                                         tau = tau
     )
 
   }
