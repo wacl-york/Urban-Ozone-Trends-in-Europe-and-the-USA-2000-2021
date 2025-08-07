@@ -32,4 +32,4 @@ con = connect_to_db(read_only = FALSE)
 
 dbWriteTable(con, "clusterTimeSeries", dat)
 
-dbDisconnect(shutdown = T)
+dbDisconnect(con, shutdown = T)
