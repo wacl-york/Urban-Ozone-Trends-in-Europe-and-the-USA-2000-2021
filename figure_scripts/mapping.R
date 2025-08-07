@@ -6,12 +6,13 @@ library(tidyr)
 library(ggtext)
 library(stringr)
 library(ggplot2)
+library(duckspatial) # requires dbExecute(con, "INSTALL spatial");dbExecute(con, "LOAD spatial") to be run
 
 source(here::here('functions','utils.R'))
 source(here::here('functions','plotting_utils.R'))
 
 
-con = connect_to_db()
+con = connect_to_db(FALSE)
 
 tables = dbListTables(con)[str_detect(dbListTables(con), "piecewise_stats_freeTau")]
 
@@ -49,7 +50,11 @@ pv_opt = c("p <= 0.05 (dec)",
 
 plotList = list()
 
+cli::cli_progress_bar(total = length(tables))
+
 for(i in 1:length(tables)){
+
+  cli::cli_progress_update()
 
   tableName = tables[i]
   if(str_detect(tableName, "metric")){
@@ -206,6 +211,8 @@ for(i in 1:length(tables)){
   if(!dir.exists(dirOut)){
     dir.create(dirOut, recursive = T)
   }
+
+  ddbs_write_vector(con, lineDat, paste0("arrow_data_", str_remove(tableName, "piecewise_stats_")))
 
   fileOut = here::here(dirOut, paste0("o3_map_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 
