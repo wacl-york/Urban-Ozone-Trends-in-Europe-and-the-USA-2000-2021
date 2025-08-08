@@ -212,7 +212,7 @@ for(i in 1:length(tables)){
     dir.create(dirOut, recursive = T)
   }
 
-  ddbs_write_vector(con, lineDat, paste0("arrow_data_", str_remove(tableName, "piecewise_stats_")))
+  ddbs_write_vector(con, lineDat, paste0("arrow_data_", str_remove(tableName, "piecewise_stats_")), overwrite = TRUE)
 
   fileOut = here::here(dirOut, paste0("o3_map_", str_remove(tableName, "piecewise_stats_"), ".pdf"))
 

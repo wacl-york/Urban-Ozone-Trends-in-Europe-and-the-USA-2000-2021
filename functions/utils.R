@@ -9,6 +9,8 @@ connect_to_db = function(read_only = TRUE){
                         dbdir = data_path("db.duckdb"),
                         read_only = read_only)
 
+  dbExecute(con, "LOAD spatial")
+
   return(con)
 }
 

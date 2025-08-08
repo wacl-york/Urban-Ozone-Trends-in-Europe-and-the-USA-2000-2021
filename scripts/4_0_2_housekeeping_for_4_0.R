@@ -9,6 +9,7 @@ source(here::here('functions','utils.R'))
 fileRoot = data_path("cluster", "data")
 
 dat = tibble(path = list.files(fileRoot, recursive = T, pattern = "stationClusters", full.names = T)) |>
+  rowwise() |>
   mutate(
     region = path |>
       str_remove(fileRoot) |>
@@ -17,7 +18,6 @@ dat = tibble(path = list.files(fileRoot, recursive = T, pattern = "stationCluste
       word(1, sep = "_"),
     region = ifelse(region == "europe", "Europe", "United States of America"),
   ) |>
-  rowwise() |>
   mutate(
     data = path |>
       read.csv() |>
@@ -30,6 +30,6 @@ dat = tibble(path = list.files(fileRoot, recursive = T, pattern = "stationCluste
 
 con = connect_to_db(read_only = FALSE)
 
-dbWriteTable(con, "clusterTimeSeries", dat)
+dbWriteTable(con, "clusterTimeSeries", dat, overwrite = TRUE)
 
 dbDisconnect(con, shutdown = T)
