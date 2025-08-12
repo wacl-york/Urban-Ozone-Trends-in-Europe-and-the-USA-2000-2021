@@ -215,7 +215,8 @@ server <- function(input, output) {
     plot_overview = ggplot()+
       geom_sf(data = world)+
       geom_sf(data = plotDat(),
-              aes(colour = factor(cluster)))+
+              aes(colour = factor(cluster),
+                  text = station_id)) +
       facet_grid(tau~type)+
       # guides(colour = "none")+
       theme_minimal()+
@@ -235,7 +236,7 @@ server <- function(input, output) {
         scale_x_continuous(limits = st_coordinates(limUS)[,1])
     }
 
-    plotly::ggplotly(plot_overview)
+    plotly::ggplotly(plot_overview, tooltip = "text")
 
   })
 
