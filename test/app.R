@@ -289,7 +289,8 @@ server <- function(input, output) {
     selectInput(
       inputId = "detailClusters",
       label = "Choose Cluster",
-      choices = detailClusterChoices()
+      choices = detailClusterChoices(),
+      multiple = T
     )
   })
 
