@@ -4,6 +4,7 @@ library(glue)
 library(shiny)
 library(dplyr)
 library(tidyr)
+library(purrr)
 library(plotly)
 library(shinyjs)
 library(ggplot2)
@@ -67,29 +68,43 @@ types = tbl(con, "clusterTimeSeries") |>
   sort() |>
   factor()
 
-clusterDat = tbl(con, "clusterTimeSeries") |>
-  collect() |>
-  group_by(region, cluster, type, tau) |>
-  mutate(size = n(),
-         cluster = ifelse(size <= 3, NA, cluster)) |>
-  ungroup() |>
-  nest_by(tau, type) |>
-  mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
-           nest_by(cluster) |>
-           ungroup() |>
-           mutate(cluster = ifelse(!is.na(cluster), row_number(), NA)) |>
-           unnest(data) |>
-           list()) |>
-  unnest(data) |>
-  left_join(
-    tbl(con, "combinedMeta") |>
-      select(station_id, latitude, longitude) |>
-      distinct() |>
-      collect(),
-    "station_id"
+types_meancvi = tbl(con, "clusterTimeSeries_meancvi") |>
+  select(type) |>
+  distinct() |>
+  pull() |>
+  sort() |>
+  factor()
+
+clusterDatList = list(
+  mean = tbl(con, "clusterTimeSeries") |>
+    collect(),
+  median = tbl(con, "clusterTimeSeries_meancvi") |>
+  collect()
   ) |>
-  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
-  st_transform(mycrs)
+  map({
+    ~.x |>
+      group_by(region, cluster, type, tau) |>
+      mutate(size = n(),
+             cluster = ifelse(size <= 3, NA, cluster)) |>
+      ungroup() |>
+      nest_by(tau, type) |>
+      mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
+               nest_by(cluster) |>
+               ungroup() |>
+               mutate(cluster = ifelse(!is.na(cluster), row_number(), NA)) |>
+               unnest(data) |>
+               list()) |>
+      unnest(data) |>
+      left_join(
+        tbl(con, "combinedMeta") |>
+          select(station_id, latitude, longitude) |>
+          distinct() |>
+          collect(),
+        "station_id"
+      ) |>
+      st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
+      st_transform(mycrs)
+  })
 
 dbDisconnect(con, shutdown = T)
 
@@ -110,6 +125,12 @@ ui <- navbarPage(
             label = "Type",
             choices = types,
             selected = "daily_all",
+          ),
+          selectInput(
+            inputId = "overviewClusterType",
+            label = "Cluster Type",
+            choices = names(clusterDatList),
+            selected = names(clusterDatList)[1]
           ),
           selectInput(
             inputId = "overviewRegion",
@@ -137,6 +158,12 @@ ui <- navbarPage(
     div(id = "Sidebar-2",
         sidebarPanel(
           "Category Select",
+          selectInput(
+            inputId = "detailClusterType",
+            label = "Cluster Type",
+            choices = names(clusterDatList),
+            selected = names(clusterDatList)[1]
+          ),
           selectInput(
             inputId = "detailType",
             label = "Type",
@@ -202,7 +229,7 @@ server <- function(input, output) {
   plotDat = eventReactive(
     input$overviewPlotUpdate,
     {
-      clusterDat |>
+      clusterDatList[[input$overviewClusterType]] |>
         filter(
           type %in% input$overviewType,
           tau %in% input$overviewTau,
@@ -244,7 +271,7 @@ server <- function(input, output) {
     input$detailPlotUpdate,
     {
 
-      clusterDat |> filter(
+      clusterDatList[[input$detailClusterType]] |> filter(
         type %in% input$detailType,
         tau %in% input$detailTau,
         region == input$detailRegion
