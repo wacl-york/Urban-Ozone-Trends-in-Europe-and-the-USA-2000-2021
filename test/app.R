@@ -11,6 +11,7 @@ library(ggplot2)
 library(stringr)
 library(lubridate)
 library(duckspatial)
+library(tictoc)
 
 source(here::here('functions','utils.R'))
 
@@ -85,13 +86,13 @@ clusterDatList = list(
     ~.x |>
       group_by(region, cluster, type, tau) |>
       mutate(size = n(),
-             cluster = ifelse(size <= 3, NA, cluster)) |>
+             cluster = ifelse(size <= 3, 99, cluster)) |>
       ungroup() |>
       nest_by(tau, type) |>
       mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
                nest_by(cluster) |>
                ungroup() |>
-               mutate(cluster = ifelse(!is.na(cluster), row_number(), NA)) |>
+               mutate(cluster = ifelse(cluster != 99, row_number(), 99)) |>
                unnest(data) |>
                list()) |>
       unnest(data) |>
@@ -267,10 +268,15 @@ server <- function(input, output) {
 
   })
 
+# -------------------------------------------------------------------------
+
+
   detailPlotDat = eventReactive(
     input$detailPlotUpdate,
     {
-
+      message("[log] Refreshing detailPlotDat start")
+      tictoc::tic()
+      on.exit(message(paste0("[log] stop detailPlotDat - ",tictoc::toc(quiet = T)[4])))
       clusterDatList[[input$detailClusterType]] |> filter(
         type %in% input$detailType,
         tau %in% input$detailTau,
@@ -280,6 +286,10 @@ server <- function(input, output) {
     ignoreNULL = FALSE)
 
   output$plot_detail = renderPlotly({
+    message("[log] Refreshing plot_detail start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop plot_detail - ",tictoc::toc(quiet = T)[4])))
+
     plot_overview = ggplot()+
       geom_sf(data = world)+
       geom_sf(data = detailPlotDat(),
@@ -308,11 +318,19 @@ server <- function(input, output) {
   })
 
   detailClusterChoices = reactive({
+    message("[log] Refreshing detailClusterChoices start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop detailClusterChoices - ",tictoc::toc(quiet = T)[4])))
+
     detailPlotDat()$cluster |>
       unique()
   })
 
   output$detailSelectCluster = renderUI({
+    message("[log] Refreshing detailSelectCluster start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop - ",tictoc::toc(quiet = T)[4])))
+
     selectInput(
       inputId = "detailClusters",
       label = "Choose Cluster",
@@ -322,6 +340,10 @@ server <- function(input, output) {
   })
 
   detailArrowDatAll = reactive({
+
+    message("[log] Refreshing detailArrowDatAll start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop detailArrowDatAll - ",tictoc::toc(quiet = T)[4])))
 
     if(str_detect(input$detailType, "mda8")){
       tableSuffix = switch (input$detailType,
@@ -341,22 +363,36 @@ server <- function(input, output) {
   })
 
   clusters_stations = reactive({
+    message("[log] Refreshing clusters_stations start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop clusters_stations - ",tictoc::toc(quiet = T)[4])))
+
     detailPlotDat() |>
-      filter(cluster == input$detailClusters)
+      filter(cluster %in% input$detailClusters)
+
   }) |>
     bindEvent(input$detailClusters)
 
-  detailArrowDat = reactive({
+  detailArrowDat = eventReactive(
+    input$detailPlotUpdate,{
+      message("[log] Refreshing detailArrowDat start")
+      tictoc::tic()
+      on.exit(message(paste0("[log] stop detailArrowDat - ",tictoc::toc(quiet = T)[4])))
 
-    detailArrowDatAll() |>
-      mutate(region = ifelse(country == "United States of America", country, "Europe")) |>
-      filter(region == input$detailRegion,
-             tau == input$detailTau,
-             year %in% input$detailYear,
-             station_id %in% clusters_stations()$station_id)
-  })
+      detailArrowDatAll() |>
+        mutate(region = ifelse(country == "United States of America", country, "Europe")) |>
+        filter(region == input$detailRegion,
+               tau == input$detailTau,
+               year %in% input$detailYear,
+               station_id %in% clusters_stations()$station_id)
+
+    })
 
   output$detailPanelB = renderPlot({
+
+    message("[log] Refreshing detailPanelB start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop detailPanelB - ",tictoc::toc(quiet = T)[4])))
 
     if(str_detect(input$detailType, "metric")){
       groupVars = c("station_id", "name", "tau", "metric")
@@ -399,45 +435,54 @@ server <- function(input, output) {
   })
 
 
-  detailPiecewiseDat = reactive({
+  detailPiecewiseDat = eventReactive(
+    input$detailPlotUpdate,{
 
-    con = connect_to_db()
-    on.exit(dbDisconnect(con, shutdown = T))
+      con = connect_to_db()
+      message("[log] Refreshing detailPiecewiseDat start")
+      tictoc::tic()
 
-    if(str_detect(input$detailType, "mda8")){
-      tableSuffix = switch (input$detailType,
-                            mda8 = "mda8_anom_all",
-                            mda8_warm = "mda8_anom_warm",
-                            mda8_cold = "mda8_anom_cold"
-      )
-    }else{
-      tableSuffix = input$detailType
-    }
+      on.exit({
+        dbDisconnect(con, shutdown = T)
+        message(paste0("[log] stop detailPiecewiseDat -",tictoc::toc(quiet = T)[4]))
+      })
 
-    tbl(con, paste0("piecewise_data_freeTau_", tableSuffix)) |>
-      left_join(
-        combinedMetaRegion(con) |>
-          select(station_id, region) |>
-          distinct(),
-        by = "station_id") |>
-      filter(day(date) == 1,
-             month(date) == min(month(date), na.rm = T)) |>
-      collect() |>
-      filter(region == input$detailRegion,
-             tau == input$detailTau,
-             station_id %in% clusters_stations()$station_id,
-             name == "o3"
-      )
-  })
+      if(str_detect(input$detailType, "mda8")){
+        tableSuffix = switch (input$detailType,
+                              mda8 = "mda8_anom_all",
+                              mda8_warm = "mda8_anom_warm",
+                              mda8_cold = "mda8_anom_cold"
+        )
+      }else{
+        tableSuffix = input$detailType
+      }
+
+      tbl(con, paste0("piecewise_data_freeTau_", tableSuffix)) |>
+        left_join(
+          combinedMetaRegion(con) |>
+            select(station_id, region) |>
+            distinct(),
+          by = "station_id") |>
+        group_by(station_id, yr) |>
+        filter(x == min(x, na.rm =T),
+               region == !!input$detailRegion,
+               tau == !!input$detailTau,
+               station_id %in% !!clusters_stations()$station_id,
+               name == "o3") |>
+        ungroup() |>
+        collect()
+    })
 
   output$detailPanelC = renderPlot({
+    message("[log] Refreshing detailPanelC start")
+    tictoc::tic()
+    on.exit(message(paste0("[log] stop detailPanelC - ",tictoc::toc(quiet = T)[4])))
+
     detailPiecewiseDat() |>
       ggplot()+
       geom_line(aes(date, piecewise, colour = station_id, group = station_id))+
       guides(colour = "none")
   })
-
-
 
 }
 
