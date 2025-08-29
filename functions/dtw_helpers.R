@@ -118,10 +118,12 @@ reindex_clusters = function(dat){
     ungroup() |>
     nest_by(tau, type, region) |>
     mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
-             arrange(desc(size), station_id) |>
              nest_by(cluster) |>
+             mutate(size = ifelse(cluster != 99, nrow(data), 0)) |>
+             arrange(desc(size)) |>
              ungroup() |>
              mutate(cluster = ifelse(cluster != 99, row_number(), 99)) |>
+             select(-size) |>
              unnest(data) |>
              list()) |>
     unnest(data)
