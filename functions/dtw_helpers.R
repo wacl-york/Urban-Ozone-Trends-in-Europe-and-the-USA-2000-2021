@@ -2,7 +2,7 @@ prep_dtw_data = function(con,
                          tableName,
                          yname,
                          tau,
-                         rng,
+                         rgn,
                          mnths,
                          type
 ){

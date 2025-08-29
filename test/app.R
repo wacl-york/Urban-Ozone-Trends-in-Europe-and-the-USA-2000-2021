@@ -99,6 +99,39 @@ clusterDatList = list(
 
 dbDisconnect(con, shutdown = T)
 
+clusMat = tibble(path = list.files(data_path("cluster","data"),
+                                   recursive = T,
+                                   pattern = "clustMartix",
+                                   full.names = T)) |>
+  mutate(region = path |>
+           str_remove("/clustMartix_datList.RDS") |>
+           basename() |>
+           word(1, sep = "_"),
+         region = ifelse(region == "usa", "United States of America", "Europe"),
+         tau = path |>
+           str_remove("/clustMartix_datList.RDS") |>
+           basename() |>
+           word(2, sep = "_")) |>
+  rowwise() |>
+  mutate(dataTemp = readRDS(path) |>
+           list(),
+         data = dataTemp |>
+           map2(names(dataTemp),
+                ~{
+                  .x |>
+                    t() |>
+                    as.data.frame() |>
+                    tibble() |>
+                    mutate(x = row_number()) |>
+                    pivot_longer(-x, names_to = "station_id") |>
+                    mutate(type = .y)
+                }
+           ) |>
+           bind_rows()|>
+           list()) |>
+  select(-path, -dataTemp) |>
+  unnest(data)
+
 
 # UI ----------------------------------------------------------------------
 
@@ -204,7 +237,7 @@ ui <- navbarPage(
         ),
         column(
           6,
-          "Panel D"
+          plotOutput("detailPanelD")
         )
       )
     )
@@ -233,8 +266,7 @@ server <- function(input, output) {
     plot_overview = ggplot()+
       geom_sf(data = world)+
       geom_sf(data = plotDat(),
-              aes(colour = factor(cluster),
-                  text = station_id)) +
+              aes(colour = factor(cluster))) +
       facet_grid(tau~type)+
       # guides(colour = "none")+
       theme_minimal()+
@@ -352,6 +384,8 @@ server <- function(input, output) {
 
   })
 
+
+
   clusters_stations = reactive({
     message("[log] Refreshing clusters_stations start")
     tictoc::tic()
@@ -425,6 +459,8 @@ server <- function(input, output) {
   })
 
 
+# Panel C -----------------------------------------------------------------
+
   detailPiecewiseDat = eventReactive(
     input$detailPlotUpdate,{
 
@@ -472,6 +508,38 @@ server <- function(input, output) {
       ggplot()+
       geom_line(aes(date, piecewise, colour = station_id, group = station_id))+
       guides(colour = "none")
+  })
+
+
+
+# Panel D -----------------------------------------------------------------
+
+
+  detailDtwDat = eventReactive(
+    input$detailPlotUpdate,{
+
+
+      message("[log] Refreshing detailDtwDat start")
+      tictoc::tic()
+
+      on.exit(message(paste0("[log] stop detailDtwDat -",tictoc::toc(quiet = T)[4])))
+
+      detailDtwTemp = clusMat |>
+        filter(type == input$detailType,
+               tau == input$detailTau,
+               region == input$detailRegion)
+
+      clusters_stations() |>
+        select(station_id, cluster) |>
+        left_join(detailDtwTemp, "station_id")
+    })
+
+  output$detailPanelD = renderPlot({
+    detailDtwDat() |>
+      ggplot()+
+      geom_line(aes(x, value, colour = factor(cluster), group = station_id))+
+      facet_wrap(~cluster)
+
   })
 
 }
