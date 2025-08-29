@@ -108,3 +108,21 @@ prep_dtw_data = function(con,
     dat
   }
 }
+
+
+reindex_clusters = function(dat){
+  dat |>
+    group_by(region, cluster, type, tau) |>
+    mutate(size = n(),
+           cluster = ifelse(size <= 3, 99, cluster)) |>
+    ungroup() |>
+    nest_by(tau, type, region) |>
+    mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
+             arrange(desc(size), station_id) |>
+             nest_by(cluster) |>
+             ungroup() |>
+             mutate(cluster = ifelse(cluster != 99, row_number(), 99)) |>
+             unnest(data) |>
+             list()) |>
+    unnest(data)
+}

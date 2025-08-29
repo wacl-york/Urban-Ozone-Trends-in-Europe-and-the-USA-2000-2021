@@ -14,6 +14,7 @@ library(duckspatial)
 library(tictoc)
 
 source(here::here('functions','utils.R'))
+source(here::here('functions','dtw_helpers.R'))
 
 
 # Globals -----------------------------------------------------------------
@@ -77,25 +78,14 @@ types_meancvi = tbl(con, "clusterTimeSeries_meancvi") |>
   factor()
 
 clusterDatList = list(
-  mean = tbl(con, "clusterTimeSeries") |>
+  median = tbl(con, "clusterTimeSeries") |>
     collect(),
-  median = tbl(con, "clusterTimeSeries_meancvi") |>
+  mean = tbl(con, "clusterTimeSeries_meancvi") |>
   collect()
   ) |>
   map({
     ~.x |>
-      group_by(region, cluster, type, tau) |>
-      mutate(size = n(),
-             cluster = ifelse(size <= 3, 99, cluster)) |>
-      ungroup() |>
-      nest_by(tau, type) |>
-      mutate(data = data |> # this nightmare reindexes the cluster number to use the lowest avalible values
-               nest_by(cluster) |>
-               ungroup() |>
-               mutate(cluster = ifelse(cluster != 99, row_number(), 99)) |>
-               unnest(data) |>
-               list()) |>
-      unnest(data) |>
+      reindex_clusters() |>
       left_join(
         tbl(con, "combinedMeta") |>
           select(station_id, latitude, longitude) |>
