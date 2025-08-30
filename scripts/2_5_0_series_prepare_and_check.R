@@ -267,7 +267,7 @@ if(!skip){
   log_message("make daily_day_dat",stn, nm)
 
   daily_day_dat = hour_dat |>
-    filter(hour(date) %in% 8:19) |>
+    filter(hour(local_date) %in% 8:19) |>
     mutate(date = floor_date(date, "day")) |>
     group_by(date, station_id, name, timezone) |>
     summarise(value = mean(value, na.rm = T)) |>
@@ -280,7 +280,7 @@ if(!skip){
   log_message("make daily_night_dat",stn, nm)
 
   daily_night_dat = hour_dat |>
-    filter(!hour(date) %in% 8:19) |>
+    filter(!hour(local_date) %in% 8:19) |>
     mutate(date = floor_date(date, "day")) |>
     group_by(date, station_id, name, timezone) |>
     summarise(value = mean(value, na.rm = T)) |>
