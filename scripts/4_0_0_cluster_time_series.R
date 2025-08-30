@@ -17,27 +17,7 @@ con = connect_to_db()
 
 nClust = 5:75
 
-scenarios = tribble(
-  ~type,                ~tableName,         ~yname,      ~months,
-  "daily_all",          "dat_daily_all",    "anom",      1:12,
-  "daily_all_warm",     "dat_daily_all",    "anom",      4:9,
-  "daily_all_cold",     "dat_daily_all",    "anom",      c(1:3,10:12),
-  "daily_day",          "dat_daily_day",    "anom",      1:12,
-  "daily_day_warm",     "dat_daily_day",    "anom",      4:9,
-  "daily_day_cold",     "dat_daily_day",    "anom",      c(1:3,10:12),
-  "daily_night",        "dat_daily_night",  "anom",      1:12,
-  "daily_night_warm",   "dat_daily_night",  "anom",      4:9,
-  "daily_night_cold",   "dat_daily_night",  "anom",      c(1:3,10:12),
-  "mda8",               "dat_mda8",         "mda8_anom", 1:12,
-  "mda8_warm",          "dat_mda8",         "mda8_anom", 4:9,
-  "mda8_cold",          "dat_mda8",         "mda8_anom", c(1:3,10:12),
-  "metric_4MDA8",       "dat_metrics",      "value",     NA,
-  "metric_NDGT70",      "dat_metrics",      "value",     NA,
-  "metric_SOMO35",      "dat_metrics",      "value",     NA,
-  "metric_3MMDA1",      "dat_metrics",      "value",     NA,
-  "metric_6MMDA1",      "dat_metrics",      "value",     NA,
-  "metric_AVGMDA8",     "dat_metrics",      "value",     NA
-)
+scenarios = type_table()
 
 datList = list()
 clustList = list()
