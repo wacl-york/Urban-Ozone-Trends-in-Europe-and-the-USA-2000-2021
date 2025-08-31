@@ -63,12 +63,12 @@ p_colours = c(
 
 con = connect_to_db()
 
-types = tbl(con, "clusterTimeSeries") |>
-  select(type) |>
-  distinct() |>
-  pull() |>
-  sort() |>
-  factor()
+# types = tbl(con, "clusterTimeSeries") |>
+#   select(type) |>
+#   distinct() |>
+#   pull() |>
+#   sort() |>
+#   factor()
 
 types_meancvi = tbl(con, "clusterTimeSeries_meancvi") |>
   select(type) |>
@@ -77,29 +77,31 @@ types_meancvi = tbl(con, "clusterTimeSeries_meancvi") |>
   sort() |>
   factor()
 
-clusterDatList = list(
-  median = tbl(con, "clusterTimeSeries") |>
-    collect(),
-  mean = tbl(con, "clusterTimeSeries_meancvi") |>
-  collect()
+# clusterDatList = list(
+#   median = tbl(con, "clusterTimeSeries") |>
+#     collect(),
+#   mean = tbl(con, "clusterTimeSeries_meancvi") |>
+#   collect()
+#   ) |>
+#   map({
+    # ~.x |>
+clusterDat = tbl(con, "clusterTimeSeries_meancvi") |>
+  collect() |>
+  reindex_clusters() |>
+  left_join(
+    tbl(con, "combinedMeta") |>
+      select(station_id, latitude, longitude) |>
+      distinct() |>
+      collect(),
+    "station_id"
   ) |>
-  map({
-    ~.x |>
-      reindex_clusters() |>
-      left_join(
-        tbl(con, "combinedMeta") |>
-          select(station_id, latitude, longitude) |>
-          distinct() |>
-          collect(),
-        "station_id"
-      ) |>
-      st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
-      st_transform(mycrs)
-  })
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(mycrs)
+# })
 
 dbDisconnect(con, shutdown = T)
 
-clusMat = tibble(path = list.files(data_path("cluster","data"),
+clusMat = tibble(path = list.files(data_path("cluster_meancvi","data"),
                                    recursive = T,
                                    pattern = "clustMartix",
                                    full.names = T)) |>
@@ -147,15 +149,15 @@ ui <- navbarPage(
           checkboxGroupInput(
             inputId = "overviewType",
             label = "Type",
-            choices = types,
+            choices = types_meancvi,
             selected = "daily_all",
           ),
-          selectInput(
-            inputId = "overviewClusterType",
-            label = "Cluster Type",
-            choices = names(clusterDatList),
-            selected = names(clusterDatList)[1]
-          ),
+          # selectInput(
+          #   inputId = "overviewClusterType",
+          #   label = "Cluster Type",
+          #   choices = names(clusterDatList),
+          #   selected = names(clusterDatList)[1]
+          # ),
           selectInput(
             inputId = "overviewRegion",
             label = "Region",
@@ -182,16 +184,16 @@ ui <- navbarPage(
     div(id = "Sidebar-2",
         sidebarPanel(
           "Category Select",
-          selectInput(
-            inputId = "detailClusterType",
-            label = "Cluster Type",
-            choices = names(clusterDatList),
-            selected = names(clusterDatList)[1]
-          ),
+          # selectInput(
+          #   inputId = "detailClusterType",
+          #   label = "Cluster Type",
+          #   choices = names(clusterDatList),
+          #   selected = names(clusterDatList)[1]
+          # ),
           selectInput(
             inputId = "detailType",
             label = "Type",
-            choices = types,
+            choices = types_meancvi,
             selected = "daily_all",
           ),
           selectInput(
@@ -253,7 +255,8 @@ server <- function(input, output) {
   plotDat = eventReactive(
     input$overviewPlotUpdate,
     {
-      clusterDatList[[input$overviewClusterType]] |>
+      # clusterDatList[[input$overviewClusterType]] |>
+      clusterDat |>
         filter(
           type %in% input$overviewType,
           tau %in% input$overviewTau,
@@ -299,7 +302,10 @@ server <- function(input, output) {
       message("[log] Refreshing detailPlotDat start")
       tictoc::tic()
       on.exit(message(paste0("[log] stop detailPlotDat - ",tictoc::toc(quiet = T)[4])))
-      clusterDatList[[input$detailClusterType]] |> filter(
+
+      # clusterDatList[[input$detailClusterType]] |>
+      clusterDat |>
+        filter(
         type %in% input$detailType,
         tau %in% input$detailTau,
         region == input$detailRegion

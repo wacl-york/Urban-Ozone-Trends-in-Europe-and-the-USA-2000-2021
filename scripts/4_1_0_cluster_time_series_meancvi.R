@@ -43,7 +43,7 @@ for(rgn in c("United States of America", "Europe")){
       tableName = scenarios$tableName[i],
       yname = scenarios$yname[i],
       tau = tau,
-      rng = rng,
+      rgn = rgn,
       mnths = scenarios$months[[i]],
       type = type
     )

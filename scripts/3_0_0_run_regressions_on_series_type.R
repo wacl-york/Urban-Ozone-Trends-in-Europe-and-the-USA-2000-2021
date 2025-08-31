@@ -18,7 +18,6 @@ valid_series = tbl(con, "valid_series") |>
   arrange(station_id, name)
 
 series_id = as.numeric(commandArgs(trailingOnly = T)[1])+1
-# series_id = 97
 
 nm = valid_series$name[series_id]
 stn = valid_series$station_id[series_id]
@@ -28,8 +27,6 @@ scenarios =  regression_scenarios |>
          station_id == stn)
 
 warm_months = 4:9
-day_hours = 8:19
-
 
 # Paths -------------------------------------------------------------------
 
