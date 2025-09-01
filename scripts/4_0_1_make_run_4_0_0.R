@@ -29,7 +29,7 @@ message = c("#!/usr/bin/env bash",
             "module load R/4.4.0-gfbf-2023b",
             "",
             "# Commands to run",
-            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/4_1_0_cluster_time_series_meancvi.R $SLURM_ARRAY_TASK_ID')
+            paste0('Rscript --vanilla /mnt/scratch/users/',user,'/TOAR_paper/scripts/4_0_0_cluster_time_series_meancvi.R $SLURM_ARRAY_TASK_ID')
 )
 
 data_file = file(paste0('/mnt/scratch/users/',user,'/TOAR_paper/sbatch/run_4_0_0.sbatch'), open = "wt")
