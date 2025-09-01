@@ -9,9 +9,28 @@ connect_to_db = function(read_only = TRUE){
                         dbdir = data_path("db.duckdb"),
                         read_only = read_only)
 
-  dbExecute(con, "LOAD spatial")
+  error = tryCatch(
+    {
+      DBI::dbExecute(con, "LOAD spatial")
+    },
+    error = function(e){
+      if(stringr::str_detect(e$message, "INSTALL spatial")){
 
-  return(con)
+        DBI::dbExecute(con, "INSTALL spatial")
+        DBI::dbExecute(con, "LOAD spatial")
+      }
+      else{
+        e
+      }
+    }
+  )
+
+  if("error" %in% class(error)){
+    return(error)
+  }else{
+    return(con)
+  }
+
 }
 
 log_message = function(mess, station, name, type = NULL){
