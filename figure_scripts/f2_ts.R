@@ -40,32 +40,49 @@ dat = map_df(
                 .groups = "drop") |>
       mutate(type = .x$type)
   }) |>
-  mutate(avg = ifelse(str_detect(type, "mda8"), "MDA8", "Daily Means"),
+  mutate(avg = ifelse(str_detect(type, "mda8"), "MDA8", "Daily Mean"),
          type = ifelse(type == "mda8", "mda8_all", type) |>
            str_remove("mda8_") |>
            str_remove("daily_") |>
            str_remove("all_"))
 
 colours = c(
-  "all" = "black",
-  "cold" = "#1F78B4",
-  "warm" = "#FF7F00",
-  "day_cold" = "#FB9A99",
-  "day_warm" = "#E31A1C",
-  "night_cold" = "#CAB2D6",
-  "night_warm" = "#6A3D9A",
-  "night"= "#B2DF8A",
-  "day" = "#33A02C"
+  "All" = "black",
+  "Cold" = "#1F78B4",
+  "Warm" = "#FF7F00",
+  "Day Cold" = "#FB9A99",
+  "Day Warm" = "#E31A1C",
+  "Night Cold" = "#CAB2D6",
+  "Night Warm" = "#6A3D9A",
+  "Night"= "#B2DF8A",
+  "Day" = "#33A02C"
 )
 
-dat |>
+g1 = dat |>
   filter(name == "o3") |>
+  mutate(
+    type = case_when(
+      type == "all" ~ "All",
+      type == "cold" ~ "Cold",
+      type == "warm" ~ "Warm",
+      type == "day" ~ "Day",
+      type == "day_warm" ~ "Day Warm",
+      type == "day_cold" ~ "Day Cold",
+      type == "night" ~ "Night",
+      type == "night_warm" ~ "Night Warm",
+      type == "night_cold" ~ "Night Cold")
+  ) |> #pull(type) |> unique()
   ggplot()+
   geom_line(aes(date, mn, colour = type))+
-  scale_colour_manual(values = colours)+
+  scale_colour_manual(values = colours, name = "")+
   scale_x_datetime(name = "Date")+
-  scale_y_continuous(name = "Annual O3 / ppbv")+
+  scale_y_continuous(name = "Annual O<sub>3</sub> / ppbv")+
   facet_grid(avg~region)+
   theme_minimal()+
-  theme(strip.text = element_markdown(size = 10),
+  theme(axis.title = element_markdown(),
         strip.placement = "outside")
+
+
+pdf("figures/paper_figures/f2.pdf", width = 7.5, height = 3.75)
+print(g1)
+dev.off()
