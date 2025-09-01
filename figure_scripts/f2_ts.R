@@ -59,7 +59,6 @@ colours = c(
 )
 
 g1 = dat |>
-  filter(name == "o3") |>
   mutate(
     type = case_when(
       type == "all" ~ "All",
@@ -70,19 +69,33 @@ g1 = dat |>
       type == "day_cold" ~ "Day Cold",
       type == "night" ~ "Night",
       type == "night_warm" ~ "Night Warm",
-      type == "night_cold" ~ "Night Cold")
-  ) |> #pull(type) |> unique()
+      type == "night_cold" ~ "Night Cold") |>
+      factor(levels = c("All", "Warm", "Cold", "Day", "Night", "Day Warm", "Day Cold", "Night Warm", "Night Cold")),
+    name = case_when(
+      avg == "MDA8" ~ "O<sub>3</sub> MDA8",
+      name == "o3" ~ "O<sub>3</sub>",
+      name == "no2" ~ "NO<sub>2</sub>") |>
+      factor(levels = c("O<sub>3</sub> MDA8", "O<sub>3</sub>", "NO<sub>2</sub>"))
+  ) |> #pull(name) |> unique()
+  filter(name %in% c("O<sub>3</sub> MDA8", "O<sub>3</sub>", "NO<sub>2</sub>")) |>
   ggplot()+
   geom_line(aes(date, mn, colour = type))+
   scale_colour_manual(values = colours, name = "")+
   scale_x_datetime(name = "Date")+
   scale_y_continuous(name = "Annual O<sub>3</sub> / ppbv")+
-  facet_grid(avg~region)+
+  facet_grid(name~region, scale = "free_y")+
   theme_minimal()+
-  theme(axis.title = element_markdown(),
-        strip.placement = "outside")
+  theme(
+    strip.text = element_markdown(),
+    axis.title = element_markdown(),
+    strip.placement = "outside")
 
 
-pdf("figures/paper_figures/f2.pdf", width = 7.5, height = 3.75)
+
+pdf("figures/paper_figures/f2.pdf", width = 7.5, height = 7.5)
 print(g1)
 dev.off()
+
+
+dat |>
+  filter(year(date) == )
