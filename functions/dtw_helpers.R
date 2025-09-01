@@ -10,8 +10,13 @@ prep_dtw_data = function(con,
 
   if(stringr::str_detect(tableName, "metric")){
 
-    tsPad = tibble(date = seq(ymd_hms("2000-01-01 00:00:00"), max(ymd_hms("2023-12-31 00:00:00")), "year")) |>
-      mutate(x = row_number())
+    if(rgn == "Europe"){
+      tsPad = tibble(date = seq(ymd_hms("2000-01-01 00:00:00"), max(ymd_hms("2023-12-31 00:00:00")), "year")) |>
+        mutate(x = row_number())
+    }else{
+      tsPad = tibble(date = seq(ymd_hms("2000-01-01 00:00:00"), max(ymd_hms("2021-12-31 00:00:00")), "year")) |>
+        mutate(x = row_number())
+    }
 
     mtric = str_remove(type, "metric_")
 
@@ -53,11 +58,19 @@ prep_dtw_data = function(con,
 
   }else{
 
-    tsPad = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "month")) |>
-      mutate(m = month(date)) |>
-      filter(m %in% mnths) |>
-      mutate(x = row_number()) |>
-      select(-m)
+    if(rgn == "Europe"){
+      tsPad = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2023-12-31 00:00:00")), "month")) |>
+        mutate(m = month(date)) |>
+        filter(m %in% mnths) |>
+        mutate(x = row_number()) |>
+        select(-m)
+    }else{
+      tsPad = tibble(date = seq(min(ymd_hms("2000-01-01 00:00:00")), max(ymd_hms("2021-12-31 00:00:00")), "month")) |>
+        mutate(m = month(date)) |>
+        filter(m %in% mnths) |>
+        mutate(x = row_number()) |>
+        select(-m)
+    }
 
     datRaw = tbl(con, tableName) |>
       left_join(
@@ -76,7 +89,7 @@ prep_dtw_data = function(con,
 
     season_anom = datRaw |>
       group_by(m, station_id) |>
-      summarise(season = mean(!!yname, na.rm = T), .groups = "drop")
+      summarise(season = quantile(!!yname, probs = tau, na.rm = T), .groups = "drop")
 
     dat = datRaw |>
       left_join(
@@ -89,7 +102,7 @@ prep_dtw_data = function(con,
                mutate(date = floor_date(date, "month")) |>
                left_join(tsPad, y = _, "date") |>
                list()
-               ) |>
+      ) |>
       unnest(data) |>
       group_by(station_id) |>
       mutate(y = ifelse(is.na(!!yname), season, !!yname),

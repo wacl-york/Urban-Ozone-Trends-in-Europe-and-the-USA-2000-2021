@@ -6,7 +6,7 @@ library(stringr)
 
 source(here::here('functions','utils.R'))
 
-fileRoot = data_path("cluster", "data")
+fileRoot = data_path("cluster_meancvi", "data")
 
 dat = tibble(path = list.files(fileRoot, recursive = T, pattern = "stationClusters", full.names = T)) |>
   rowwise() |>
@@ -30,6 +30,6 @@ dat = tibble(path = list.files(fileRoot, recursive = T, pattern = "stationCluste
 
 con = connect_to_db(read_only = FALSE)
 
-dbWriteTable(con, "clusterTimeSeries", dat, overwrite = TRUE)
+dbWriteTable(con, "clusterTimeSeries_meancvi", dat, overwrite = TRUE)
 
 dbDisconnect(con, shutdown = T)
