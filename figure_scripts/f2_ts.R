@@ -72,12 +72,12 @@ g1 = dat |>
       type == "night_cold" ~ "Night Cold") |>
       factor(levels = c("All", "Warm", "Cold", "Day", "Night", "Day Warm", "Day Cold", "Night Warm", "Night Cold")),
     name = case_when(
-      avg == "MDA8" ~ "O<sub>3</sub> MDA8",
+      avg == "MDA8" ~ "MDA8O<sub>3</sub>",
       name == "o3" ~ "O<sub>3</sub>",
       name == "no2" ~ "NO<sub>2</sub>") |>
-      factor(levels = c("O<sub>3</sub> MDA8", "O<sub>3</sub>", "NO<sub>2</sub>"))
+      factor(levels = c("MDA8O<sub>3</sub>", "O<sub>3</sub>", "NO<sub>2</sub>"))
   ) |> #pull(name) |> unique()
-  filter(name %in% c("O<sub>3</sub> MDA8", "O<sub>3</sub>", "NO<sub>2</sub>")) |>
+  filter(name %in% c("MDA8O<sub>3</sub>", "O<sub>3</sub>", "NO<sub>2</sub>")) |>
   ggplot()+
   geom_line(aes(date, mn, colour = type))+
   scale_colour_manual(values = colours, name = "")+
