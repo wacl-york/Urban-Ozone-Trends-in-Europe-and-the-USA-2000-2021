@@ -72,22 +72,21 @@ g1 = dat |>
       type == "night_cold" ~ "Night Cold") |>
       factor(levels = c("All", "Warm", "Cold", "Day", "Night", "Day Warm", "Day Cold", "Night Warm", "Night Cold")),
     name = case_when(
-      avg == "MDA8" ~ "MDA8O<sub>3</sub>",
-      name == "o3" ~ "O<sub>3</sub>",
-      name == "no2" ~ "NO<sub>2</sub>") |>
-      factor(levels = c("MDA8O<sub>3</sub>", "O<sub>3</sub>", "NO<sub>2</sub>"))
+      avg == "MDA8" ~ "MDA8O<sub>3</sub> / ppbv",
+      name == "o3" ~ "O<sub>3</sub> / ppbv",
+      name == "no2" ~ "NO<sub>2</sub> / ppbv") |>
+      factor(levels = c("MDA8O<sub>3</sub> / ppbv", "O<sub>3</sub> / ppbv", "NO<sub>2</sub> / ppbv"))
   ) |> #pull(name) |> unique()
-  filter(name %in% c("MDA8O<sub>3</sub>", "O<sub>3</sub>", "NO<sub>2</sub>")) |>
+  filter(name %in% c("MDA8O<sub>3</sub> / ppbv", "O<sub>3</sub> / ppbv", "NO<sub>2</sub> / ppbv")) |>
   ggplot()+
   geom_line(aes(date, mn, colour = type))+
   scale_colour_manual(values = colours, name = "")+
   scale_x_datetime(name = "Date")+
-  scale_y_continuous(name = "Annual O<sub>3</sub> / ppbv")+
-  facet_grid(name~region, scale = "free_y")+
+  scale_y_continuous(name = "")+
+  facet_grid(name~region, scale = "free_y", switch = "y")+
   theme_minimal()+
   theme(
-    strip.text = element_markdown(),
-    axis.title = element_markdown(),
+    strip.text = element_markdown(size = 10),
     strip.placement = "outside")
 
 
@@ -96,6 +95,18 @@ pdf("figures/paper_figures/f2.pdf", width = 7.5, height = 7.5)
 print(g1)
 dev.off()
 
+dat |>
+  mutate(yr = year(date)) |>
+  select(-date) |>
+  filter(yr %in% c(2000,2019)) |>
+  pivot_wider(values_from = mn, names_from = yr) |>
+  filter(type %in% c("all", "warm"),
+         name == "o3")
 
 dat |>
-  filter(year(date) == )
+  mutate(yr = year(date)) |>
+  select(-date) |>
+  filter(yr %in% c(2000,2019, 2020, 2022)) |>
+  pivot_wider(values_from = mn, names_from = yr) |>
+  filter(type %in% c("all"),
+         name == "no2")
