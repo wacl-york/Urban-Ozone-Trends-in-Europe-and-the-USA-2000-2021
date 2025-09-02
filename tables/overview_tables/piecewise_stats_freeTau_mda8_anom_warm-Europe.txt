@@ -1,0 +1,19 @@
+\begin{sidewaystable}[!t]
+\caption{MDA8O\textsubscript{3} warm season trend direction for O\textsubscript{3} at sites in Europe for selected years. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{tab:piecewise_stats_freeTau_mda8_anom_warm-Europe}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rrrrrrrrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{6}{c}{Increasing} & \multicolumn{6}{c}{Decreasing} & \multicolumn{6}{c}{No Trend} \\ 
+\cmidrule(lr){2-7} \cmidrule(lr){8-13} \cmidrule(lr){14-19}
+$\tau$ & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 \\ 
+\midrule\addlinespace[2.5pt]
+0.05 & 119 & 119 & 123 & 138 & 141 & 129 & 8 & 21 & 25 & 20 & 22 & 20 & 77 & 64 & 56 & 46 & 41 & 55 \\ 
+0.10 & 127 & 125 & 137 & 147 & 147 & 129 & 17 & 30 & 27 & 21 & 16 & 18 & 60 & 49 & 40 & 36 & 41 & 57 \\ 
+0.25 & 119 & 121 & 127 & 131 & 135 & 114 & 20 & 32 & 32 & 32 & 28 & 25 & 65 & 51 & 45 & 41 & 41 & 65 \\ 
+0.50 & 98 & 85 & 88 & 99 & 103 & 101 & 33 & 48 & 44 & 37 & 30 & 26 & 73 & 71 & 72 & 68 & 71 & 77 \\ 
+0.75 & 70 & 50 & 41 & 55 & 56 & 53 & 50 & 73 & 79 & 68 & 55 & 36 & 84 & 81 & 84 & 81 & 93 & 115 \\ 
+0.90 & 49 & 31 & 29 & 32 & 33 & 31 & 76 & 100 & 105 & 101 & 88 & 61 & 79 & 73 & 70 & 71 & 83 & 112 \\ 
+0.95 & 40 & 25 & 20 & 18 & 20 & 21 & 98 & 118 & 123 & 110 & 95 & 61 & 66 & 61 & 61 & 76 & 89 & 122 \\ 
+\bottomrule
+\end{tabular*}
+\end{sidewaystable}

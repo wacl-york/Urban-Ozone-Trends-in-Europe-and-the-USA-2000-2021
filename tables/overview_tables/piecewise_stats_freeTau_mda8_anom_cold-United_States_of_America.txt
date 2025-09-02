@@ -1,0 +1,19 @@
+\begin{sidewaystable}[!t]
+\caption{MDA8O\textsubscript{3} cold season trend direction for O\textsubscript{3} at sites in United States of America for selected years. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{tab:piecewise_stats_freeTau_mda8_anom_cold-United_States_of_America}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rrrrrrrrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{6}{c}{Increasing} & \multicolumn{6}{c}{Decreasing} & \multicolumn{6}{c}{No Trend} \\ 
+\cmidrule(lr){2-7} \cmidrule(lr){8-13} \cmidrule(lr){14-19}
+$\tau$ & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 \\ 
+\midrule\addlinespace[2.5pt]
+0.05 & 89 & 121 & 127 & 120 & 106 & 92 & 17 & 3 & 3 & 7 & 14 & 19 & 43 & 25 & 19 & 22 & 29 & 38 \\ 
+0.10 & 95 & 123 & 122 & 121 & 109 & 105 & 13 & 3 & 4 & 7 & 15 & 17 & 41 & 23 & 23 & 21 & 25 & 27 \\ 
+0.25 & 97 & 121 & 123 & 114 & 102 & 97 & 23 & 10 & 7 & 15 & 23 & 23 & 29 & 18 & 19 & 20 & 24 & 29 \\ 
+0.50 & 99 & 110 & 113 & 113 & 103 & 94 & 19 & 12 & 13 & 12 & 21 & 24 & 31 & 27 & 23 & 24 & 25 & 31 \\ 
+0.75 & 87 & 92 & 96 & 93 & 88 & 79 & 32 & 29 & 29 & 31 & 31 & 26 & 30 & 28 & 24 & 25 & 30 & 44 \\ 
+0.90 & 67 & 67 & 70 & 77 & 75 & 63 & 44 & 47 & 48 & 43 & 47 & 44 & 38 & 35 & 31 & 29 & 27 & 42 \\ 
+0.95 & 54 & 50 & 51 & 62 & 64 & 59 & 54 & 58 & 59 & 50 & 49 & 41 & 41 & 41 & 39 & 37 & 36 & 49 \\ 
+\bottomrule
+\end{tabular*}
+\end{sidewaystable}
