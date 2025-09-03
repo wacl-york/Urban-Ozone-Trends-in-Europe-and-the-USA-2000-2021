@@ -1,0 +1,18 @@
+\begin{sidewaystable}[!t]
+\caption{O\textsubscript metric trend direction for O\textsubscript{3} at sites in Europe for selected years. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{tab:piecewise_stats_freeTau_metrics-Europe}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{6}{c}{Increasing} & \multicolumn{6}{c}{Decreasing} & \multicolumn{6}{c}{No Trend} \\ 
+\cmidrule(lr){2-7} \cmidrule(lr){8-13} \cmidrule(lr){14-19}
+Metric & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 \\ 
+\midrule\addlinespace[2.5pt]
+3MMDA1 & 7 & 8 & 12 & 13 & 12 & 9 & 24 & 28 & 31 & 34 & 32 & 20 & 161 & 168 & 161 & 157 & 160 & 174 \\ 
+4MDA8 & 3 & 4 & 8 & 9 & 9 & 9 & 29 & 34 & 47 & 51 & 48 & 29 & 172 & 166 & 149 & 144 & 147 & 166 \\ 
+6MMDA1 & 12 & 13 & 20 & 21 & 19 & 17 & 29 & 32 & 36 & 35 & 31 & 19 & 151 & 159 & 148 & 148 & 154 & 166 \\ 
+AVGMDA8 & 33 & 37 & 57 & 62 & 60 & 51 & 13 & 16 & 16 & 19 & 15 & 12 & 158 & 151 & 131 & 123 & 129 & 141 \\ 
+NDGT70 & 2 & 3 & 4 & 4 & 5 & 4 & 34 & 36 & 40 & 43 & 42 & 18 & 157 & 162 & 157 & 154 & 154 & 179 \\ 
+SOMO35 & 17 & 21 & 43 & 47 & 46 & 30 & 10 & 12 & 14 & 16 & 16 & 8 & 177 & 171 & 147 & 141 & 142 & 166 \\ 
+\bottomrule
+\end{tabular*}
+\end{sidewaystable}

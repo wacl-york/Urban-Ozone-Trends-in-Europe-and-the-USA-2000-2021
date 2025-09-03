@@ -1,0 +1,19 @@
+\begin{sidewaystable}[!t]
+\caption{MDA8O\textsubscript{3} trend direction for O\textsubscript{3} at sites in Europe for selected years. Those classed as 'No Trend' are the slopes where p > 0.33}
+\label{tab:piecewise_stats_freeTau_mda8_anom_all-Europe}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rrrrrrrrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{6}{c}{Increasing} & \multicolumn{6}{c}{Decreasing} & \multicolumn{6}{c}{No Trend} \\ 
+\cmidrule(lr){2-7} \cmidrule(lr){8-13} \cmidrule(lr){14-19}
+$\tau$ & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 & 2000 & 2004 & 2008 & 2012 & 2016 & 2020 \\ 
+\midrule\addlinespace[2.5pt]
+0.05 & 118 & 155 & 167 & 177 & 175 & 162 & 10 & 14 & 11 & 8 & 9 & 10 & 76 & 35 & 26 & 19 & 20 & 32 \\ 
+0.10 & 110 & 152 & 161 & 175 & 174 & 164 & 8 & 16 & 18 & 8 & 7 & 7 & 86 & 36 & 25 & 21 & 23 & 33 \\ 
+0.25 & 117 & 150 & 159 & 174 & 173 & 171 & 14 & 22 & 22 & 12 & 12 & 12 & 73 & 32 & 23 & 18 & 19 & 21 \\ 
+0.50 & 117 & 130 & 142 & 152 & 156 & 149 & 20 & 34 & 27 & 17 & 15 & 12 & 67 & 40 & 35 & 35 & 33 & 43 \\ 
+0.75 & 108 & 101 & 102 & 112 & 117 & 111 & 19 & 41 & 44 & 36 & 29 & 24 & 77 & 62 & 58 & 56 & 58 & 69 \\ 
+0.90 & 63 & 46 & 42 & 51 & 61 & 58 & 58 & 80 & 80 & 70 & 52 & 34 & 83 & 78 & 82 & 83 & 91 & 112 \\ 
+0.95 & 51 & 29 & 28 & 37 & 45 & 43 & 80 & 110 & 109 & 100 & 78 & 46 & 73 & 65 & 67 & 67 & 81 & 115 \\ 
+\bottomrule
+\end{tabular*}
+\end{sidewaystable}
