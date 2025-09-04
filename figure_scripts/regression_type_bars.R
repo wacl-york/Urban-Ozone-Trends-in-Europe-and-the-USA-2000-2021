@@ -15,6 +15,14 @@ source(here::here('functions','table_utils.R'))
 
 con = connect_to_db()
 
+figDirs = c(here::here('figures','si_figures','regression_type'), here::here('figures','si_figures','cp_year'))
+
+for(i in 1:length(figDirs)){
+  if(!dir.exists(figDirs[i])){
+    dir.create(figDirs[i], recursive = T)
+  }
+}
+
 # -------------------------------------------------------------------------
 
 mycrs = 4087 #8857
@@ -80,7 +88,7 @@ g1 = regs_by_type |>
     axis.text.x = element_text(angle = 285, vjust = 0.5)
   )
 
-grDevices::cairo_pdf("figures/paper_figures/regression_type_bars_o3.pdf", width = 7.5, height = 5) # to get the tau to write properly use cairo_pdf
+grDevices::cairo_pdf(here::here('figures','paper_figures','regression_type_bars_o3.pdf'), width = 7.5, height = 5) # to get the tau to write properly use cairo_pdf
 print(g1)
 dev.off()
 
@@ -106,7 +114,7 @@ for(spc in c("o3", "no2", "ox")){
       axis.text.x = element_text(angle = 285, vjust = 0.5)
     )
 
-  grDevices::cairo_pdf(paste0("figures/si_figures/regression_type_bars_",spc,"_all.pdf"), width = 12, height = 5) # to get the tau to write properly use cairo_pdf
+  grDevices::cairo_pdf(here::here('figures','si_figures','regression_type',paste0("regression_type_bars_",spc,"_all.pdf")), width = 11, height = 8) # to get the tau to write properly use cairo_pdf
   print(g1_all)
   dev.off()
 }
@@ -155,7 +163,7 @@ for(rgn in c("Europe", "United States of America")){
       ggtitle(title)
 
 
-    grDevices::cairo_pdf(paste0("figures/si_figures/cp_year_",spc,"_",str_replace_all(rgn, " ", "-"),".pdf"), width = 7.5, height = 7.5)
+    grDevices::cairo_pdf(here::here('figures','si_figures','cp_year',paste0("cp_year_",spc,"_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
     print(g2)
     dev.off()
   }
@@ -207,7 +215,7 @@ for(spc in c("o3", "no2","ox")){
 
 g3 = wrap_plots(g3_list, ncol = 1)
 
-grDevices::cairo_pdf("figures/si_figures/regression_type_map.pdf", width = 11, height = 11)
+grDevices::cairo_pdf(here::here('figures','si_figures','regression_type','regression_type_map.pdf'), width = 11, height = 11)
 print(g3)
 dev.off()
 
@@ -262,6 +270,7 @@ tableDat |>
                sideways = F,
                adjustbox = F
   ) |>
-  str_replace_all("NA", " - ")
+  str_replace_all("NA", " - ") |>
+writeLines(here::here('tables','regression_type_table.txt'))
 
 dbDisconnect(con, shutdown = T)

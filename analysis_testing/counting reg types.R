@@ -40,7 +40,7 @@ scenarioTypes = tbl(con, "regression_scenarios") |>
     (is.na(cp1) & is.na(cp2)) ~ "QR"
   ))
 
-# Collect sexy meta data #
+# Collect meta data #
 
 combined_meta = tbl(con, "combinedMeta") |>
   collect() |>
