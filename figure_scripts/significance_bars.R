@@ -10,41 +10,6 @@ library(ggplot2)
 source(here::here('functions','utils.R'))
 source(here::here('functions','plotting_utils.R'))
 
-get_slopes = function(tableName){
-  tbl(con, tableName) |>
-    filter(stat == "slope") |>
-    collect() |>
-    arrange(station_id, name, tau) |>
-    pivot_wider(names_from = "type") |>
-    select(-stat) |>
-    nest_by(across(any_of(c("station_id", "name", "tau", "metric")))) |>
-    mutate(data = data |>
-             expand_slopes() |>
-             list()) |>
-    unnest(data)
-}
-
-make_slopes_plotDat = function(dat){
-
-  dat |>
-    filter(
-      fit != 0, # there are a few times the slope is zero, but we can't plot that here so just get rid. They are always p == 1.
-    ) |>
-    make_pvStr() |>
-    left_join(tbl(con, "combinedMeta") |>
-                select(station_id, country) |>
-                distinct() |>
-                collect(),
-              "station_id") |>
-    mutate(country = ifelse(country == "United States of America", country, "Europe"),
-           dir = ifelse(str_detect(pvStr, "inc"), "inc", "dec")) |>
-    group_by(across(any_of(c("name", "country", "tau", "dir", "year", "pvStr", "metric")))) |>
-    count() |>
-    ungroup() |>
-    mutate(n = ifelse(dir == "dec", n*-1, n)) |>
-    format_spc_name()
-}
-
 # -------------------------------------------------------------------------
 
 
