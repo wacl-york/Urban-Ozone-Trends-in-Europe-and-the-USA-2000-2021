@@ -521,3 +521,75 @@ exceedances_data_combined = exceedances_data |>
   distinct() |>
   filter(category == "Extreme" & metric %in% c("4MDA8", "NDGT70") |
          category == "Exposure" & metric %in% c("SOMO35", "AVGMDA8", "3MMDA1", "6MMDA1"))
+
+
+test = combined_cluster_data |>
+  st_drop_geometry() |>
+  filter(tau == 0.95,
+         #year %in% c(2000, 2004, 2008, 2012, 2016, 2020),
+         region == "Europe",
+         type == "mda8")
+
+ggplot(test)+
+  geom_point(aes(x = AVGMDA8, y = fit, colour = pvStr)) +
+  scale_colour_manual(values = p_colours) +
+  facet_wrap(~year, scales = "free") +
+  theme_pubr()+
+  theme(legend.position = "bottom") +
+  ggtitle(paste0(type,", ",region))
+
+test_binned <- test %>%
+  mutate(AVGMDA8_bin = cut(AVGMDA8, breaks = seq(0, max(AVGMDA8, na.rm = TRUE), by = 5)))  # 5-unit bins
+
+# Plot as stacked bar chart
+ggplot(test_binned) +
+  geom_bar(aes(x = AVGMDA8_bin, fill = pvStr), position = "stack") +
+  scale_fill_manual(values = p_colours) +
+  facet_wrap(~year, scales = "free") +
+  theme_pubr() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 45, vjust = 0.5, size = 5, hjust = 1)) +
+  ggtitle("AVGMDA8 distribution by pvStr (stacked bar), Europe") +
+  xlab("AVGMDA8 bins") +
+  ylab("Count")
+
+######################
+
+# Drop geometry only once
+data <- combined_cluster_data |> st_drop_geometry()
+
+# Get unique combinations of region, type, and tau
+combinations <- unique(data |> select(region, type, tau))
+
+# Open PDF device
+pdf("analysis/4MDA8_scatter_plots_by_region_type_tau.pdf", width = 12, height = 8)
+
+# Loop through each combination
+for (i in 1:nrow(combinations)) {
+  region_i <- combinations$region[i]
+  type_i   <- combinations$type[i]
+  tau_i    <- combinations$tau[i]
+
+  # Filter data for the current combination
+  test <- data |>
+    filter(region == region_i, type == type_i, tau == tau_i)
+
+  # Skip empty subsets
+  if (nrow(test) == 0) next
+
+  # Create plot
+  p <- ggplot(test) +
+    geom_point(aes(x = `4MDA8`, y = fit, colour = pvStr)) +
+    scale_colour_manual(values = p_colours) +
+    facet_wrap(~year, scales = "fixed") +
+    theme_pubr() +
+    theme(legend.position = "bottom") +
+    ggtitle(paste0(type_i, ", ", region_i, ", tau = ", tau_i))
+
+  # Print to PDF (each print adds a new page)
+  print(p)
+}
+
+# Close PDF device
+dev.off()
+
