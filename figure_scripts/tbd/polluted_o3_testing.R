@@ -465,4 +465,59 @@ ggarrange(us_somo35, us_AVGMDA8, row = 1)
 
 ##################################################################################
 
+con = connect_to_db()
 
+polluted_metrics_data = metrics_data |>
+  pivot_longer(cols = c(`4MDA8`, NDGT70, SOMO35, AVGMDA8, `3MMDA1`, `6MMDA1`), names_to = "metric", values_to = "value") |>
+  mutate(limit = case_when(metric == "4MDA8" ~ 85,
+                           metric == "NDGT70" ~ 25,
+                           metric == "SOMO35" ~ 7000,
+                           metric == "3MMDA1" ~ 80,
+                           metric == "6MMDA1" ~ 80,
+                           metric == "AVGMDA8" ~ 60,
+                           .default = NA)) |>
+  filter(value >= limit) |>
+  left_join(combined_meta, b = "station_id") |>
+  st_as_sf(coords = c("longitude", "latitude"),  crs = 4326) |>
+  mutate(category = case_when(metric %in% c("4MDA8", "NDGT70") ~ "Extreme",
+                              metric %in% c("SOMO35", "AVGMDA8", "3MMDA1", "6MMDA1") ~ "Exposure",
+                              .default = NA))
+
+exceedances_data = polluted_metrics_data |>
+  select(station_id, year, country, geometry, category) |>
+  distinct() |>
+ #filter(!(country != "United States of America" & category == "Extreme" & year %in% c(2003, 2006, 2015, 2018)))
+  filter(year %in% c(2017:2021))
+
+ggplot() +
+  geom_sf(data = world, fill = "white")+
+  geom_sf(data = exceedances_data,
+          mapping = aes(colour = category)) +
+  #scale_colour_viridis_d()+
+  scale_y_continuous(limits = st_coordinates(limUS)[,2])+
+  scale_x_continuous(limits = st_coordinates(limUS)[,1]) +
+  facet_wrap(~category+year)
+#theme(legend.position = "none") +
+
+ggplot() +
+  geom_sf(data = world, fill = "white")+
+  geom_sf(data = exceedances_data,
+          mapping = aes(colour = category)) +
+  #scale_colour_viridis_d()+
+  scale_y_continuous(limits = st_coordinates(limEU)[,2])+
+  scale_x_continuous(limits = st_coordinates(limEU)[,1]) +
+  facet_wrap(~category+year)
+
+
+arrow_metric_dat = tbl(con, "arrow_data_freeTau_metrics") |>
+  collect() |>
+  select(metric, station_id, year, fit, pvStr) |>
+  st_drop_geometry() |>
+  distinct()
+
+exceedances_data_combined = exceedances_data |>
+  rename(exceedance_year = year) |>
+  left_join(arrow_metric_dat, by = c("station_id")) |>
+  distinct() |>
+  filter(category == "Extreme" & metric %in% c("4MDA8", "NDGT70") |
+         category == "Exposure" & metric %in% c("SOMO35", "AVGMDA8", "3MMDA1", "6MMDA1"))

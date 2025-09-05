@@ -185,11 +185,11 @@ unique(stations_of_interest$station_id)
 #
 # testing_clusters_combined = bind_rows(testing_cluster_2, testing_cluster_3, testing_cluster_4_6,testing_cluster_1)
 
-ggplot(testing_clusters_combined)+
-  geom_point(aes(x = year, y = mean, colour = region)) +
-  geom_line(aes(x = year, y = mean, colour = region)) +
-  #geom_ribbon(aes(x = year, ymin = mean-sd, ymax = mean+sd, colour = region, fill = region), alpha = 0.2) +
-  facet_wrap(~metric, scales = "free")
+# ggplot(testing_clusters_combined)+
+#   geom_point(aes(x = year, y = mean, colour = region)) +
+#   geom_line(aes(x = year, y = mean, colour = region)) +
+#   #geom_ribbon(aes(x = year, ymin = mean-sd, ymax = mean+sd, colour = region, fill = region), alpha = 0.2) +
+#   facet_wrap(~metric, scales = "free")
 
 
 testing_all_clusters = combined_cluster_data |>
@@ -220,9 +220,9 @@ testing_all_clusters = combined_cluster_data |>
   select(-c(station_id, pvStr)) |>
   group_by(year, metric, cluster) |>
   summarise_all(c("mean", "sd"), na.rm = T) |>
-  filter(cluster != 99) |>
-  filter(cluster == 2) |>
-  filter(year == 2020)
+  filter(cluster != 99)
+  #filter(cluster == 2) |>
+ # filter(year == 2020)
 
 ggplot(testing_all_clusters)+
   geom_point(aes(x = year, y = mean, colour = as.factor(cluster))) +
