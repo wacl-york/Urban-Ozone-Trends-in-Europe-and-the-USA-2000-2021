@@ -85,7 +85,7 @@ combined_meta = tbl(con, "combinedMeta") |>
 
 tables = c("arrow_data_freeTau_mda8_anom_all", "arrow_data_freeTau_mda8_anom_warm", "arrow_data_freeTau_mda8_anom_cold")
 
-process_table <- function(tbl_name){
+process_table = function(tbl_name){
   tbl(con, tbl_name) |>
     left_join(
       tbl(con, "combinedMeta") |>
