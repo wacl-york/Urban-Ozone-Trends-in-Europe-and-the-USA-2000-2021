@@ -8,7 +8,7 @@ expand_slopes = function(df){
 make_pvStr = function(df, n = c(7,8)[2]){
 
   if(n == 8){
-    df |>
+    df = df |>
       dplyr::mutate(
         pvStr = dplyr::case_when(
           pv <= 0.05 & fit < 0 ~ "p <= 0.05 (dec)",
@@ -49,7 +49,7 @@ make_pvStr = function(df, n = c(7,8)[2]){
                "p <= 0.05 (inc)"
     )
 
-    df |>
+    df = df |>
       dplyr::mutate(
         pvStr = dplyr::case_when(
           pv <= 0.05 & fit < 0 ~ pv_opt[1],
@@ -64,6 +64,8 @@ make_pvStr = function(df, n = c(7,8)[2]){
           factor(levels = pv_opt),
       )
   }
+
+  df
 
 }
 

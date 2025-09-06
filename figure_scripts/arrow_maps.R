@@ -97,6 +97,8 @@ lines = line_groups |>
 mirai::daemons(0)
 tictoc::toc()
 
+# lineDat = readRDS(data_path("figures", "o3_map_data.RDS"))
+
 lineDat = lines |>
   rowwise() |>
   mutate(lineDat = data |>
@@ -110,13 +112,33 @@ lineDat = lines |>
   ungroup() |>
   rowwise() |>
   mutate(
-    g_eu_o3 = arrow_plot(lineDat, "Europe", "o3", type, rm) |>
+    g_eu_o3 = arrow_plot(
+      dat =lineDat,
+      name = "o3",
+      region = "Europe",
+      type = type,
+      rm = rm) |>
       list(),
-    g_eu_no2 = arrow_plot(lineDat, "Europe", "no2", type, rm) |>
+    g_eu_no2 = arrow_plot(
+      dat = lineDat,
+      region ="Europe",
+      name = "no2",
+      type = type,
+      rm = rm) |>
       list(),
-    g_us_o3 = arrow_plot(lineDat, "United States of America", "o3", type, rm) |>
+    g_us_o3 = arrow_plot(
+      dat = lineDat,
+      region ="United States of America",
+      name = "o3",
+      type = type,
+      rm = rm) |>
       list(),
-    g_us_no2 = arrow_plot(lineDat, "United States of America", "no2", type, rm) |>
+    g_us_no2 = arrow_plot(
+      dat = lineDat,
+      region ="United States of America",
+      name = "no2",
+      type = type,
+      rm = rm) |>
       list()
   )
 
@@ -128,6 +150,7 @@ if(!dir.exists(dirOut)){
 }
 
 saveRDS(lineDat, data_path("figures", "o3_map_data.RDS"))
+
 
 for(i in 1:nrow(lineDat)){
 
