@@ -88,7 +88,7 @@ dat = map_df(
 
 totals = dat |>
     group_by(year, tau, name, dataType, region) |>
-    count(name = "total"))
+    count(name = "total")
 
 counts = list(
   dat |>
