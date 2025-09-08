@@ -46,15 +46,15 @@ make_slope_sig_counts_table = function(dat){
     )
 }
 
+# Get Data ----------------------------------------------------------------
+
 con = connect_to_db()
 
 dbListTables(con)
 
 tables = c("piecewise_stats_freeTau_mda8_anom_all", "piecewise_stats_freeTau_mda8_anom_cold", "piecewise_stats_freeTau_mda8_anom_warm")
 
-
 tableName = "piecewise_stats_freeTau_mda8_anom_all"
-
 
 dat = map_df(
   tables,
@@ -86,6 +86,8 @@ dat = map_df(
   expand_slopes() |>
   filter(year %in% c(2004, 2018))
 
+dbDisconnect(con, shutdown = T)
+
 totals = dat |>
     group_by(year, tau, name, dataType, region) |>
     count(name = "total")
@@ -113,8 +115,7 @@ counts = list(
   ungroup() |>
   mutate(perc = (n/total)*100)
 
-
-# -------------------------------------------------------------------------
+# Make Plot ---------------------------------------------------------------
 
 plotDat = counts |>
   select(-total, -perc) |>
@@ -231,6 +232,8 @@ p1 = wrap_plots(g1,legend, heights = c(9,1))
 grDevices::cairo_pdf("figures/paper_figures/slope_sig_counts.pdf", width = 11, height = 7)
 print(p1)
 dev.off()
+
+# Make Table --------------------------------------------------------------
 
 tabData = list(
   n = counts |>
