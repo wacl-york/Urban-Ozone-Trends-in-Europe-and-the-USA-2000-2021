@@ -38,8 +38,8 @@ make_slope_sig_counts_table = function(dat){
         dataType == "mda8_anom_cold" ~ "MDA8Ozzz3yyy Cold Season"
       ),
       groupType = case_when(
-        groupType == "modCert" ~ "p < 0.33",
-        groupType == "modCertMedSlope" ~ "p < 0.33, $|$slope$|$ > 0.5",
+        groupType == "modCert" ~ "p < 0.10",
+        groupType == "modCertMedSlope" ~ "p < 0.10, $|$slope$|$ > 0.5",
         groupType == "unfiltered" ~ "All Sites",
         TRUE ~ groupType
       )
@@ -98,12 +98,12 @@ counts = list(
     count() |>
     mutate(groupType = "unfiltered"),
   dat |>
-    filter(pv < 0.33) |>
+    filter(pv < 0.10) |>
     group_by(year, tau, name, dir, dataType, region) |>
     count() |>
     mutate(groupType = "modCert"),
   dat |>
-    filter(pv < 0.33,
+    filter(pv < 0.10,
            abs(fit) > 0.5) |>
     group_by(year, tau, name, dir, dataType, region) |>
     count() |>
@@ -133,19 +133,19 @@ plotForLegend = plotDat |>
   filter(dir != 0) |>
   mutate(
     groupType = case_when(
-      dir < 0 & groupType == "diff_modCert" ~ "p < 0.33 (dec)",
-      dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>",
-      dir > 0 & groupType == "diff_modCert" ~ "p < 0.33 (inc)",
-      dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>",
+      dir < 0 & groupType == "diff_modCert" ~ "p < 0.10 (dec)",
+      dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
+      dir > 0 & groupType == "diff_modCert" ~ "p < 0.10 (inc)",
+      dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
       dir > 0 & groupType == "diff_unfiltered" ~ "All Sites",
       TRUE ~ groupType
     ) |>
       factor(levels = c(
-        "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>",
-        "p < 0.33 (inc)",
+        "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
+        "p < 0.10 (inc)",
         "All Sites",
-        "p < 0.33 (dec)",
-        "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>"
+        "p < 0.10 (dec)",
+        "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>"
       ))
   ) |>
   filter(!is.na(groupType)) |>
@@ -155,12 +155,12 @@ plotForLegend = plotDat |>
   scale_fill_manual(
     name = "",
     values = c(
-      "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
-      "p < 0.33 (inc)" = "#FFBA66",
+      "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
+      "p < 0.10 (inc)" = "#FFBA66",
       "all sites (inc)" = "#A4C171",
       "All Sites" = "#A4C171",
-      "p < 0.33 (dec)" = "#78BCFF",
-      "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
+      "p < 0.10 (dec)" = "#78BCFF",
+      "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
     )
   )+
   facet_nested(region~dataType+year, scales = "free_y")+
@@ -185,20 +185,20 @@ g1 = plotDat |>
            dataType == "mda8_anom_cold" ~ "MDA8O<sub>3</sub> Cold Season"
          ),
          groupType = case_when(
-           dir < 0 & groupType == "diff_modCert" ~ "p < 0.33 (dec)",
-           dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>",
+           dir < 0 & groupType == "diff_modCert" ~ "p < 0.10 (dec)",
+           dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
            dir < 0 & groupType == "diff_unfiltered" ~ "all sites (dec)",
-           dir > 0 & groupType == "diff_modCert" ~ "p < 0.33 (inc)",
-           dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>",
+           dir > 0 & groupType == "diff_modCert" ~ "p < 0.10 (inc)",
+           dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
            dir > 0 & groupType == "diff_unfiltered" ~ "all sites (inc)",
            TRUE ~ groupType
          ) |>
            factor(levels = c(
-             "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>",
-             "p < 0.33 (inc)",
+             "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
+             "p < 0.10 (inc)",
              "all sites (inc)",
-             "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>",
-             "p < 0.33 (dec)",
+             "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
+             "p < 0.10 (dec)",
              "all sites (dec)"
            ))
   ) |>
@@ -208,12 +208,12 @@ g1 = plotDat |>
   scale_fill_manual(
     name = "",
     values = c(
-      "p < 0.33, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
-      "p < 0.33 (inc)" = "#FFBA66",
+      "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
+      "p < 0.10 (inc)" = "#FFBA66",
       "all sites (inc)" = "#A4C171",
       "all sites (dec)" = "#A4C171",
-      "p < 0.33 (dec)" = "#78BCFF",
-      "p < 0.33, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
+      "p < 0.10 (dec)" = "#78BCFF",
+      "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
     )
   )+
   scale_x_discrete(name = "&tau;")+
