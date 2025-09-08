@@ -1,0 +1,33 @@
+\begin{sidewaystable}[!t]
+\caption{a}
+\label{b}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{4}{c}{Tau = 0.05} & \multicolumn{4}{c}{Tau = 0.50} & \multicolumn{4}{c}{Tau = 0.95} \\ 
+\cmidrule(lr){2-5} \cmidrule(lr){6-9} \cmidrule(lr){10-13}
+ & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} \\ 
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+ & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 14.8 & 10.0 & 85.2 & 89.5 & 21.8 & 13.8 & 78.2 & 86.2 & 73.8 & 61.4 & 26.2 & 38.6 \\ 
+p < 0.33 & 6.5 & 5.2 & 72.7 & 83.3 & 16.1 & 7.6 & 64.0 & 74.8 & 52.4 & 38.6 & 15.2 & 21.9 \\ 
+p < 0.33, |slope| > 0.5 & 0.5 & 1.0 & 10.2 & 11.4 & 2.4 & 1.0 & 9.0 & 10.5 & 15.7 & 7.6 & 5.7 & 8.1 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3} Cold Season} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 12.0 & 5.8 & 88.0 & 94.2 & 14.9 & 7.7 & 85.1 & 92.3 & 27.9 & 19.5 & 71.6 & 80.5 \\ 
+p < 0.33 & 7.1 & 1.9 & 70.2 & 85.6 & 7.2 & 3.8 & 64.7 & 85.2 & 14.4 & 8.1 & 52.3 & 63.3 \\ 
+p < 0.33, |slope| > 0.5 & 0.9 & 0.0 & 5.8 & 10.6 & 2.3 & 0.5 & 7.2 & 16.7 & 5.9 & 2.4 & 9.9 & 6.2 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3} Warm Season} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 23.3 & 17.1 & 76.7 & 82.9 & 38.8 & 35.3 & 61.2 & 64.7 & 74.6 & 69.0 & 25.4 & 31.0 \\ 
+p < 0.33 & 10.0 & 10.4 & 58.6 & 67.3 & 23.4 & 15.0 & 42.1 & 49.8 & 56.5 & 43.2 & 14.4 & 9.9 \\ 
+p < 0.33, |slope| > 0.5 & 5.2 & 3.8 & 19.5 & 19.9 & 9.1 & 2.9 & 6.7 & 5.8 & 23.9 & 12.2 & 10.0 & 3.8 \\ 
+\bottomrule
+\end{tabular*}
+\end{adjustbox}
+\end{sidewaystable}

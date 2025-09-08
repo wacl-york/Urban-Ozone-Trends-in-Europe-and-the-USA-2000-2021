@@ -1,0 +1,33 @@
+\begin{sidewaystable}[!t]
+\caption{a}
+\label{b}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrrrrr}
+\toprule
+ & \multicolumn{4}{c}{Tau = 0.05} & \multicolumn{4}{c}{Tau = 0.50} & \multicolumn{4}{c}{Tau = 0.95} \\ 
+\cmidrule(lr){2-5} \cmidrule(lr){6-9} \cmidrule(lr){10-13}
+ & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} & \multicolumn{2}{c}{Decreasing} & \multicolumn{2}{c}{Increasing} \\ 
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}
+ & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 & 2004 & 2018 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3}} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 32 & 21 & 184 & 188 & 46 & 29 & 165 & 181 & 155 & 129 & 55 & 81 \\ 
+p < 0.33 & 14 & 11 & 157 & 175 & 34 & 16 & 135 & 157 & 110 & 81 & 32 & 46 \\ 
+p < 0.33, |slope| > 0.5 & 1 & 2 & 22 & 24 & 5 & 2 & 19 & 22 & 33 & 16 & 12 & 17 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3} Cold Season} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 27 & 12 & 198 & 196 & 33 & 16 & 188 & 193 & 62 & 41 & 159 & 169 \\ 
+p < 0.33 & 16 & 4 & 158 & 178 & 16 & 8 & 143 & 178 & 32 & 17 & 116 & 133 \\ 
+p < 0.33, |slope| > 0.5 & 2 & 0 & 13 & 22 & 5 & 1 & 16 & 35 & 13 & 5 & 22 & 13 \\ 
+\midrule\addlinespace[2.5pt]
+\multicolumn{13}{l}{MDA8O\textsubscript{3} Warm Season} \\[2.5pt] 
+\midrule\addlinespace[2.5pt]
+All Sites & 49 & 36 & 161 & 175 & 81 & 73 & 128 & 134 & 156 & 147 & 53 & 66 \\ 
+p < 0.33 & 21 & 22 & 123 & 142 & 49 & 31 & 88 & 103 & 118 & 92 & 30 & 21 \\ 
+p < 0.33, |slope| > 0.5 & 11 & 8 & 41 & 42 & 19 & 6 & 14 & 12 & 50 & 26 & 21 & 8 \\ 
+\bottomrule
+\end{tabular*}
+\end{adjustbox}
+\end{sidewaystable}
