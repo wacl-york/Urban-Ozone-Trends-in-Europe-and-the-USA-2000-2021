@@ -267,14 +267,18 @@ for(rgn in c("Europe", "United States of America")){
         contains("2018") ~ "2018",
         groupType = "")
 
+  }
+}
+
+# write these separatly so we can just view the data without overwriting
+for(rgn in c("Europe", "United States of America")){
+  for(tabType in c("n", "perc")){
     tabGt[[rgn]][[tabType]] |>
       as_latex() |>
       as.character() |>
       latex_tweaks(caption = "a",label = "b") |>
       writeLines(here::here('tables',paste0("slope_sig_counts_",tabType,"_", str_replace_all(rgn, " ", "-"), ".txt")))
-
   }
 }
-
 
 tabGt$Europe$perc
