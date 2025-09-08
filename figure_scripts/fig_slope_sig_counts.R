@@ -39,7 +39,7 @@ make_slope_sig_counts_table = function(dat){
       ),
       groupType = case_when(
         groupType == "modCert" ~ "p < 0.33",
-        groupType == "modCertMedSlope" ~ "p < 0.33, |slope| > 0.5",
+        groupType == "modCertMedSlope" ~ "p < 0.33, $|$slope$|$ > 0.5",
         groupType == "unfiltered" ~ "All Sites",
         TRUE ~ groupType
       )
@@ -259,9 +259,9 @@ for(rgn in c("Europe", "United States of America")){
       tab_spanner("Increasing", columns = contains("Increasing_0.5"),  id = "inc_0.5") |>
       tab_spanner("Decreasing", columns = contains("Decreasing_0.95"), id = "dec_0.95") |>
       tab_spanner("Increasing", columns = contains("Increasing_0.95"), id = "inc_0.95") |>
-      tab_spanner("Tau = 0.05", columns = contains("0.05")) |>
-      tab_spanner("Tau = 0.50", columns = contains("0.5")) |>
-      tab_spanner("Tau = 0.95", columns = contains("0.95")) |>
+      tab_spanner(":tau: = 0.05", columns = contains("0.05")) |>
+      tab_spanner(":tau: = 0.50", columns = contains("0.5")) |>
+      tab_spanner(":tau: = 0.95", columns = contains("0.95")) |>
       cols_label(
         contains("2004") ~ "2004",
         contains("2018") ~ "2018",
