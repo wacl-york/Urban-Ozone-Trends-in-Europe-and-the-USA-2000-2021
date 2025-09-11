@@ -255,7 +255,7 @@ For the US 95\textsuperscript{th} MDA8O$_3$ data, clusters behave much less unif
 
 \subsection{Coupling MDA8O$_3$ trends with 6MMDA1 O$_3$ exposure metrics} \label{sect:polluted_stuff}
 
-To investigate how trends are developing in different clustered regions across Europe and the US, we selected two years, one earlier and one later year in the timeseries, and compared how variations in the annual exposure metric, 6MMDA1, compared to the slopes and significance of trends in MDA8O$_3$. Here, we only look at sites that have been assigned a cluster (where the number of sites > 3), using the HC clusters analysis described in section \ref{sect:method} to explore whether regional clusters were showing similar trends. 
+To investigate how trends are developing in different clustered regions across Europe and the US, we selected two years, one earlier and one later year in the time series, and compared how variations in the annual exposure metric, 6MMDA1, compared to the slopes and significance of trends in MDA8O$_3$. Here, we only look at sites that have been assigned a cluster (where the number of sites > 3), using the HC clusters analysis described in section \ref{sect:method} to explore whether regional clusters were showing similar trends. Figures \ref{fig:mda8_cluster_mda8_6mmda1} - \ref{fig:mda8_warm_cluster_mda8_6mmda1} show the MDA8O\textsubscript{3} trend against 6MMDA1, coloured by the clusters shown in section \ref{sect:cluster_stuff}. Similar figures coloured by the trend significance can be found in the \textcolor{red}{SI},
 
 In the European MDA8O$_3$ data and in the 5\textsuperscript{th} percentile where sites are behaving more uniformly (one bulk cluster), we do not see a clear reduction in high certainty increasing slopes between 2004 and 2018, but we do see fewer high certainty decreasing slopes in 2018. Across the cluster, which includes a broad range of sites across Europe, we observe similar maximum values of annual 6MMDA1 in the two years (c.a. 68 ppb), but fewer 6MMDA1 values in the lower range in 2018 (20 - 40 ppb). For the 50\textsuperscript{th} percentile data, where there are more clusters, observe that a cluster located across Southern mainland Europe (cluster 2), includes several sites with the higher 6MMDA1 values (> 60 ppb), in both 2004 and 2018. However, the certainty and direction of the trends in MDA8O$_3$ is mixed. A smaller cluster of sites located in Spain observed lower values of 6MMDA1 in 2004 (20 - 40 ppb), which increases to 40 - 50 ppb by 2018. These sites also have high certainty increasing MDA8O$_3$ trends in both 2004 and 2018. More broadly across all clusters, we again observe fewer high certainty decreasing slopes in 2018 than 2004. In the 95\textsuperscript{th} percentile, where the clearest regional clustering can be observed, generally higher 6MMDA1 values are seen in 2018 than 2004. There is no notable grouping of the clusters their 6MMDA1 values in either 2004 and 2018, but there is generally a broader spread of values in 2004 compared to 2018. The location of sites with high certainty increasing or decreasing values is also mixed, showing no clear regionality. When we compare 6MMDA1 values to the 95\textsuperscript{th} percentile warm-season only MDA8O$_3$ trends, we again observed a compression of the range of 6MMDA1 values, at the higher mixing ratio end (c.a. 25 - 70 ppb in 2004, vs 40 - 70 ppb in 2018). We also observe that clusters located in Northern Europe have the smallest 6MMDA1 values in both years, and trends are generally increasing but with low certainty.
 
@@ -375,18 +375,44 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 % Spatio-temporal distribution of O$_3$ metrics, relevant to health and exposure
 
 % HC MDA8
-\begin{sidewaysfigure}[p]
+\begin{figure}[p]
     \centering
     \includegraphics[width=\textwidth]{figures/paper_figures/cluster_maps/eu_clusters.pdf}
-\end{sidewaysfigure}
+\end{figure}
 \clearpage
 
-\begin{sidewaysfigure}[p]
+\begin{figure}[p]
     \centering
     \includegraphics[width=\textwidth]{figures/paper_figures/cluster_maps/us_clusters.pdf}
-\end{sidewaysfigure}
+\end{figure}
 \clearpage
+
 % Coupling MDA8 with 6MMDA1
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_cluster_mda8_6mmda1.pdf}
+\caption{}
+\label{fig:mda8_cluster_mda8_6mmda1}
+\end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_warm_cluster_mda8_6mmda1.pdf}
+\caption{}
+\label{fig:mda8_warm_cluster_mda8_6mmda1}
+\end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_cold_cluster_mda8_6mmda1.pdf}
+\caption{}
+\label{fig:mda8_cold_cluster_mda8_6mmda1}
+\end{figure}
+\clearpage
+
 
 %% The following commands are for the statements about the availability of data sets and/or software code corresponding to the manuscript.
 %% It is strongly recommended to make use of these sections in case data sets and/or software code have been part of your research the article is based on.
