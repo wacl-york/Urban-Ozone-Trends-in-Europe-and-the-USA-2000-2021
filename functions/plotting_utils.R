@@ -229,6 +229,7 @@ arrow_plot = function(dat,
           strip.text = element_markdown(),
           legend.position = "bottom",
           legend.byrow = T,
+          legend.text = element_text(size = 7),
           title = element_markdown())
 
   if(title){
