@@ -175,7 +175,10 @@ arrow_plot = function(dat,
                       type,
                       rm,
                       yrs = c(2002, 2006, 2010, 2014, 2018, 2022),
-                      mycrs = 4087
+                      mycrs = 4087,
+                      title = TRUE,
+                      titleText = NULL,
+                      worldScale = "small"
 ){
 
   p_colours = c(
@@ -188,7 +191,7 @@ arrow_plot = function(dat,
     rgb(0.6471, 0, 0.1294)
   )
 
-  world = rnaturalearth::ne_coastline(scale = "small", returnclass = "sf") |>
+  world = rnaturalearth::ne_coastline(scale = worldScale, returnclass = "sf") |>
     st_transform(mycrs)
 
   if(region == "Europe"){
@@ -207,7 +210,7 @@ arrow_plot = function(dat,
       year %in% yrs
     )
 
-  ggplot() +
+  g1 = ggplot() +
     geom_sf(data = world, fill = "white")+
     geom_sf(data = plotDat,
             mapping = aes(colour = pvStr),
@@ -225,7 +228,19 @@ arrow_plot = function(dat,
           panel.grid.major = element_blank(),
           strip.text = element_markdown(),
           legend.position = "bottom",
-          legend.byrow = T)+
-    ggtitle(paste0(type, " - arrow range = +/- ",rm))
+          legend.byrow = T,
+          title = element_markdown())
+
+  if(title){
+
+    if(is.null(titleText)){
+      titleText = paste0(type, " - arrow range = +/- ",rm)
+    }
+
+    g1 = g1+
+      ggtitle(titleText)
+  }
+
+  g1
 
 }

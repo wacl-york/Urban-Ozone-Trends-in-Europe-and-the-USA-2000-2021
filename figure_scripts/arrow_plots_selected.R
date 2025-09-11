@@ -11,6 +11,22 @@ library(ggplot2)
 source(here::here('functions','utils.R'))
 source(here::here('functions','plotting_utils.R'))
 
+parse_type = function(type){
+
+  if(stringr::str_detect(type, "all")){
+    return("MDA8O<sub>3</sub>")
+  }
+
+  if(stringr::str_detect(type, "warm")){
+    return("MDA8O<sub>3</sub> Warm Season")
+  }
+
+  if(stringr::str_detect(type, "cold")){
+    return("MDA8O<sub>3</sub> Cold Season")
+  }
+
+}
+
 con = connect_to_db()
 
 tables = c("piecewise_stats_freeTau_mda8_anom_all", "piecewise_stats_freeTau_mda8_anom_cold", "piecewise_stats_freeTau_mda8_anom_warm")
@@ -101,32 +117,30 @@ tictoc::toc()
 
 lineDat = lines |>
   rowwise() |>
-  mutate(lineDat = data |>
-           left_join(lines, "rn") |>
-           select(-latitude, -longitude, -rn) |>
-           st_as_sf() |>
-           # select(-pvStr) |>
-           make_pvStr(7) |>
-           list()
+  mutate(
+    lineDat = data |>
+      left_join(lines, "rn") |>
+      select(-latitude, -longitude, -rn) |>
+      st_as_sf() |>
+      # select(-pvStr) |>
+      make_pvStr(7) |>
+      mutate(tau = paste0("&tau; = ", tau)) |>
+      list(),
+    titleText = parse_type(type),
   ) |>
   ungroup() |>
   rowwise() |>
   mutate(
     g_eu_o3 = arrow_plot(
-      dat =lineDat,
+      dat = lineDat,
       name = "o3",
       region = "Europe",
       type = type,
       rm = rm,
-      yrs = c(2004, 2018)) |>
-      list(),
-    g_eu_no2 = arrow_plot(
-      dat = lineDat,
-      region ="Europe",
-      name = "no2",
-      type = type,
-      rm = rm,
-      yrs = c(2004, 2018)) |>
+      worldScale = "small",
+      yrs = c(2004, 2018),
+      titleText = titleText
+        ) |>
       list(),
     g_us_o3 = arrow_plot(
       dat = lineDat,
@@ -134,15 +148,10 @@ lineDat = lines |>
       name = "o3",
       type = type,
       rm = rm,
-      yrs = c(2004, 2018)) |>
-      list(),
-    g_us_no2 = arrow_plot(
-      dat = lineDat,
-      region ="United States of America",
-      name = "no2",
-      type = type,
-      rm = rm,
-      yrs = c(2004, 2018)) |>
+      worldScale = "small",
+      yrs = c(2004, 2018),
+      titleText = titleText
+    ) |>
       list()
   )
 
@@ -154,16 +163,16 @@ if(!dir.exists(dirOut)){
 
 for(i in 1:nrow(lineDat)){
 
-  pdf(
+  grDevices::cairo_pdf(
     here::here(dirOut, paste0("o3_map_",lineDat$type[[i]],"_eu_o3.pdf")),
-    width = 7, height = 10
+    width = 7, height = 9
   )
   print(lineDat$g_eu_o3[[i]])
   dev.off()
 
-  pdf(
+  grDevices::cairo_pdf(
     here::here(dirOut, paste0("o3_map_",lineDat$type[[i]],"_us_o3.pdf")),
-    width = 7, height = 10
+    width = 7, height = 9
   )
   print(lineDat$g_us_o3[[i]])
   dev.off()
