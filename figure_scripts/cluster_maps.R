@@ -128,3 +128,4 @@ grDevices::cairo_pdf(here(dirOut, "us_clusters.pdf"), width = 9.9, height = 5)
 print(g_us)
 dev.off()
 
+dbDisconnect(con, shutdown = T)
