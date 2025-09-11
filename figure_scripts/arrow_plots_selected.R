@@ -165,14 +165,14 @@ for(i in 1:nrow(lineDat)){
 
   grDevices::cairo_pdf(
     here::here(dirOut, paste0("o3_map_",lineDat$type[[i]],"_eu_o3.pdf")),
-    width = 5.6, height = 8
+    width = 5.6, height = 7
   )
   print(lineDat$g_eu_o3[[i]])
   dev.off()
 
   grDevices::cairo_pdf(
     here::here(dirOut, paste0("o3_map_",lineDat$type[[i]],"_us_o3.pdf")),
-    width = 5.6, height = 8
+    width = 5.6, height = 7
   )
   print(lineDat$g_us_o3[[i]])
   dev.off()
