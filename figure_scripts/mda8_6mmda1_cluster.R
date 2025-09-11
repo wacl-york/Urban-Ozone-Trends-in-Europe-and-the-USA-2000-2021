@@ -88,7 +88,9 @@ for(i in 1:nrow(opts)){
     theme_minimal()+
     theme(
       axis.title = element_markdown(),
-      strip.text = element_markdown()
+      strip.text = element_markdown(),
+      legend.position = "bottom",
+      legend.byrow = T
     )
 
   g2 = dat |>
@@ -113,7 +115,9 @@ for(i in 1:nrow(opts)){
   theme_minimal()+
   theme(
     axis.title = element_markdown(),
-    strip.text = element_markdown()
+    strip.text = element_markdown(),
+    legend.position = "bottom",
+    legend.byrow = T
   )
 
   dirOutP = here::here('figures','paper_figures','mda8_6mmda1')
@@ -127,11 +131,11 @@ for(i in 1:nrow(opts)){
     dir.create(dirOutSI)
   }
 
-  grDevices::cairo_pdf(here(dirOutP, paste0(opts$clusterType[i], "_cluster_mda8_6mmda1.pdf")), width = 11, height = 7)
+  grDevices::cairo_pdf(here(dirOutP, paste0(opts$clusterType[i], "_cluster_mda8_6mmda1.pdf")), width = 7, height = 11)
   print(g1)
   dev.off()
 
-  grDevices::cairo_pdf(here(dirOutSI, paste0(opts$clusterType[i], "_sig_mda8_6mmda1.pdf")), width = 11, height = 7)
+  grDevices::cairo_pdf(here(dirOutSI, paste0(opts$clusterType[i], "_sig_mda8_6mmda1.pdf")), width = 7, height = 11)
   print(g2)
   dev.off()
 
