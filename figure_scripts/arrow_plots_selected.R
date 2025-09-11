@@ -179,3 +179,4 @@ for(i in 1:nrow(lineDat)){
 
 }
 
+dbDisconnect(con, shutdown = T)
