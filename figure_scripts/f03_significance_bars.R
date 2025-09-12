@@ -142,7 +142,7 @@ g2 = dat |>
         legend.position = "bottom",
         legend.byrow = T)
 
-grDevices::cairo_pdf(here::here('figures','paper_figures','signifcance_bars.pdf'), width = 11, height = 8)
+grDevices::cairo_pdf(here::here('figures','paper_figures','f03_signifcance_bars.pdf'), width = 11, height = 8)
 print(g2)
 dev.off()
 

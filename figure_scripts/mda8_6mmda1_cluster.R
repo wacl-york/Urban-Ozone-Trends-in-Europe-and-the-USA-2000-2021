@@ -120,7 +120,7 @@ for(i in 1:nrow(opts)){
     legend.byrow = T
   )
 
-  dirOutP = here::here('figures','paper_figures','mda8_6mmda1')
+  dirOutP = here::here('figures','paper_figures')
   dirOutSI = here::here('figures','si_figures','mda8_6mmda1')
 
   if(!dir.exists(dirOutP)){
@@ -131,7 +131,7 @@ for(i in 1:nrow(opts)){
     dir.create(dirOutSI)
   }
 
-  grDevices::cairo_pdf(here(dirOutP, paste0(opts$clusterType[i], "_cluster_mda8_6mmda1.pdf")), width = 7, height = 11)
+  grDevices::cairo_pdf(here(dirOutP, paste0("f",i+12,"_",opts$clusterType[i], "_cluster_mda8_6mmda1.pdf")), width = 7, height = 11)
   print(g1)
   dev.off()
 

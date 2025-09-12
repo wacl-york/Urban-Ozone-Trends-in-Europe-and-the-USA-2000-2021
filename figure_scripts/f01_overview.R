@@ -46,6 +46,8 @@ dat = map_df(
            str_remove("daily_") |>
            str_remove("all_"))
 
+dbDisconnect(con, shutdown = T)
+
 colours = c(
   "All" = "black",
   "Cold" = "#1F78B4",
@@ -89,9 +91,7 @@ g1 = dat |>
     strip.text = element_markdown(size = 10),
     strip.placement = "outside")
 
-
-
-pdf("figures/paper_figures/f2.pdf", width = 7.5, height = 7.5)
+pdf("figures/paper_figures/f01_overview.pdf", width = 7.5, height = 7.5)
 print(g1)
 dev.off()
 

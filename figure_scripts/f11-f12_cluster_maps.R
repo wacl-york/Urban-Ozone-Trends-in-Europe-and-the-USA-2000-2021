@@ -2,6 +2,7 @@ library(sf)
 library(DBI)
 library(here)
 library(dplyr)
+library(tidyr)
 library(ggtext)
 library(ggplot2)
 
@@ -114,17 +115,17 @@ g_eu = ggplot()+
         strip.text = element_markdown(),
         legend.position = "bottom")
 
-dirOut = here::here('figures','paper_figures','cluster_maps')
+dirOut = here::here('figures','paper_figures')
 
 if(!dir.exists(dirOut)){
   dir.create(dirOut)
 }
 
-grDevices::cairo_pdf(here(dirOut, "eu_clusters.pdf"), width = 9.9, height = 7.25)
+grDevices::cairo_pdf(here(dirOut, "f11_eu_clusters.pdf"), width = 9.9, height = 7.25)
 print(g_eu)
 dev.off()
 
-grDevices::cairo_pdf(here(dirOut, "us_clusters.pdf"), width = 9.9, height = 5)
+grDevices::cairo_pdf(here(dirOut, "f12_us_clusters.pdf"), width = 9.9, height = 5)
 print(g_us)
 dev.off()
 

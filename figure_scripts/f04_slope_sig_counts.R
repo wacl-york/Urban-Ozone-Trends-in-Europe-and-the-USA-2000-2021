@@ -40,7 +40,7 @@ make_slope_sig_counts_table = function(dat){
       groupType = case_when(
         groupType == "modCert" ~ "p < 0.10",
         groupType == "modCertMedSlope" ~ "p < 0.10, $|$slope$|$ > 0.5",
-        groupType == "unfiltered" ~ "All Sites",
+        groupType == "unfiltered" ~ "All Other Sites",
         TRUE ~ groupType
       )
     )
@@ -137,13 +137,13 @@ plotForLegend = plotDat |>
       dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
       dir > 0 & groupType == "diff_modCert" ~ "p < 0.10 (inc)",
       dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
-      dir > 0 & groupType == "diff_unfiltered" ~ "All Sites",
+      dir > 0 & groupType == "diff_unfiltered" ~ "All Other Sites",
       TRUE ~ groupType
     ) |>
       factor(levels = c(
         "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
         "p < 0.10 (inc)",
-        "All Sites",
+        "All Other Sites",
         "p < 0.10 (dec)",
         "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>"
       ))
@@ -157,8 +157,8 @@ plotForLegend = plotDat |>
     values = c(
       "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
       "p < 0.10 (inc)" = "#FFBA66",
-      "all sites (inc)" = "#A4C171",
-      "All Sites" = "#A4C171",
+      "All Other Sites (inc)" = "#A4C171",
+      "All Other Sites" = "#A4C171",
       "p < 0.10 (dec)" = "#78BCFF",
       "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
     )
@@ -187,19 +187,19 @@ g1 = plotDat |>
          groupType = case_when(
            dir < 0 & groupType == "diff_modCert" ~ "p < 0.10 (dec)",
            dir < 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
-           dir < 0 & groupType == "diff_unfiltered" ~ "all sites (dec)",
+           dir < 0 & groupType == "diff_unfiltered" ~ "All Other Sites (dec)",
            dir > 0 & groupType == "diff_modCert" ~ "p < 0.10 (inc)",
            dir > 0 & groupType == "diff_modCertMedSlope" ~ "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
-           dir > 0 & groupType == "diff_unfiltered" ~ "all sites (inc)",
+           dir > 0 & groupType == "diff_unfiltered" ~ "All Other Sites (inc)",
            TRUE ~ groupType
          ) |>
            factor(levels = c(
              "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>",
              "p < 0.10 (inc)",
-             "all sites (inc)",
+             "All Other Sites (inc)",
              "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>",
              "p < 0.10 (dec)",
-             "all sites (dec)"
+             "All Other Sites (dec)"
            ))
   ) |>
   ggplot()+
@@ -210,8 +210,8 @@ g1 = plotDat |>
     values = c(
       "p < 0.10, slope < +0.5 ppbv / yr<sup>-1</sup>" = "#FF6400",
       "p < 0.10 (inc)" = "#FFBA66",
-      "all sites (inc)" = "#A4C171",
-      "all sites (dec)" = "#A4C171",
+      "All Other Sites (inc)" = "#A4C171",
+      "All Other Sites (dec)" = "#A4C171",
       "p < 0.10 (dec)" = "#78BCFF",
       "p < 0.10, slope < -0.5 ppbv / yr<sup>-1</sup>" = "#1E64FF"
     )
@@ -229,7 +229,7 @@ g1 = plotDat |>
 
 p1 = wrap_plots(g1,legend, heights = c(9,1))
 
-grDevices::cairo_pdf("figures/paper_figures/slope_sig_counts.pdf", width = 11, height = 7)
+grDevices::cairo_pdf("figures/paper_figures/f04_slope_sig_counts.pdf", width = 11, height = 7)
 print(p1)
 dev.off()
 

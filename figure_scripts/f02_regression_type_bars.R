@@ -88,7 +88,7 @@ g1 = regs_by_type |>
     axis.text.x = element_text(angle = 285, vjust = 0.5)
   )
 
-grDevices::cairo_pdf(here::here('figures','paper_figures','regression_type_bars_o3.pdf'), width = 7.5, height = 5) # to get the tau to write properly use cairo_pdf
+grDevices::cairo_pdf(here::here('figures','paper_figures','f02_regression_type_bars_o3.pdf'), width = 7.5, height = 5) # to get the tau to write properly use cairo_pdf
 print(g1)
 dev.off()
 
