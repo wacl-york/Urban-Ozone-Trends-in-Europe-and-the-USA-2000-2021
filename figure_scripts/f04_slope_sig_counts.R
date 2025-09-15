@@ -229,8 +229,35 @@ g1 = plotDat |>
 
 p1 = wrap_plots(g1,legend, heights = c(9,1))
 
-grDevices::cairo_pdf("figures/paper_figures/f04_slope_sig_counts.pdf", width = 11, height = 7)
+grDevices::cairo_pdf(here::here('figures','paper_figures','f04_slope_sig_counts.pdf'), width = 11, height = 7)
 print(p1)
+dev.off()
+
+
+# Density for SI ----------------------------------------------------------
+
+
+g2 = dat |>
+  mutate(
+    dataType = case_when(
+      dataType == "mda8_anom_all" ~ "MDA8O<sub>3</sub>",
+      dataType == "mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season",
+      dataType == "mda8_anom_cold" ~ "MDA8O<sub>3</sub> Cold Season"
+    )) |>
+  ggplot()+
+  geom_density(aes(fit, fill = factor(tau)), alpha = 0.5)+
+  scale_x_continuous(limits = c(-3, 3))+
+  scale_fill_manual(values = c("#FF0000", "#00A08A", "#F2AD00"), name = "Tau")+
+  facet_nested(region ~ dataType+year, scale = "free_y")+
+  theme_minimal()+
+  theme(
+    legend.text = element_markdown(),
+    strip.text = element_markdown(),
+    axis.title = element_markdown()
+  )
+
+grDevices::cairo_pdf(here::here('figures','si_figures','slope_density.pdf'), width = 11, height = 7)
+print(p2)
 dev.off()
 
 # Make Table --------------------------------------------------------------
