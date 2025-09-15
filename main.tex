@@ -160,7 +160,19 @@ MDA8O$_3$ Cold         & MDA8O$_3$      & All           & October - March   \\
 \label{tab:ts_types}
 \end{table}
 
-\subsection{Metrics}
+\subsubsection{Metrics}
+
+In addition to the series described above, we calculated six common health related O\textsubscript{3} metrics which are explored in section \ref{sect:metrics_distribution} and used in conjunction with calculated trends in \ref{sect:polluted_stuff}. More information on these metrics can be found in \cite{10.1525/elementa.279} and \cite{fleming_2018}.
+
+\begin{itemize}
+    \item 4MDA8 - The 4th highest MDA8 value in the warm season (ppb)
+    \item NDGT70 - Number of days in a year where MDA8 > 70 ppbv (days)
+    \item SOMO35 - Subtract 35 ppb from the MDA8 value and sum all postive values (ppb x days)
+    \item 3MMDA1 - Annual maximum value of 3 month rolling mean of MDA1 (maximum daily 1 hour O\textsubscript{3}) (ppb)
+    \item 6MMDA1 - As 3MMDA1 with a rolling 6 month mean (ppb)
+    \item AVGMDA8 - Mean of the warm season MDA8 (ppb)
+\end{itemize}
+
 
 \subsection{Trend Analysis}
 Trends were estimated for these daily, daily day, daily night and MDA8O$_3$ series in three cases: all data, warm season (April - September) and cold season (October - March). These were calculated following the methodology in, and using code provided by, \cite{chang2023guidancenotebeststatistical}. QR calculates a linear model that seeks to minimise the residuals with a defined proportion ($\tau$) of the points above and below the fit line. For example, the scenario $\tau$ = 0.5 splits the data 50:50 above and below the line. QR has the advantage of being insensitive to outliers and the $\tau$ = 0.5 case can be considered analogous to a “median” trend line. This is desirable for the longer-term trends being investigated here. The 1-sigma uncertainly for the QRs were calculated via a moving block bootstrapping method, where the data are subdivided into overlapping blocks that are $n^{1/4}$ points wide (or \textasciitilde{20} points for 20 years of hourly data). These blocks are shuffled to generate a new time series, and replicated 1000 times, and the standard deviation of these replicates calculated. This uncertainty was subsequently used in the determination of the p-value, providing a metric for the significance of the trends. 
@@ -318,7 +330,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \includegraphics[width=12cm]{figures/paper_figures/slope_sig_counts.pdf}
-\caption{}
+\caption{Number of sites across slope significance and slope magnitude categories. }
 \label{fig:slope_sig_counts}
 \end{figure}
 \clearpage
@@ -375,23 +387,25 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 % Spatio-temporal distribution of O$_3$ metrics, relevant to health and exposure
 
 % HC MDA8
-\begin{figure}[p]
+\begin{sidewaysfigure}[p]
     \centering
     \includegraphics[width=\textwidth]{figures/paper_figures/cluster_maps/eu_clusters.pdf}
-\end{figure}
+    \caption{}
+\end{sidewaysfigure}
 \clearpage
 
-\begin{figure}[p]
+\begin{sidewaysfigure}[p]
     \centering
     \includegraphics[width=\textwidth]{figures/paper_figures/cluster_maps/us_clusters.pdf}
-\end{figure}
+    \caption{}
+\end{sidewaysfigure}
 \clearpage
 
 % Coupling MDA8 with 6MMDA1
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_cluster_mda8_6mmda1.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/mda8_6mmda1/mda8_cluster_mda8_6mmda1.pdf}
 \caption{}
 \label{fig:mda8_cluster_mda8_6mmda1}
 \end{figure}
@@ -399,7 +413,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_warm_cluster_mda8_6mmda1.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/mda8_6mmda1/mda8_warm_cluster_mda8_6mmda1.pdf}
 \caption{}
 \label{fig:mda8_warm_cluster_mda8_6mmda1}
 \end{figure}
@@ -407,11 +421,12 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\textwidth]{figures/paper_figures/mda8_6mmda1/mda8_cold_cluster_mda8_6mmda1.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/mda8_6mmda1/mda8_cold_cluster_mda8_6mmda1.pdf}
 \caption{}
 \label{fig:mda8_cold_cluster_mda8_6mmda1}
 \end{figure}
 \clearpage
+
 
 
 %% The following commands are for the statements about the availability of data sets and/or software code corresponding to the manuscript.
