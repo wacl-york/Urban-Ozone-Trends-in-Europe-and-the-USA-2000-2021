@@ -1,5 +1,12 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{rotating}
+
+\renewcommand{\thepage}{S\arabic{page}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
 \title{Supplementary Data for: Urban Ozone Trends in Europe and the USA (2000-2021)}
 \date{}
 \begin{document}
@@ -7,12 +14,55 @@
 \maketitle
 \clearpage
 
+\begin{table}[h]
+\caption{Types of time series for which trends have been calculated}
+\begin{tabular}{c|c c c}
+Type              & Averaging & Hours         & Months            \\ \hline
+Daily             & mean      & All           & All               \\
+Daily Day         & mean      & 0800 - 1900 L & All               \\
+Daily Day Warm    & mean      & 0800 - 1900 L & April - September \\
+Daily Day Cold    & mean      & 0800 - 1900 L & October - March   \\
+Daily Night       & mean      & 2000 - 0700 L & All               \\
+Daily Night Warm  & mean      & 2000 - 0700 L & April - September \\
+Daily Night Cold  & mean      & 2000 - 0700 L & October - March   \\
+MDA8O$_3$              & MDA8O$_3$      & All           & All               \\
+MDA8O$_3$ Warm         & MDA8O$_3$      & All           & April - September \\
+MDA8O$_3$ Cold         & MDA8O$_3$      & All           & October - March   \\
+\end{tabular}
+\label{si_tab:ts_types}
+\end{table}
+\clearpage
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\linewidth]{figures/si_figures/regression_type/regression_type_bars_o3_all.pdf}
+\caption{}
+\label{si_fig:reg_bars_all}
+\end{sidewaysfigure}
+\clearpage
+
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth]{figures/si_figures/cp_year/cp_year_no2_Europe.pdf}
+\includegraphics[width=\linewidth]{figures/si_figures/cp_year/cp_year_o3_Europe.pdf}
 \caption{}
-\label{si_fig:o3_map_eu_mda8_warm}
+\label{si_fig:cp_year_eu}
 \end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{figures/si_figures/cp_year/cp_year_o3_United-States-of-America.pdf}
+\caption{}
+\label{si_fig:cp_year_usa}
+\end{figure}
+\clearpage
+
+\begin{sidewaysfigure}[p]
+\centering
+\includegraphics[width=\linewidth]{figures/si_figures/regression_type/regression_type_map.pdf}
+\caption{}
+\label{si_fig:reg_map}
+\end{sidewaysfigure}
 \clearpage
 
 \end{document}
