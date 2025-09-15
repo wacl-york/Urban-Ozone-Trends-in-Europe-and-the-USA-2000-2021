@@ -95,127 +95,111 @@ dev.off()
 
 # SI Plots ----------------------------------------------------------------
 
-for(spc in c("o3", "no2", "ox")){
-  g1_all = regs_by_type |>
-    filter(name == spc) |>
-    mutate(dataType = str_remove(dataType, "reg_all_")) |>
+g1_all = regs_by_type |>
+  filter(name == "o3") |>
+  mutate(dataType = str_remove(dataType, "reg_all_")) |>
+  ggplot()+
+  geom_bar(aes(factor(tau), fill = scenarioType), stat = "count", position = "dodge")+
+  scale_x_discrete(name = "&tau;")+
+  scale_y_continuous(name = "Number of Sites",expand = c(0,0))+
+  scale_fill_manual(
+    name = "Regression Type",
+    values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
+  facet_grid(region~dataType, scale = "free_y")+
+  theme_minimal()+
+  theme(
+    strip.text = element_markdown(size = 5),
+    axis.title = element_markdown(),
+    axis.text.x = element_text(angle = 285, vjust = 0.5),
+    legend.position = "bottom"
+  )
+
+grDevices::cairo_pdf(here::here('figures','si_figures','regression_type',"regression_type_bars_o3_all.pdf"), width = 11, height = 8) # to get the tau to write properly use cairo_pdf
+print(g1_all)
+dev.off()
+
+for(rgn in c("Europe", "United States of America")){
+
+  title = paste0("O<sub>3</sub> - ", rgn)
+
+  g2 = regs_by_type |>
+    left_join(
+      tbl(con, "regression_scenarios") |>
+        collect(),
+      by = c("station_id", "name", "scenario_idx")
+    ) |>
+    pivot_longer(contains("cp"),names_to = "cp") |>
+    mutate(cp_year = year(value)) |>
+    filter(name == "o3",
+           region == rgn,
+           dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
+    mutate(
+      dataType = case_when(
+        dataType == "reg_all_daily_all" ~ "Daily Mean",
+        dataType == "reg_all_mda8_anom_all" ~ "MDA8O<sub>3</sub>",
+        dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season"
+      ),
+      tau = paste0("&tau; = ", tau)
+    ) |>
     ggplot()+
-    geom_bar(aes(factor(tau), fill = scenarioType), stat = "count", position = "dodge")+
-    scale_x_discrete(name = "&tau;")+
-    scale_y_continuous(name = "Number of Sites",expand = c(0,0))+
+    geom_histogram(aes(cp_year, fill = scenarioType), binwidth = 1, position = "stack")+
+    facet_grid(tau~dataType, scale = "free_y")+
+    scale_x_continuous(name = "Change Point Year")+
+    scale_y_continuous(name = "Number of Sites", expand = c(0,0))+
     scale_fill_manual(
       name = "Regression Type",
-      values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-    facet_grid(region~dataType, scale = "free_y")+
+      values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A"))+
     theme_minimal()+
     theme(
-      strip.text = element_markdown(size = 5),
+      strip.text = element_markdown(size = 10),
       axis.title = element_markdown(),
-      axis.text.x = element_text(angle = 285, vjust = 0.5)
-    )
+      axis.text.x = element_text(angle = 285, vjust = 0.5),
+      title = element_markdown(),
+      legend.position = "bottom"
+    )+
+    ggtitle(title)
 
-  grDevices::cairo_pdf(here::here('figures','si_figures','regression_type',paste0("regression_type_bars_",spc,"_all.pdf")), width = 11, height = 8) # to get the tau to write properly use cairo_pdf
-  print(g1_all)
+
+  grDevices::cairo_pdf(here::here('figures','si_figures','cp_year',paste0("cp_year_o3_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
+  print(g2)
   dev.off()
 }
 
-for(rgn in c("Europe", "United States of America")){
-  for(spc in c("o3", "no2","ox") ){
-
-    title = case_when(spc == "no2" ~ "NO<sub>2</sub>",
-                      spc == "o3" ~ "O<sub>3</sub>",
-                      spc == "ox" ~ "O<sub>x</sub>") |>
-      paste0(" - ", rgn)
-
-    g2 = regs_by_type |>
-      left_join(
-        tbl(con, "regression_scenarios") |>
-          collect(),
-        by = c("station_id", "name", "scenario_idx")
-      ) |>
-      pivot_longer(contains("cp"),names_to = "cp") |>
-      mutate(cp_year = year(value)) |>
-      filter(name == spc,
-             region == rgn,
-             dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
-      mutate(
-        dataType = case_when(
-          dataType == "reg_all_daily_all" ~ "Daily Mean",
-          dataType == "reg_all_mda8_anom_all" ~ "MDA8O<sub>3</sub>",
-          dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season"
-        ),
-        tau = paste0("&tau; = ", tau)
-      ) |>
-      ggplot()+
-      geom_histogram(aes(cp_year, fill = scenarioType), binwidth = 1, position = "stack")+
-      facet_grid(tau~dataType, scale = "free_y")+
-      scale_x_continuous(name = "Change Point Year")+
-      scale_y_continuous(name = "Number of Sites", expand = c(0,0))+
-      scale_fill_manual(
-        name = "Regression Type",
-        values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A"))+
-      theme_minimal()+
-      theme(
-        strip.text = element_markdown(size = 10),
-        axis.title = element_markdown(),
-        axis.text.x = element_text(angle = 285, vjust = 0.5)
-      )+
-      ggtitle(title)
-
-
-    grDevices::cairo_pdf(here::here('figures','si_figures','cp_year',paste0("cp_year_",spc,"_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
-    print(g2)
-    dev.off()
-  }
-}
 
 
 # Map ---------------------------------------------------------------------
 
-g3_list = list()
+regs_by_type_sf = regs_by_type |>
+  filter(name == "o3") |>
+  st_as_sf(coords = c("longitude","latitude"), crs = "WGS84") |>
+  st_transform(mycrs)
 
-for(spc in c("o3", "no2","ox")){
-
-
-  title = case_when(spc == "no2" ~ "NO<sub>2</sub>",
-                    spc == "o3" ~ "O<sub>3</sub>",
-                    spc == "ox" ~ "O<sub>x</sub>" )
-
-  regs_by_type_sf = regs_by_type |>
-    filter(name == spc) |>
-    st_as_sf(coords = c("longitude","latitude"), crs = "WGS84") |>
-    st_transform(mycrs)
-
-  g_eu = ggplot()+
-    geom_sf(data = world)+
-    geom_sf(data = regs_by_type_sf, aes(fill = scenarioType), shape = 21)+
-    scale_y_continuous(limits = st_coordinates(limEU)[,2])+
-    scale_x_continuous(limits = st_coordinates(limEU)[,1])+
-    scale_fill_manual(name = "Regression Type",
-                      values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-    theme_void()
+g_eu = ggplot()+
+  geom_sf(data = world)+
+  geom_sf(data = regs_by_type_sf, aes(fill = scenarioType), shape = 21)+
+  scale_y_continuous(limits = st_coordinates(limEU)[,2])+
+  scale_x_continuous(limits = st_coordinates(limEU)[,1])+
+  scale_fill_manual(name = "Regression Type",
+                    values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
+  theme_void()
 
 
-  g_us = ggplot()+
-    geom_sf(data = world)+
-    geom_sf(data = regs_by_type_sf, aes(fill = scenarioType), shape = 21)+
-    scale_y_continuous(limits = st_coordinates(limUS)[,2])+
-    scale_x_continuous(limits = st_coordinates(limUS)[,1])+
-    scale_fill_manual(name = "Regression Type",
-                      values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-    theme_void()+
-    ggtitle(title)+
-    theme(
-      plot.title = element_markdown()
-    )
+g_us = ggplot()+
+  geom_sf(data = world)+
+  geom_sf(data = regs_by_type_sf, aes(fill = scenarioType), shape = 21)+
+  scale_y_continuous(limits = st_coordinates(limUS)[,2])+
+  scale_x_continuous(limits = st_coordinates(limUS)[,1])+
+  scale_fill_manual(name = "Regression Type",
+                    values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
+  theme_void()+
+  theme(
+    plot.title = element_markdown()
+  )
 
 
-  g3_list[[spc]] = g_us+g_eu+plot_layout(guides = "collect")
-}
+g3 = g_us+g_eu+plot_layout(guides = "collect")
 
-g3 = wrap_plots(g3_list, ncol = 1)
-
-grDevices::cairo_pdf(here::here('figures','si_figures','regression_type','regression_type_map.pdf'), width = 11, height = 11)
+grDevices::cairo_pdf(here::here('figures','si_figures','regression_type','regression_type_map.pdf'), width = 11, height = 4)
 print(g3)
 dev.off()
 
@@ -271,6 +255,6 @@ tableDat |>
                adjustbox = F
   ) |>
   str_replace_all("NA", " - ") |>
-writeLines(here::here('tables','regression_type_table.txt'))
+  writeLines(here::here('tables','regression_type_table.txt'))
 
 dbDisconnect(con, shutdown = T)
