@@ -11,7 +11,7 @@ source(here::here('functions','dtw_helpers.R'))
 
 con = connect_to_db()
 
-dbListTables(con)
+# dbListTables(con)
 
 mycrs = 4087
 
@@ -54,7 +54,7 @@ dat = tbl(con, "clusterTimeSeries_meancvi") |>
     type = case_when(
       type == "mda8" ~ "MDA8O<sub>3</sub>",
       type == "mda8_cold" ~ "MDA8O<sub>3</sub> Cold Season",
-      type == "mda8" ~ "MDA8O<sub>3</sub> Warm Season"
+      type == "mda8_warm" ~ "MDA8O<sub>3</sub> Warm Season"
     ) |>
       factor(levels = c("MDA8O<sub>3</sub>", "MDA8O<sub>3</sub> Cold Season", "MDA8O<sub>3</sub> Warm Season")),
     tau = paste0("&tau; = ", tau)
@@ -121,11 +121,11 @@ if(!dir.exists(dirOut)){
   dir.create(dirOut)
 }
 
-grDevices::cairo_pdf(here(dirOut, "f11_eu_clusters.pdf"), width = 9.9, height = 7.25)
+grDevices::cairo_pdf(here(dirOut, "f07_eu_clusters.pdf"), width = 9.9, height = 7.25)
 print(g_eu)
 dev.off()
 
-grDevices::cairo_pdf(here(dirOut, "f12_us_clusters.pdf"), width = 9.9, height = 5)
+grDevices::cairo_pdf(here(dirOut, "f08_us_clusters.pdf"), width = 9.9, height = 5)
 print(g_us)
 dev.off()
 
