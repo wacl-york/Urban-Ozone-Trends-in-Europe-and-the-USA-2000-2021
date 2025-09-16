@@ -15,14 +15,6 @@ source(here::here('functions','table_utils.R'))
 
 con = connect_to_db()
 
-figDirs = c(here::here('figures','si_figures','regression_type'), here::here('figures','si_figures','cp_year'))
-
-for(i in 1:length(figDirs)){
-  if(!dir.exists(figDirs[i])){
-    dir.create(figDirs[i], recursive = T)
-  }
-}
-
 # -------------------------------------------------------------------------
 
 mycrs = 4087 #8857
@@ -113,12 +105,12 @@ for(i in 1:length(regions)){
     filter(name == "o3",
            region == rgn,
            tau %in% c(0.05, 0.5, 0.95),
-           dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
+           dataType %in% c("reg_all_mda8_anom_all", "reg_all_mda8_anom_warm", "reg_all_mda8_anom_cold")) |>
     mutate(
       dataType = case_when(
-        dataType == "reg_all_daily_all" ~ "Daily Mean",
         dataType == "reg_all_mda8_anom_all" ~ "MDA8O<sub>3</sub>",
-        dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season"
+        dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season",
+        dataType == "reg_all_mda8_anom_cold" ~ "MDA8O<sub>3</sub> Cold Season"
       ),
       tau = paste0("&tau; = ", tau)
     ) |>
