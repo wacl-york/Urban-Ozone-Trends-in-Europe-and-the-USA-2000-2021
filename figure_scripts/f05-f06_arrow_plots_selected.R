@@ -186,14 +186,14 @@ dev.off()
 
 
 grDevices::cairo_pdf(
-  here::here(dirOutSI, paste0("fS05_o3_map_mda8_all_eu_o3.pdf")),
+  here::here(dirOutSI, paste0("fS06_o3_map_mda8_all_eu_o3.pdf")),
   width = 5.6, height = 7
 )
 print(lineDat$g_eu_o3[lineDat$type == "piecewise_stats_freeTau_mda8_anom_all"])
 dev.off()
 
 grDevices::cairo_pdf(
-  here::here(dirOutSI, paste0("fS06_o3_map_mda8_all_us_o3.pdf")),
+  here::here(dirOutSI, paste0("fS07_o3_map_mda8_all_us_o3.pdf")),
   width = 5.6, height = 7
 )
 print(lineDat$g_us_o3[lineDat$type == "piecewise_stats_freeTau_mda8_anom_all"])
@@ -201,14 +201,14 @@ dev.off()
 
 
 grDevices::cairo_pdf(
-  here::here(dirOutSI, paste0("fS07_o3_map_mda8_cold_eu_o3.pdf")),
+  here::here(dirOutSI, paste0("fS08_o3_map_mda8_cold_eu_o3.pdf")),
   width = 5.6, height = 7
 )
 print(lineDat$g_eu_o3[lineDat$type == "piecewise_stats_freeTau_mda8_anom_cold"])
 dev.off()
 
 grDevices::cairo_pdf(
-  here::here(dirOutSI, paste0("fS08_o3_map_mda8_cold_us_o3.pdf")),
+  here::here(dirOutSI, paste0("fS09_o3_map_mda8_cold_us_o3.pdf")),
   width = 5.6, height = 7
 )
 print(lineDat$g_us_o3[lineDat$type == "piecewise_stats_freeTau_mda8_anom_cold"])

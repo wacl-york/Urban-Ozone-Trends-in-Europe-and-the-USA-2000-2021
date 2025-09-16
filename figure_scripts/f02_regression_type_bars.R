@@ -141,9 +141,18 @@ for(i in 1:length(regions)){
 # Map ---------------------------------------------------------------------
 
 regs_by_type_sf = regs_by_type |>
-  filter(name == "o3") |>
+  filter(name == "o3",
+         tau %in% c(0.05, 0.5, 0.95),
+         dataType %in% c("reg_all_mda8_anom_all", "reg_all_mda8_anom_warm", "reg_all_mda8_anom_cold")) |>
   st_as_sf(coords = c("longitude","latitude"), crs = "WGS84") |>
-  st_transform(mycrs)
+  st_transform(mycrs) |>
+  mutate(dataType = case_when(
+    dataType == "reg_all_mda8_anom_all" ~ "MDA8O<sub>3</sub>",
+    dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season",
+    dataType == "reg_all_mda8_anom_cold" ~ "MDA8O<sub>3</sub> Cold Season"
+  ),
+  tau = paste0("&tau; = ", tau)
+  )
 
 g_eu = ggplot()+
   geom_sf(data = world)+
@@ -152,7 +161,12 @@ g_eu = ggplot()+
   scale_x_continuous(limits = st_coordinates(limEU)[,1])+
   scale_fill_manual(name = "Regression Type",
                     values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-  theme_void()
+  facet_grid(dataType~tau)+
+  theme_minimal()+
+  theme(
+    strip.text = element_markdown(),
+    panel.grid.major = element_blank()
+  )
 
 g_us = ggplot()+
   geom_sf(data = world)+
@@ -161,15 +175,19 @@ g_us = ggplot()+
   scale_x_continuous(limits = st_coordinates(limUS)[,1])+
   scale_fill_manual(name = "Regression Type",
                     values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-  theme_void()+
+  facet_grid(dataType~tau)+
+  theme_minimal()+
   theme(
-    plot.title = element_markdown()
+    strip.text = element_markdown(),
+    panel.grid.major = element_blank()
   )
 
-g3 = g_us+g_eu+plot_layout(guides = "collect")
+grDevices::cairo_pdf(here::here('figures','si_figures','fS03_regression_type_map_eu.pdf'), width = 10, height = 7)
+print(g_eu)
+dev.off()
 
-grDevices::cairo_pdf(here::here('figures','si_figures','fS03_regression_type_map.pdf'), width = 11, height = 4)
-print(g3)
+grDevices::cairo_pdf(here::here('figures','si_figures','fS04_regression_type_map_eu.pdf'), width = 10, height = 7)
+print(g_us)
 dev.off()
 
 # Table -------------------------------------------------------------------

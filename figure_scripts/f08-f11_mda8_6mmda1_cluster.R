@@ -135,7 +135,7 @@ for(i in 1:nrow(opts)){
   print(g1)
   dev.off()
 
-  grDevices::cairo_pdf(here(dirOutSI, paste0("fS", i+20, "_", opts$clusterType[i], "_sig_mda8_6mmda1.pdf")), width = 7, height = 11)
+  grDevices::cairo_pdf(here(dirOutSI, paste0("fS", i+21, "_", opts$clusterType[i], "_sig_mda8_6mmda1.pdf")), width = 7, height = 11)
   print(g2)
   dev.off()
 

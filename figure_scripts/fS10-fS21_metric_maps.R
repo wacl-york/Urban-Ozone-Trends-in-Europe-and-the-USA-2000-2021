@@ -176,7 +176,7 @@ for(i in 1:nrow(toDo)){
           legend.position = "bottom",
           legend.byrow = T)
 
-  pdf(here(dirOut, paste0("fS",stringr::str_pad(i+8, 2, pad = "0"),"_metric_map_",str_replace_all(rgn, " ", "-"),"_", mtric, ".pdf")), width = 11, height = h)
+  pdf(here(dirOut, paste0("fS",stringr::str_pad(i+9, 2, pad = "0"),"_metric_map_",str_replace_all(rgn, " ", "-"),"_", mtric, ".pdf")), width = 11, height = h)
   print(g1)
   dev.off()
 
