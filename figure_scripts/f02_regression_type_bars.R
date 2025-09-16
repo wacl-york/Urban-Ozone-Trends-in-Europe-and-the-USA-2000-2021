@@ -165,6 +165,7 @@ g_eu = ggplot()+
   theme_minimal()+
   theme(
     strip.text = element_markdown(),
+    legend.position = "bottom",
     panel.grid.major = element_blank()
   )
 
@@ -178,7 +179,8 @@ g_us = ggplot()+
   facet_grid(dataType~tau)+
   theme_minimal()+
   theme(
-    strip.text = element_markdown(),
+    strip.text = element_markdown(size = 6),
+    legend.position = "bottom",
     panel.grid.major = element_blank()
   )
 
@@ -186,7 +188,7 @@ grDevices::cairo_pdf(here::here('figures','si_figures','fS03_regression_type_map
 print(g_eu)
 dev.off()
 
-grDevices::cairo_pdf(here::here('figures','si_figures','fS04_regression_type_map_eu.pdf'), width = 10, height = 7)
+grDevices::cairo_pdf(here::here('figures','si_figures','fS04_regression_type_map_us.pdf'), width = 10, height = 7)
 print(g_us)
 dev.off()
 
