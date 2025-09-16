@@ -161,7 +161,7 @@ g_eu = ggplot()+
   scale_x_continuous(limits = st_coordinates(limEU)[,1])+
   scale_fill_manual(name = "Regression Type",
                     values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-  facet_grid(dataType~tau)+
+  facet_grid(tau~dataType)+
   theme_minimal()+
   theme(
     strip.text = element_markdown(),
@@ -176,7 +176,7 @@ g_us = ggplot()+
   scale_x_continuous(limits = st_coordinates(limUS)[,1])+
   scale_fill_manual(name = "Regression Type",
                     values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-  facet_grid(dataType~tau)+
+  facet_grid(tau~dataType)+
   theme_minimal()+
   theme(
     strip.text = element_markdown(size = 6),
