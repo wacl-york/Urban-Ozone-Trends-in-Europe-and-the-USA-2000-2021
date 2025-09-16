@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{rotating}
+\usepackage{longtable}
+\usepackage{booktabs}
 
 %\renewcommand{\thepage}{S\arabic{page}}
 \renewcommand{\thesection}{S\arabic{section}}
@@ -36,16 +38,16 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\linewidth]{figures/si_figures/fS03_regression_type_map_eu.pdf}
-\caption{Sites in Europe coloured by type of regression used by tau and }
-\label{si_fig:reg_map}
+\caption{Sites in Europe showing type of QR used at that site, by tau and MDA80\textsubscript{3} type.}
+\label{si_fig:reg_map_eu}
 \end{sidewaysfigure}
 \clearpage
 
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\linewidth]{figures/si_figures/fS04_regression_type_map_us.pdf}
-\caption{}
-\label{si_fig:reg_map}
+\caption{Sites in the USA showing type of QR used at that site, by tau and MDA80\textsubscript{3} type.}
+\label{si_fig:reg_map_us}
 \end{sidewaysfigure}
 \clearpage
 
@@ -54,7 +56,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[width=\linewidth]{figures/si_figures/fS05_slope_density.pdf}
-\caption{}
+\caption{Distribution of sites for each MDA80\textsubscript{3} type coloured by tau.}
 \label{si_fig:slope_density}
 \end{sidewaysfigure}
 \clearpage
@@ -98,7 +100,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS10_metric_map_Europe_4MDA8.pdf}
-\caption{}
+\caption{4MDA8 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_4MDA8}
 \end{sidewaysfigure}
 \clearpage
@@ -106,7 +108,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS11_metric_map_Europe_NDGT70.pdf}
-\caption{}
+\caption{NDGT70 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_NDGT70}
 \end{sidewaysfigure}
 \clearpage
@@ -115,7 +117,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS12_metric_map_Europe_SOMO35.pdf}
-\caption{}
+\caption{SOMO35 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_SOMO35}
 \end{sidewaysfigure}
 \clearpage
@@ -123,7 +125,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS13_metric_map_Europe_3MMDA1.pdf}
-\caption{}
+\caption{3MMDA1 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_3MMDA1}
 \end{sidewaysfigure}
 \clearpage
@@ -131,7 +133,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS14_metric_map_Europe_6MMDA1.pdf}
-\caption{}
+\caption{6MMDA1 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_6MMDA1}
 \end{sidewaysfigure}
 \clearpage
@@ -139,7 +141,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.9\textheight]{figures/si_figures/fS15_metric_map_Europe_AVGMDA8.pdf}
-\caption{}
+\caption{AVGMDA8 at sites in Europe between 2000 and 2021.}
 \label{si_fig:metric_map_eu_AVGMDA8}
 \end{sidewaysfigure}
 \clearpage
@@ -149,7 +151,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS16_metric_map_United-States-of-America_4MDA8.pdf}
-\caption{}
+\caption{4MDA8 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_4MDA8}
 \end{sidewaysfigure}
 \clearpage
@@ -157,7 +159,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS17_metric_map_United-States-of-America_NDGT70.pdf}
-\caption{}
+\caption{NDGT70 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_NDGT70}
 \end{sidewaysfigure}
 \clearpage
@@ -166,7 +168,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS18_metric_map_United-States-of-America_SOMO35.pdf}
-\caption{}
+\caption{SOMO35 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_SOMO35}
 \end{sidewaysfigure}
 \clearpage
@@ -174,7 +176,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS19_metric_map_United-States-of-America_3MMDA1.pdf}
-\caption{}
+\caption{3MMDA1 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_3MMDA1}
 \end{sidewaysfigure}
 \clearpage
@@ -182,7 +184,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS20_metric_map_United-States-of-America_6MMDA1.pdf}
-\caption{}
+\caption{6MMDA1 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_6MMDA1}
 \end{sidewaysfigure}
 \clearpage
@@ -190,7 +192,7 @@
 \begin{sidewaysfigure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS21_metric_map_United-States-of-America_AVGMDA8.pdf}
-\caption{}
+\caption{AVGMDA8 at sites in the USA between 2000 and 2021.}
 \label{si_fig:metric_map_us_AVGMDA8}
 \end{sidewaysfigure}
 \clearpage
@@ -201,7 +203,7 @@
 \begin{figure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS22_mda8_sig_mda8_6mmda1.pdf}
-\caption{}
+\caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' MDA8O\textsubscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours show significance of trend.}
 \label{si_fig:mda8_sig_mda8_6mmda1}
 \end{figure}
 \clearpage
@@ -209,7 +211,7 @@
 \begin{figure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS23_mda8_warm_sig_mda8_6mmda1.pdf}
-\caption{}
+\caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' warm season MDA8O\textsubscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours show significance of trend.}
 \label{si_fig:mda8_warm_sig_mda8_6mmda1}
 \end{figure}
 \clearpage
@@ -217,13 +219,400 @@
 \begin{figure}[p]
 \centering
 \includegraphics[height=0.75\textheight]{figures/si_figures/fS24_mda8_cold_sig_mda8_6mmda1.pdf}
-\caption{}
+\caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' cold season MDA8O\textsubscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours show significance of trend.}
 \label{si_fig:mda8_cold_sig_mda8_6mmda1}
 \end{figure}
 \clearpage
 
 
 %%%%%% tables %%%%%%
+\begingroup
+\fontsize{12.0pt}{14.4pt}\selectfont
+\begin{longtable}{lllrr}
+\caption{List of Sites Used} \\
+\label{si_tab:site_list} \\
+\toprule
+Region & Station ID & Station Type & Latitude & Longitude \\ 
+\midrule\addlinespace[2.5pt]
+United States of America & 1138 & urban & 29.670 & -95.129 \\ 
+United States of America & 1149 & suburban & 29.723 & -95.636 \\ 
+United States of America & 1162 & suburban & 29.901 & -95.326 \\ 
+United States of America & 1163 & suburban & 29.696 & -95.499 \\ 
+United States of America & 1164 & suburban & 29.624 & -95.474 \\ 
+United States of America & 1169 & suburban & 29.626 & -95.267 \\ 
+United States of America & 1206 & urban & 34.894 & -117.025 \\ 
+United States of America & 14337 & suburban & 33.560 & -112.066 \\ 
+United States of America & 14340 & suburban & 33.706 & -111.856 \\ 
+United States of America & 14348 & suburban & 32.204 & -110.878 \\ 
+United States of America & 14356 & urban & 34.756 & -92.281 \\ 
+United States of America & 14365 & suburban & 37.936 & -122.026 \\ 
+United States of America & 14371 & suburban & 36.705 & -119.741 \\ 
+United States of America & 14373 & suburban & 36.842 & -119.875 \\ 
+United States of America & 14374 & urban & 36.819 & -119.716 \\ 
+United States of America & 14382 & suburban & 35.504 & -119.273 \\ 
+United States of America & 14386 & suburban & 34.144 & -117.850 \\ 
+United States of America & 14389 & suburban & 34.199 & -118.533 \\ 
+United States of America & 14422 & suburban & 33.853 & -116.541 \\ 
+United States of America & 14433 & suburban & 34.416 & -117.286 \\ 
+United States of America & 14434 & suburban & 34.060 & -117.147 \\ 
+United States of America & 14470 & urban & 34.638 & -120.458 \\ 
+United States of America & 14474 & urban & 37.227 & -121.980 \\ 
+United States of America & 14479 & suburban & 40.550 & -122.381 \\ 
+United States of America & 14490 & suburban & 39.139 & -121.619 \\ 
+United States of America & 14509 & suburban & 39.568 & -104.957 \\ 
+United States of America & 14519 & suburban & 40.577 & -105.079 \\ 
+United States of America & 14548 & suburban & 30.368 & -87.271 \\ 
+United States of America & 14550 & suburban & 27.928 & -82.455 \\ 
+United States of America & 14551 & suburban & 27.893 & -82.538 \\ 
+United States of America & 14565 & suburban & 27.786 & -82.740 \\ 
+United States of America & 14567 & suburban & 27.307 & -82.570 \\ 
+United States of America & 14568 & suburban & 28.746 & -81.311 \\ 
+United States of America & 14580 & urban & 21.303 & -157.871 \\ 
+United States of America & 14596 & suburban & 42.049 & -88.273 \\ 
+United States of America & 14604 & suburban & 42.221 & -88.242 \\ 
+United States of America & 14609 & suburban & 40.687 & -89.607 \\ 
+United States of America & 14613 & suburban & 38.612 & -90.160 \\ 
+United States of America & 14617 & suburban & 42.335 & -89.038 \\ 
+United States of America & 14655 & urban & 37.702 & -97.315 \\ 
+United States of America & 14680 & urban & 32.535 & -93.747 \\ 
+United States of America & 14540 & suburban & 28.311 & -80.615 \\ 
+United States of America & 14543 & suburban & 26.291 & -80.096 \\ 
+United States of America & 14544 & suburban & 26.088 & -80.111 \\ 
+United States of America & 14547 & suburban & 30.525 & -87.204 \\ 
+United States of America & 14557 & suburban & 25.733 & -80.162 \\ 
+United States of America & 14564 & suburban & 27.947 & -82.732 \\ 
+United States of America & 14682 & suburban & 30.140 & -93.368 \\ 
+United States of America & 14686 & urban & 30.420 & -91.182 \\ 
+United States of America & 14701 & suburban & 30.501 & -91.214 \\ 
+United States of America & 14729 & suburban & 42.194 & -72.555 \\ 
+United States of America & 1474 & suburban & 33.480 & -111.917 \\ 
+United States of America & 14771 & suburban & 45.138 & -93.208 \\ 
+United States of America & 14827 & suburban & 35.185 & -106.508 \\ 
+United States of America & 14834 & suburban & 42.681 & -73.757 \\ 
+United States of America & 14840 & suburban & 42.993 & -78.772 \\ 
+United States of America & 14852 & suburban & 43.052 & -76.059 \\ 
+United States of America & 14857 & suburban & 40.745 & -73.419 \\ 
+United States of America & 14860 & suburban & 41.052 & -73.764 \\ 
+United States of America & 14911 & suburban & 35.320 & -97.484 \\ 
+United States of America & 14914 & suburban & 35.614 & -97.475 \\ 
+United States of America & 14944 & suburban & 40.076 & -75.012 \\ 
+United States of America & 14988 & suburban & 29.515 & -98.620 \\ 
+United States of America & 15006 & suburban & 30.036 & -94.071 \\ 
+United States of America & 15007 & urban & 29.898 & -93.991 \\ 
+United States of America & 15009 & suburban & 27.832 & -97.555 \\ 
+United States of America & 15010 & urban & 30.085 & -93.761 \\ 
+United States of America & 15012 & suburban & 30.355 & -97.762 \\ 
+United States of America & 15014 & urban & 28.836 & -97.006 \\ 
+United States of America & 15164 & urban & 32.295 & -110.982 \\ 
+United States of America & 15190 & suburban & 39.233 & -121.056 \\ 
+United States of America & 15197 & suburban & 33.921 & -116.858 \\ 
+United States of America & 15210 & suburban & 34.446 & -119.828 \\ 
+United States of America & 15215 & suburban & 40.453 & -122.299 \\ 
+United States of America & 15219 & suburban & 37.488 & -120.836 \\ 
+United States of America & 15222 & suburban & 38.661 & -121.733 \\ 
+United States of America & 15283 & urban & 27.481 & -82.619 \\ 
+United States of America & 15285 & urban & 29.171 & -82.101 \\ 
+United States of America & 15292 & suburban & 27.940 & -82.000 \\ 
+United States of America & 15293 & suburban & 28.029 & -81.972 \\ 
+United States of America & 15295 & suburban & 29.207 & -81.052 \\ 
+United States of America & 15357 & urban & 39.117 & -94.636 \\ 
+United States of America & 15376 & urban & 30.462 & -91.179 \\ 
+United States of America & 15400 & urban & 42.475 & -70.971 \\ 
+United States of America & 15406 & urban & 42.330 & -71.083 \\ 
+United States of America & 15454 & suburban & 31.796 & -106.584 \\ 
+United States of America & 15467 & urban & 42.500 & -79.319 \\ 
+United States of America & 15240 & suburban & 39.744 & -105.178 \\ 
+United States of America & 15284 & suburban & 27.450 & -82.522 \\ 
+United States of America & 15288 & suburban & 28.348 & -81.636 \\ 
+United States of America & 15291 & suburban & 28.196 & -82.756 \\ 
+United States of America & 15383 & urban & 32.510 & -92.046 \\ 
+United States of America & 15496 & suburban & 46.934 & -96.855 \\ 
+United States of America & 15560 & suburban & 33.132 & -96.786 \\ 
+United States of America & 15561 & suburban & 32.676 & -96.872 \\ 
+United States of America & 15565 & suburban & 31.786 & -106.324 \\ 
+United States of America & 15566 & urban & 31.766 & -106.455 \\ 
+United States of America & 15567 & suburban & 31.668 & -106.288 \\ 
+United States of America & 1635 & urban & 38.568 & -121.493 \\ 
+United States of America & 1692 & urban & 38.922 & -77.013 \\ 
+United States of America & 1710 & suburban & 39.867 & -88.926 \\ 
+United States of America & 1811 & urban & 37.982 & -120.379 \\ 
+United States of America & 1909 & suburban & 40.283 & -74.743 \\ 
+United States of America & 1969 & suburban & 27.350 & -82.480 \\ 
+United States of America & 2139 & suburban & 32.922 & -97.282 \\ 
+United States of America & 2202 & suburban & 32.842 & -116.768 \\ 
+United States of America & 2235 & suburban & 38.614 & -121.368 \\ 
+United States of America & 2275 & urban & 32.806 & -97.357 \\ 
+United States of America & 2337 & suburban & 38.683 & -121.164 \\ 
+United States of America & 2401 & suburban & 36.170 & -115.263 \\ 
+United States of America & 2407 & suburban & 38.861 & -90.106 \\ 
+United States of America & 2464 & urban & 37.688 & -121.784 \\ 
+United States of America & 2479 & urban & 38.103 & -122.238 \\ 
+United States of America & 2687 & suburban & 33.217 & -117.396 \\ 
+United States of America & 2746 & suburban & 35.856 & -78.574 \\ 
+United States of America & 2758 & suburban & 26.226 & -98.291 \\ 
+United States of America & 2919 & suburban & 27.765 & -97.434 \\ 
+United States of America & 3104 & suburban & 32.919 & -96.808 \\ 
+United States of America & 6313 & urban & 37.642 & -120.994 \\ 
+United States of America & 6314 & urban & 35.357 & -119.063 \\ 
+United States of America & 6315 & suburban & 35.438 & -119.017 \\ 
+United States of America & 6317 & suburban & 38.343 & -120.764 \\ 
+United States of America & 6319 & suburban & 35.615 & -120.657 \\ 
+United States of America & 7991 & urban & 39.250 & -119.957 \\ 
+United States of America & 8024 & suburban & 33.677 & -117.331 \\ 
+United States of America & 8035 & urban & 39.645 & -119.840 \\ 
+United States of America & 8070 & suburban & 34.448 & -119.231 \\ 
+United States of America & 8098 & suburban & 38.725 & -120.822 \\ 
+United States of America & 8138 & suburban & 38.746 & -121.265 \\ 
+United States of America & 8156 & suburban & 36.482 & -121.733 \\ 
+United States of America & 8163 & suburban & 34.107 & -117.274 \\ 
+United States of America & 8169 & suburban & 32.676 & -115.483 \\ 
+United States of America & 8197 & suburban & 34.276 & -118.684 \\ 
+United States of America & 8227 & suburban & 34.136 & -117.924 \\ 
+United States of America & 8241 & suburban & 34.210 & -118.871 \\ 
+United States of America & 8249 & urban & 34.104 & -117.629 \\ 
+Europe & at51066 & background & 47.806 & 13.043 \\ 
+Europe & at60018 & background & 47.076 & 15.438 \\ 
+Europe & at60143 & background & 47.382 & 15.089 \\ 
+Europe & at72106 & background & 47.271 & 11.417 \\ 
+Europe & at9stef & background & 48.208 & 16.373 \\ 
+Europe & betr001 & background & 50.850 & 4.334 \\ 
+Europe & betr701 & background & 51.058 & 3.729 \\ 
+Europe & betr801 & background & 51.210 & 4.432 \\ 
+Europe & bg0051a & background & 42.143 & 24.765 \\ 
+Europe & ch0010a & background & 47.378 & 8.530 \\ 
+Europe & ch0011a & background & 46.011 & 8.957 \\ 
+Europe & ch0013a & traffic & 47.387 & 8.540 \\ 
+Europe & ch0017a & background & 47.566 & 7.582 \\ 
+Europe & ch0031a & traffic & 46.951 & 7.441 \\ 
+Europe & cz0toff & background & 49.839 & 18.264 \\ 
+Europe & cz0ttro & background & 49.668 & 18.678 \\ 
+Europe & cz0umom & background & 50.510 & 13.645 \\ 
+Europe & cz0uulm & background & 50.661 & 14.043 \\ 
+Europe & debb021 & background & 52.401 & 13.060 \\ 
+Europe & debe010 & background & 52.543 & 13.349 \\ 
+Europe & debw009 & background & 49.420 & 8.677 \\ 
+Europe & debw013 & background & 48.809 & 9.230 \\ 
+Europe & debw015 & background & 49.166 & 9.225 \\ 
+Europe & debw019 & background & 48.397 & 9.979 \\ 
+Europe & debw027 & background & 48.489 & 9.207 \\ 
+Europe & debw038 & background & 47.660 & 9.486 \\ 
+Europe & debw052 & background & 47.664 & 9.169 \\ 
+Europe & debw081 & background & 49.029 & 8.356 \\ 
+Europe & debw084 & background & 48.002 & 7.832 \\ 
+Europe & deby037 & traffic & 48.137 & 11.565 \\ 
+Europe & deby039 & background & 48.155 & 11.555 \\ 
+Europe & deby068 & background & 50.048 & 10.232 \\ 
+Europe & deby075 & background & 49.679 & 12.159 \\ 
+Europe & deby079 & background & 47.733 & 12.891 \\ 
+Europe & dehb001 & background & 53.077 & 8.816 \\ 
+Europe & dehb004 & background & 53.181 & 8.625 \\ 
+Europe & dehe001 & background & 49.872 & 8.665 \\ 
+Europe & dehe005 & background & 50.102 & 8.543 \\ 
+Europe & dehe008 & background & 50.125 & 8.746 \\ 
+Europe & dehe011 & background & 50.136 & 8.922 \\ 
+Europe & dehe018 & background & 50.010 & 8.452 \\ 
+Europe & dehe022 & background & 50.050 & 8.245 \\ 
+Europe & dehe030 & background & 50.804 & 8.769 \\ 
+Europe & dehe032 & background & 50.970 & 9.800 \\ 
+Europe & dehe045 & background & 49.673 & 9.002 \\ 
+Europe & dehh008 & background & 53.564 & 9.968 \\ 
+Europe & deni038 & background & 52.255 & 8.053 \\ 
+Europe & deni054 & background & 52.363 & 9.706 \\ 
+Europe & denw008 & background & 51.537 & 7.457 \\ 
+Europe & denw021 & industrial & 51.526 & 6.977 \\ 
+Europe & denw038 & background & 51.453 & 6.865 \\ 
+Europe & denw042 & background & 51.338 & 6.640 \\ 
+Europe & denw067 & background & 52.023 & 8.548 \\ 
+Europe & denw071 & background & 51.249 & 6.732 \\ 
+Europe & denw094 & background & 50.755 & 6.094 \\ 
+Europe & denw095 & background & 51.937 & 7.612 \\ 
+Europe & derp019 & background & 49.446 & 7.767 \\ 
+Europe & desl003 & industrial & 49.358 & 6.734 \\ 
+Europe & desl011 & background & 49.237 & 7.036 \\ 
+Europe & desl017 & background & 49.254 & 6.868 \\ 
+Europe & desn001 & background & 50.571 & 12.997 \\ 
+Europe & desn004 & background & 51.176 & 14.444 \\ 
+Europe & desn061 & traffic & 51.065 & 13.741 \\ 
+Europe & dest011 & background & 51.839 & 10.790 \\ 
+Europe & dest028 & background & 51.055 & 12.141 \\ 
+Europe & dest044 & background & 51.897 & 11.057 \\ 
+Europe & dest050 & background & 51.496 & 11.979 \\ 
+Europe & dest066 & background & 51.871 & 12.664 \\ 
+Europe & dest077 & background & 52.128 & 11.611 \\ 
+Europe & deth005 & background & 50.651 & 11.369 \\ 
+Europe & deth009 & background & 50.878 & 12.075 \\ 
+Europe & deth011 & background & 50.988 & 12.438 \\ 
+Europe & deth013 & background & 50.978 & 10.317 \\ 
+Europe & deth018 & background & 51.497 & 10.791 \\ 
+Europe & deth020 & background & 50.979 & 11.038 \\ 
+Europe & deth036 & background & 50.656 & 12.205 \\ 
+Europe & deth041 & background & 50.934 & 11.597 \\ 
+Europe & dk0034a & traffic & 55.674 & 12.571 \\ 
+Europe & dk0046a & background & 55.396 & 10.389 \\ 
+Europe & es0124a & background & 40.440 & -3.639 \\ 
+Europe & es1072a & industrial & 36.159 & -5.348 \\ 
+Europe & es1181a & traffic & 39.481 & -0.447 \\ 
+Europe & es1182a & traffic & 38.967 & -0.190 \\ 
+Europe & es1185a & traffic & 39.667 & -0.235 \\ 
+Europe & es1231a & background & 41.477 & 2.089 \\ 
+Europe & es1239a & traffic & 39.456 & -0.376 \\ 
+Europe & es1353a & background & 43.294 & -5.680 \\ 
+Europe & es1417a & traffic & 42.136 & -0.404 \\ 
+Europe & es1421a & background & 40.336 & -1.107 \\ 
+Europe & es1443a & background & 42.336 & -3.636 \\ 
+Europe & es1472a & background & 42.806 & -1.653 \\ 
+Europe & es1490a & industrial & 43.168 & -2.638 \\ 
+Europe & es1530a & background & 43.012 & -4.136 \\ 
+Europe & es1537a & background & 40.630 & -3.172 \\ 
+Europe & fi00425 & background & 60.187 & 24.951 \\ 
+Europe & fr01020 & background & 49.358 & 6.157 \\ 
+Europe & fr02004 & industrial & 43.417 & 5.043 \\ 
+Europe & fr03043 & background & 43.305 & 5.395 \\ 
+Europe & fr03080 & background & 43.950 & 4.804 \\ 
+Europe & fr04004 & background & 48.892 & 2.347 \\ 
+Europe & fr04017 & background & 48.881 & 2.278 \\ 
+Europe & fr04037 & background & 48.829 & 2.360 \\ 
+Europe & fr04149 & background & 48.707 & 2.457 \\ 
+Europe & fr05074 & background & 49.490 & 0.101 \\ 
+Europe & fr06003 & background & 50.378 & 3.066 \\ 
+Europe & fr06007 & background & 50.279 & 3.977 \\ 
+Europe & fr07004 & background & 45.797 & 3.114 \\ 
+Europe & fr08016 & background & 43.592 & 3.887 \\ 
+Europe & fr08614 & background & 43.834 & 4.374 \\ 
+Europe & fr08714 & background & 42.696 & 2.901 \\ 
+Europe & fr09003 & background & 46.163 & -1.154 \\ 
+Europe & fr09015 & background & 46.587 & 0.359 \\ 
+Europe & fr12004 & background & 43.576 & 1.418 \\ 
+Europe & fr12021 & background & 43.624 & 1.439 \\ 
+Europe & fr12026 & background & 43.928 & 2.146 \\ 
+Europe & fr14033 & background & 48.295 & 4.050 \\ 
+Europe & fr15038 & background & 45.183 & 5.753 \\ 
+Europe & fr16029 & background & 48.610 & 7.782 \\ 
+Europe & fr20017 & background & 45.735 & 4.830 \\ 
+Europe & fr21001 & background & 49.192 & -0.391 \\ 
+Europe & fr21019 & background & 49.152 & -0.353 \\ 
+Europe & fr23110 & background & 47.264 & -2.250 \\ 
+Europe & fr25039 & background & 49.021 & 1.148 \\ 
+Europe & fr25043 & background & 49.400 & 1.099 \\ 
+Europe & fr27002 & background & 45.368 & 4.805 \\ 
+Europe & fr29423 & background & 46.041 & 4.075 \\ 
+Europe & fr29424 & background & 45.420 & 4.395 \\ 
+Europe & fr29426 & background & 45.475 & 4.515 \\ 
+Europe & fr31001 & background & 44.861 & -0.579 \\ 
+Europe & fr31002 & background & 44.801 & -0.588 \\ 
+Europe & fr31007 & industrial & 44.900 & -0.515 \\ 
+Europe & fr31013 & background & 43.311 & -0.391 \\ 
+Europe & fr33101 & background & 45.565 & 5.928 \\ 
+Europe & fr33102 & background & 45.597 & 5.919 \\ 
+Europe & fr33111 & background & 45.275 & 6.350 \\ 
+Europe & fr33120 & background & 45.922 & 6.870 \\ 
+Europe & fr33121 & background & 45.675 & 6.390 \\ 
+Europe & fr33201 & background & 45.895 & 6.118 \\ 
+Europe & fr33202 & background & 45.917 & 6.136 \\ 
+Europe & fr33211 & background & 46.196 & 6.241 \\ 
+Europe & fr35002 & background & 45.890 & 0.900 \\ 
+Europe & fr35004 & background & 45.159 & 1.537 \\ 
+Europe & fr35005 & background & 46.170 & 1.870 \\ 
+Europe & fr35006 & background & 45.260 & 1.760 \\ 
+Europe & gb0566a & background & 51.522 & -0.126 \\ 
+Europe & gb0567a & background & 54.600 & -5.929 \\ 
+Europe & gb0568a & background & 54.978 & -1.611 \\ 
+Europe & gb0580a & background & 51.482 & -3.176 \\ 
+Europe & gb0584a & background & 53.804 & -1.546 \\ 
+Europe & gb0598a & background & 50.908 & -1.396 \\ 
+Europe & gb0620a & background & 51.521 & -0.213 \\ 
+Europe & gb0642a & background & 51.496 & -0.461 \\ 
+Europe & gb0646a & background & 52.955 & -1.146 \\ 
+Europe & gb0658a & background & 53.028 & -2.175 \\ 
+Europe & gb0681a & background & 53.563 & -1.510 \\ 
+Europe & gb0682a & traffic & 51.523 & -0.155 \\ 
+Europe & gb0687a & background & 50.372 & -4.142 \\ 
+Europe & gr0002a & traffic & 37.978 & 23.727 \\ 
+Europe & gr0022a & traffic & 38.031 & 23.787 \\ 
+Europe & gr0032a & traffic & 37.999 & 23.733 \\ 
+Europe & it0732a & background & 45.836 & 8.804 \\ 
+Europe & it0858a & background & 44.395 & 8.992 \\ 
+Europe & it0908a & background & 46.470 & 10.373 \\ 
+Europe & it0953a & background & 41.933 & 12.507 \\ 
+Europe & it0983a & background & 45.736 & 7.324 \\ 
+Europe & it1037a & background & 46.063 & 11.126 \\ 
+Europe & it1110a & background & 43.739 & 10.402 \\ 
+Europe & it1176a & background & 41.886 & 12.542 \\ 
+Europe & it1208a & traffic & 42.452 & 14.198 \\ 
+Europe & it1246a & background & 45.569 & 8.188 \\ 
+Europe & it1423a & background & 42.456 & 14.235 \\ 
+Europe & nl00236 & traffic & 51.469 & 5.472 \\ 
+Europe & gr0028a & background & 38.021 & 23.688 \\ 
+Europe & it0448a & background & 45.429 & 12.314 \\ 
+Europe & it0869a & background & 41.464 & 12.913 \\ 
+Europe & it1247a & background & 45.559 & 8.056 \\ 
+Europe & nl00404 & background & 52.077 & 4.289 \\ 
+Europe & pl0008a & background & 50.265 & 18.975 \\ 
+Europe & pt03070 & background & 38.895 & -9.117 \\ 
+Europe & pt03071 & background & 38.769 & -9.108 \\ 
+Europe & se0001a & background & 55.606 & 13.002 \\ 
+Europe & se0004a & background & 57.709 & 11.970 \\ 
+Europe & se0022a & background & 59.316 & 18.058 \\ 
+Europe & si0001a & background & 46.235 & 15.262 \\ 
+Europe & si0003a & background & 46.066 & 14.513 \\ 
+Europe & sk0001a & background & 48.125 & 17.125 \\ 
+Europe & sk0037a & background & 48.931 & 21.914 \\ 
+United States of America & 1137 & urban & 29.734 & -95.258 \\ 
+United States of America & 14442 & urban & 37.766 & -122.399 \\ 
+United States of America & 14451 & suburban & 37.483 & -122.203 \\ 
+United States of America & 14380 & suburban & 35.051 & -119.403 \\ 
+United States of America & 14561 & urban & 28.596 & -81.362 \\ 
+United States of America & 14691 & suburban & 30.041 & -90.273 \\ 
+United States of America & 14825 & urban & 35.134 & -106.585 \\ 
+United States of America & 14995 & urban & 32.820 & -96.860 \\ 
+United States of America & 1959 & suburban & 36.173 & -115.333 \\ 
+United States of America & 2226 & suburban & 38.712 & -121.381 \\ 
+United States of America & 2799 & suburban & 32.631 & -117.059 \\ 
+United States of America & 3084 & suburban & 39.311 & -76.474 \\ 
+United States of America & 8263 & urban & 34.051 & -118.456 \\ 
+Europe & bg0050a & background & 42.681 & 23.297 \\ 
+Europe & cz0mprr & background & 49.452 & 17.454 \\ 
+Europe & debe034 & background & 52.489 & 13.431 \\ 
+Europe & deby052 & background & 48.397 & 10.008 \\ 
+Europe & dehb002 & background & 53.060 & 8.917 \\ 
+Europe & dehb005 & background & 53.562 & 8.569 \\ 
+Europe & denw053 & background & 51.019 & 6.885 \\ 
+Europe & derp022 & background & 49.841 & 7.866 \\ 
+Europe & derp025 & background & 49.052 & 8.254 \\ 
+Europe & es1047a & traffic & 41.651 & -0.916 \\ 
+Europe & fr16066 & background & 47.737 & 7.309 \\ 
+Europe & fr24009 & background & 43.558 & 7.006 \\ 
+Europe & fr30019 & background & 48.173 & 6.453 \\ 
+Europe & gb0645a & background & 51.477 & 0.318 \\ 
+Europe & nl00639 & traffic & 52.068 & 5.121 \\ 
+Europe & pl0048a & background & 54.561 & 18.493 \\ 
+Europe & sk0020a & background & 49.211 & 18.771 \\ 
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begingroup
+\fontsize{12.0pt}{14.4pt}\selectfont
+\begin{longtable}{lllrr}
+\caption{Sites not used based on inspection} \\ 
+\label{si_tab:remove_list} \\
+\toprule
+Region & Station ID & Station Type & Latitude & Longitude \\ 
+\midrule\addlinespace[2.5pt]
+Europe & es1529a & background & 43.468 & -3.790 \\ 
+Europe & bg0052a & background & 42.667 & 23.400 \\ 
+Europe & es1131a & industrial & 28.462 & -16.262 \\ 
+Europe & bg0013a & background & 43.223 & 27.587 \\ 
+Europe & gr0030a & traffic & 37.943 & 23.648 \\ 
+Europe & bg0043a & background & 43.208 & 23.557 \\ 
+\bottomrule
+\end{longtable}
+\endgroup
+
+
+
+
+
 
 
 \end{document}

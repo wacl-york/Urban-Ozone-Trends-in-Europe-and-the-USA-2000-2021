@@ -118,7 +118,7 @@
 \maketitle
 
 \begin{abstract}
-Trends in urban MDA8O\textsubscript{3}, alongside annual O$_3$ episodic and exposure metrics, across Europe and the United States of America were explored between 2000-2021. Using surface monitoring site data from the TOAR-II and European Environment Agency databases, piecewise quantile regression (PQR) analysis was performed on 228 MDA8O\textsubscript{3} time series (144 European, 84 USA). The PQR analysis permitted 2 break points over the 23 year period to balance the intent to describe changes over a large time period, while still capturing the abrupt changes that can occur in urban atmospheres. We found that there were many sites across Europe with high certainty increasing trends in the 5\textsuperscript{th} and 50\textsuperscript{th} quantiles, whereas the majority of high certainty trends in the 95\textsuperscript{th} quantile were found to be decreasing. A similar pattern was observed across the USA, with 5\textsuperscript{th} quantile trends increasing and 95\textsuperscript{th} quantile trends decreasing. Hierarchical clustering with dynamic time warping allowed for the grouping of similarly structured timeseries. Clustering was typically regional across Europe and the USA, and increasing trends were identified across Southern and the Central alpine regions of Europe, and in California and the Intermountain West of the USA. Recent high certainty increasing trends in MDA8O$_3$ in the Intermountain West may be related to warmer summers and increased wildfire events in the region, highlighting the need to monitor changing trends in MDA8O$_3$ with climate change, to assess human exposure risk to elevated levels of O$_3$
+Trends in urban MDA8O\textsubscript{3}, alongside annual O$_3$ episodic and exposure metrics, across Europe and the United States of America were explored between 2000-2021. Using surface monitoring site data from the TOAR-II and European Environment Agency databases, piecewise quantile regression (PQR) analysis was performed on 353 MDA8O\textsubscript{3} time series (205 European, 149 USA). The PQR analysis permitted 2 break points over period to balance the intent to describe changes over a large time period, while still capturing the abrupt changes that can occur in urban atmospheres. We found that there were many sites across Europe with high certainty increasing trends in the 5\textsuperscript{th} and 50\textsuperscript{th} quantiles, whereas the majority of high certainty trends in the 95\textsuperscript{th} quantile were found to be decreasing. A similar pattern was observed across the USA, with 5\textsuperscript{th} quantile trends increasing and 95\textsuperscript{th} quantile trends decreasing. Hierarchical clustering with dynamic time warping allowed for the grouping of similarly structured timeseries. Clustering was typically regional across Europe and the USA, and increasing trends were identified across Southern and the Central alpine regions of Europe, and in California and the Intermountain West of the USA. Recent high certainty increasing trends in MDA8O$_3$ in the Intermountain West may be related to warmer summers and increased wildfire events in the region, highlighting the need to monitor changing trends in MDA8O$_3$ with climate change, to assess human exposure risk to elevated levels of O$_3$
 \end{abstract}
 
 \section{Introduction}  %% \introduction[modified heading if necessary]
@@ -135,7 +135,7 @@ In this study, we aim to expand of the work of \cite{fleming_2018}, to investiga
 \subsection{Data Preparation} \label{sect:data_prep}
 Hourly O\textsubscript{3} data were obtained for urban sites in the USA and Europe using the TOAR-II \citep{toar_db} and European Environment Agency (EEA) \citep{eea_1, eea_2} databases. Those obtained from the EEA are categorised as urban traffic, urban background and urban industrial, while those from the TOAR database are categorised as urban and suburban. A full list of sites can be found in the \textcolor{red}{supplementary information (table \ref{})}.  TOAR-II data was retrieved between 2000-01-01 and 2021-12-31 (the latest available) and EEA data between 2000-01-01 and 2023-12-31, the latter being extended allowing break points to be fit around the changes due to the COVID-19 pandemic, though we remain focused on 2001-2021 in this study. Time series were quality controlled via threshold, persistence and variance checks similar to those by \cite{Wang2023}: O\textsubscript{3} concentrations were required be between 0 and 500 ppbv, periods where an identical value was repeated 8 or more times in a row were removed as were days where the difference between the minimum and maximum concentration was $\leq$ 2 ppbv. 
 
-After quality control, time series were required to have > 80 \% data coverage between 2000-01-01 and 2021-12-31 and for the calculation of annual metrics each individual year was retained if it had more than 60 \% coverage. Additionally, a small number of time series were removed following visual inspection - these are listed in table \textcolor{red}{S2}. This resulted in 360 O\textsubscript{3} time series (208 Europe, 152 USA). 
+After quality control, time series were required to have > 80 \% data coverage between 2000-01-01 and 2021-12-31 and for the calculation of annual metrics each individual year was retained if it had more than 60 \% coverage. Additionally, a small number of time series were removed following visual inspection - these are listed in table \textcolor{red}{S2}. This resulted in 353 O\textsubscript{3} time series (204 Europe, 149 USA). 
 
 \subsubsection{Metrics}
 
@@ -195,7 +195,7 @@ Across the Europe data set at the start of the century (2004), 85 \% and 78 \% o
 
 In comparison, 82 \%  and 49 \% of slopes showed an increasing trend in the 5\textsuperscript{th} and 50\textsuperscript{th} quantiles of the US data set at the start of the century (56 \% and 36 \% of total at moderate certainty or higher). Similarly to the Europe, 95\textsuperscript{th} quantile trends were decreasing the in US (87 \% - 68 \% of total at moderate certainty or higher). However, in contrast to Europe, by 2018 fewer trends were increasing, down to 68 \% in the 5\textsuperscript{th} quantile (40 \% of total at moderate certainty or higher), from 82 \% in 2004 (56 \% of total at moderate certainty or higher). In the 50\textsuperscript{th} quantile, more trends are decreasing (51 \% - 30 \% of total at moderate certainty or higher) than increasing (49 \% - 36 \% of total at moderate certainty or higher), although more trends are increasing than decreasing when the data is filtered for moderate certainty or higher. In the 95\textsuperscript{th} quantile, there was an increase in the number of sites with increasing MDA8O$_3$ in 2018 (26 \%, 12.1 \% of total at moderate or higher certainty) compared to 2004 (14 \%, 3.9 \% of total at moderate or higher certainty), and, whilst the majority of sites were still decreasing trends, a decrease in the number of these from 87 \% (68 \% of total at moderate or higher certainty) to 74 \% (60 \% of total at moderate or higher certainty) between 2004 and 2018 was observed. To summarise, between 2004 and 2018 a reduction in the number of increasing trends was observed at the 5\textsuperscript{th} and 50\textsuperscript{th} quantiles, but the high extremes (95\textsuperscript{th} quantile) saw an increase in the number of increasing trends, coupled with a decrease in the number of decreasing trends.
 
-Separating the beginning (2004) and end (2018) of time series MDA8O$_3$ trends into warm (April - September) and cold (October - March) seasons reveals much clearer trends, and reveals a regionality in the direction of MDA8O$_3$ trends. Generally across Europe early century (2004) data, there more increasing trends in the cold season (72 \%; 37 \% of total at of moderate or higher certainty) compared to the warm season (25 \%; 7 \% of total at moderate or higher certainty) in the 95\textsuperscript{th} quantile. Although there are a high number of increasing trends in the warm and cold season for the 5\textsuperscript{th} quantile (88 \% and 78 \% respectively), there are many more increasing trends with a moderate or higher certainty and medium or greater magnitude in the warm season (15 \%) compared to the cold season (4 \%). This pattern is retained in the 2018 slope data, with an increase to 19 \% of 5\textsuperscript{th} quantile trends increasing at moderate or higher certainty and medium or higher magnitude in the warm season. A smaller increase in the cold-season 5\textsuperscript{th} quantile was observed, and a larger increase in the 50\textsuperscript{th} quantile (from 7 \% to 17 \% of total at moderate or higher certainty and medium or higher magnitude). In summary, although we are generally seeing increasing trends across the quantiles in both 2004 and 2018, this is particularly prevalent for the lower extremes in the warmer months, and the 50\textsuperscript{th} quantile cold-season data, where the trends are not only increasing, but are of higher certainty and magnitude.
+Separating the beginning (2004) and end (2018) of time series MDA8O\textsubscript{3} trends into warm (April - September) and cold (October - March) seasons reveals much clearer trends, and reveals a regionality in the direction of MDA8O$_3$ trends. Generally across Europe early century (2004) data, there more increasing trends in the cold season (72 \%; 37 \% of total at of moderate or higher certainty) compared to the warm season (25 \%; 7 \% of total at moderate or higher certainty) in the 95\textsuperscript{th} quantile. Although there are a high number of increasing trends in the warm and cold season for the 5\textsuperscript{th} quantile (88 \% and 78 \% respectively), there are many more increasing trends with a moderate or higher certainty and medium or greater magnitude in the warm season (15 \%) compared to the cold season (4 \%). This pattern is retained in the 2018 slope data, with an increase to 19 \% of 5\textsuperscript{th} quantile trends increasing at moderate or higher certainty and medium or higher magnitude in the warm season. A smaller increase in the cold-season 5\textsuperscript{th} quantile was observed, and a larger increase in the 50\textsuperscript{th} quantile (from 7 \% to 17 \% of total at moderate or higher certainty and medium or higher magnitude). In summary, although we are generally seeing increasing trends across the quantiles in both 2004 and 2018, this is particularly prevalent for the lower extremes in the warmer months, and the 50\textsuperscript{th} quantile cold-season data, where the trends are not only increasing, but are of higher certainty and magnitude.
 
 In the US cold season at the start of the century, 92 \%, 83 \% and 45 \% of trends are increasing in the 5\textsuperscript{th}, 50\textsuperscript{th}, and 95\textsuperscript{th} quantiles respectively, the majority of which are of moderate or high certainty in the 5\textsuperscript{th} and 50\textsuperscript{th} quantile. In comparison, there are fewer increasing trends in the warm season for the 5\textsuperscript{th} (52 \%), 50\textsuperscript{th} (17 \%) and 95\textsuperscript{th} (9 \%) quantiles. In the warm season, the majority of trends are decreasing in the 95\textsuperscript{th} quantile (90 \%), with 63 \% of all trends in this quantile having a moderate or higher degree of certainty, at a medium or larger magnitude. The majority of 50\textsuperscript{th} quantile trends are also decreasing (82 \%; 70 \% at moderate or higher certainty), but with a smaller proportion with both moderate or higher certainty and medium or higher magnitude (14 \%). Comparable trends are observed in the 2018 slopes, but with a small increase in the number of increasing trends of moderate certainty or higher in the warm season 50\textsuperscript{th} (from 12 \% to 16 \%) and 95\textsuperscript{th} (from 3 \% to 10 \%) quantile, and in the 95\textsuperscript{th} quantile cold season (from 23 \% to 32 \%). In the cold season, the number of increasing trends with a moderate or high certainty and also medium or higher magnitudes in the 95\textsuperscript{th} quantile has increased from 5 \% to 14 \% of the trends.
 
@@ -215,7 +215,7 @@ For the US 95\textsuperscript{th} MDA8O$_3$ data, clusters behave much less unif
 
 \subsection{Spatio-temporal distribution of O\textsubscript{3} metrics, relevant to health and exposure} \label{sect:metrics_distribution}
 
-As the health/exposure O\textsubscript{3} metrics are annually aggregated, the DTW/HC method was not directly applied to these data sets, but observations from inspection of figures \ref{si_fig:metric_map_eu_3MMDA1} - \ref{si_fig:metric_map_us_SOMO35} is presented here. 
+As the health/exposure O\textsubscript{3} metrics are annually aggregated, the DTW/HC method was not directly applied to these data sets, but observations from inspection of figures \ref{si_fig:metric_map_eu_4MDA8} - \ref{si_fig:metric_map_us_AVGMDA8} is presented here. 
 
 The NDGT70 and 4MDA8 metrics are generally used to investigate variations in the highest values of O$_3$. High values of these metrics are typically an indicator of episodes of high photochemical O$_3$ production. Here, we explore the frequency of high values of these metrics over the 20-year time period, separately in Europe (214 sites) and the United States of America (152 sites).
 
@@ -251,7 +251,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 % - 
 \begin{figure*}[p]
 \includegraphics[width=12cm]{figures/paper_figures/f01_overview.pdf}
-\caption{Time series of annual average MDA8O\textsubscript{3}, O\textsubscript{3} and NO\textsubscript{2} for urban sites in Europe and the USA, for the time series types detailed in (table \ref{si_tab:ts_types})}
+\caption{Time series of annual average MDA8O\textsubscript{3}, O\textsubscript{3} and NO\textsubscript{2} for urban sites in Europe and the USA. Day and night subgroups correspond to the hours of 0800 L - 1900 L and 2000 - 0700 L respectively, warm and cold refer to the months April - September and October - March respectively.}
 \label{fig:conc_plot}
 \end{figure*}
 \clearpage
@@ -283,7 +283,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[height=0.9\textheight]{figures/paper_figures/f09_o3_map_piecewise_stats_freeTau_mda8_anom_warm_eu_o3.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/f05_o3_map_mda8_warm_eu_o3.pdf}
 \caption{Trends in warm season MDA8O\textsubscript{3} in Europe in 2004 and 2018. Trends are shown by an arrow where the angle between vertically up and horizontal corresponds to 2.5 - 0 ppbv / yr\textsuperscript{-1}, and between horizontal and vertically down corresponds to 0 - -2.5 ppbv / yr\textsuperscript{-1}. The few trends that have a magnitude greater than 2.5 ppbv have been clamped. Colour corresponds to the direction and significant of the trend.}
 \label{fig:o3_map_eu_mda8_warm}
 \end{figure}
@@ -291,7 +291,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[height=0.9\textheight]{figures/paper_figures/f10_o3_map_piecewise_stats_freeTau_mda8_anom_warm_us_o3.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/f06_o3_map_mda8_warm_us_o3.pdf}
 \caption{Trends in warm season MDA8O\textsubscript{3} in the United States of America in 2004 and 2018. Trends are shown by an arrow where the angle between vertically up and horizontal corresponds to 2.5 - 0 ppbv / yr\textsuperscript{-1}, and between horizontal and vertically down corresponds to 0 - -2.5 ppbv / yr\textsuperscript{-1}. The few trends that have a magnitude greater than 2.5 ppbv have been clamped. Colour corresponds to the direction and significant of the trend.}
 \label{fig:o3_map_us_mda8_warm}
 \end{figure}
@@ -303,7 +303,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 % HC MDA8
 \begin{sidewaysfigure}[p]
     \centering
-    \includegraphics[width=\textwidth]{figures/paper_figures/f11_eu_clusters.pdf}
+    \includegraphics[width=\textwidth]{figures/paper_figures/f07_eu_clusters.pdf}
     \caption{Clusters determined for MDA8O\textsubscript{3}, MDA8O\textsubscript{3} warm season and MDA8O\textsubscript{3} cold season at $\tau$ 0.05, 0.50 and 0.95 in Europe. Clusters are coloured when there are > 3 sites within a cluster, otherwise these are assigned 'No Cluster'. Clusters are numbered starting with the cluster containing the most sites as 1 within each pane.}
     \label{fig:eu_cluster}
 \end{sidewaysfigure}
@@ -312,7 +312,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{sidewaysfigure}[p]
     \centering
-    \includegraphics[width=\textwidth]{figures/paper_figures/f12_us_clusters.pdf}
+    \includegraphics[width=\textwidth]{figures/paper_figures/f08_us_clusters.pdf}
     \caption{As figure \ref{fig:eu_cluster} for the United States of America}
     \label{fig:us_cluster}
 \end{sidewaysfigure}
@@ -323,7 +323,7 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[height=0.9\textheight]{figures/paper_figures/f13_mda8_cluster_mda8_6mmda1.pdf}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/f09_mda8_cluster_mda8_6mmda1.pdf}
 \caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' MDA8O\textsuperscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours correspond to clusters presented in figures \ref{fig:eu_cluster} and \ref{fig:us_cluster}.}
 \label{fig:mda8_cluster_mda8_6mmda1}
 \end{figure}
@@ -331,16 +331,16 @@ Hierarchical clustering with dynamic time warping revealed regional groupings of
 
 \begin{figure}[p]
 \centering
-\includegraphics[height=0.9\textheight]{figures/paper_figures/f14_mda8_warm_cluster_mda8_6mmda1.pdf}
-\caption{As figure \ref{fig:mda8_cluster_mda8_6mmda1} with warm season MDA8O\textsubscript{3} on the y-axis}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/f10_mda8_warm_cluster_mda8_6mmda1.pdf}
+\caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' warm season MDA8O\textsuperscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours correspond to clusters presented in figures \ref{fig:eu_cluster} and \ref{fig:us_cluster}.}
 \label{fig:mda8_warm_cluster_mda8_6mmda1}
 \end{figure}
 \clearpage
 
 \begin{figure}[p]
 \centering
-\includegraphics[height=0.9\textheight]{figures/paper_figures/f15_mda8_cold_cluster_mda8_6mmda1.pdf}
-\caption{As figure \ref{fig:mda8_cluster_mda8_6mmda1} with cold season MDA8O\textsubscript{3} on the y-axis}
+\includegraphics[height=0.9\textheight]{figures/paper_figures/f11_mda8_cold_cluster_mda8_6mmda1.pdf}
+\caption{For the years 2004 (left) and 2018 (right) scatter plots show that years' cold season MDA8O\textsuperscript{3} trend in (top to bottom) Europe $\tau$ = 0.05, 0.5, 0.95, United States of America $\tau$ = 0.05, 0.5, 0.95 vs the 6MMDA1 for the same year. Colours correspond to clusters presented in figures \ref{fig:eu_cluster} and \ref{fig:us_cluster}.}
 \label{fig:mda8_cold_cluster_mda8_6mmda1}
 \end{figure}
 \clearpage
