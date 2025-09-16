@@ -257,7 +257,7 @@ g2 = dat |>
   )
 
 grDevices::cairo_pdf(here::here('figures','si_figures','slope_density.pdf'), width = 11, height = 7)
-print(p2)
+print(g2)
 dev.off()
 
 # Make Table --------------------------------------------------------------

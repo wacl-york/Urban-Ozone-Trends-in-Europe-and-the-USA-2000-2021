@@ -67,11 +67,12 @@ regs_by_type = tbl(con, "min_aic_regs") |>
 
 g1 = regs_by_type |>
   filter(name == "o3",
-         dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
+         dataType %in% c("reg_all_mda8_anom_all", "reg_all_mda8_anom_warm", "reg_all_mda8_anom_cold"),
+         tau %in% c(0.05, 0.5, 0.95)) |>
   mutate(dataType = case_when(
-    dataType == "reg_all_daily_all" ~ "Daily Mean",
     dataType == "reg_all_mda8_anom_all" ~ "MDA8O<sub>3</sub>",
     dataType == "reg_all_mda8_anom_warm" ~ "MDA8O<sub>3</sub> Warm Season",
+    dataType == "reg_all_mda8_anom_cold" ~ "MDA8O<sub>3</sub> Cold Season"
   )) |>
   ggplot()+
   geom_bar(aes(factor(tau), fill = scenarioType), stat = "count", position = "dodge")+
@@ -94,29 +95,6 @@ dev.off()
 
 
 # SI Plots ----------------------------------------------------------------
-
-g1_all = regs_by_type |>
-  filter(name == "o3") |>
-  mutate(dataType = str_remove(dataType, "reg_all_")) |>
-  ggplot()+
-  geom_bar(aes(factor(tau), fill = scenarioType), stat = "count", position = "dodge")+
-  scale_x_discrete(name = "&tau;")+
-  scale_y_continuous(name = "Number of Sites",expand = c(0,0))+
-  scale_fill_manual(
-    name = "Regression Type",
-    values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
-  facet_grid(region~dataType, scale = "free_y")+
-  theme_minimal()+
-  theme(
-    strip.text = element_markdown(size = 5),
-    axis.title = element_markdown(),
-    axis.text.x = element_text(angle = 285, vjust = 0.5),
-    legend.position = "bottom"
-  )
-
-grDevices::cairo_pdf(here::here('figures','si_figures','regression_type',"regression_type_bars_o3_all.pdf"), width = 11, height = 8) # to get the tau to write properly use cairo_pdf
-print(g1_all)
-dev.off()
 
 for(rgn in c("Europe", "United States of America")){
 
@@ -165,8 +143,6 @@ for(rgn in c("Europe", "United States of America")){
   dev.off()
 }
 
-
-
 # Map ---------------------------------------------------------------------
 
 regs_by_type_sf = regs_by_type |>
@@ -183,7 +159,6 @@ g_eu = ggplot()+
                     values = c(PQR_1 = "#FF0000", PQR_2 = "#00A08A", QR = "#F2AD00"))+
   theme_void()
 
-
 g_us = ggplot()+
   geom_sf(data = world)+
   geom_sf(data = regs_by_type_sf, aes(fill = scenarioType), shape = 21)+
@@ -196,7 +171,6 @@ g_us = ggplot()+
     plot.title = element_markdown()
   )
 
-
 g3 = g_us+g_eu+plot_layout(guides = "collect")
 
 grDevices::cairo_pdf(here::here('figures','si_figures','regression_type','regression_type_map.pdf'), width = 11, height = 4)
@@ -204,7 +178,6 @@ print(g3)
 dev.off()
 
 # Table -------------------------------------------------------------------
-
 
 tableDat = regs_by_type |>
   group_by(tau, name, dataType, region, scenarioType) |>
@@ -214,12 +187,6 @@ tableDat = regs_by_type |>
          perc = round(perc)) |>
   select(-n) |>
   pivot_wider(values_from = "perc", names_from = c("name","scenarioType"), names_sep = "_") |>
-  # filter(dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
-  # mutate(dataType = case_when(
-  #   dataType == "reg_all_daily_all" ~ "Daily Mean",
-  #   dataType == "reg_all_mda8_anom_all" ~ "MDA8Ozzz3yyy"
-  # )) |>
-  # filter(tau %in% c(0.25, 0.5, 0.75)) |>
   relocate(tau, dataType, o3_QR, o3_PQR_1, o3_PQR_2, no2_QR, no2_PQR_1, no2_PQR_2, ox_QR, ox_PQR_1, ox_PQR_2)
 
 tableDat |>
