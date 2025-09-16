@@ -256,7 +256,7 @@ g2 = dat |>
     axis.title = element_markdown()
   )
 
-grDevices::cairo_pdf(here::here('figures','si_figures','slope_density.pdf'), width = 11, height = 7)
+grDevices::cairo_pdf(here::here('figures','si_figures','fS04_slope_density.pdf'), width = 11, height = 7)
 print(g2)
 dev.off()
 
@@ -309,3 +309,6 @@ for(rgn in c("Europe", "United States of America")){
 }
 
 tabGt$Europe$perc
+
+
+dbDisconnect(con, shutdown = T)

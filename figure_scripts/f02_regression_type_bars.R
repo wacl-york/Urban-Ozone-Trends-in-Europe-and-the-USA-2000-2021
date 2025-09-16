@@ -95,9 +95,11 @@ dev.off()
 
 
 # SI Plots ----------------------------------------------------------------
+regions = c("Europe", "United States of America")
 
-for(rgn in c("Europe", "United States of America")){
+for(i in 1:length(regions)){
 
+  rgn = regions[i]
   title = paste0("O<sub>3</sub> - ", rgn)
 
   g2 = regs_by_type |>
@@ -110,6 +112,7 @@ for(rgn in c("Europe", "United States of America")){
     mutate(cp_year = year(value)) |>
     filter(name == "o3",
            region == rgn,
+           tau %in% c(0.05, 0.5, 0.95),
            dataType %in% c("reg_all_daily_all", "reg_all_mda8_anom_all", "reg_all_mda8_anom_warm")) |>
     mutate(
       dataType = case_when(
@@ -138,7 +141,7 @@ for(rgn in c("Europe", "United States of America")){
     ggtitle(title)
 
 
-  grDevices::cairo_pdf(here::here('figures','si_figures','cp_year',paste0("cp_year_o3_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
+  grDevices::cairo_pdf(here::here('figures','si_figures',paste0("fS",str_pad(i, 2, pad = "0"),"_cp_year_o3_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
   print(g2)
   dev.off()
 }
@@ -173,7 +176,7 @@ g_us = ggplot()+
 
 g3 = g_us+g_eu+plot_layout(guides = "collect")
 
-grDevices::cairo_pdf(here::here('figures','si_figures','regression_type','regression_type_map.pdf'), width = 11, height = 4)
+grDevices::cairo_pdf(here::here('figures','si_figures','fS03_regression_type_map.pdf'), width = 11, height = 4)
 print(g3)
 dev.off()
 
