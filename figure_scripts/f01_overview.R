@@ -95,6 +95,11 @@ pdf("figures/paper_figures/f01_overview.pdf", width = 7.5, height = 7.5)
 print(g1)
 dev.off()
 
+# for README.md
+png("figures/f01_overview.png", res = 300, width = 3000, height = 3000)
+print(g1)
+dev.off()
+
 dat |>
   mutate(yr = year(date)) |>
   select(-date) |>
