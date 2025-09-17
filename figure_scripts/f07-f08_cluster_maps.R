@@ -45,10 +45,11 @@ dat = tbl(con, "clusterTimeSeries_meancvi") |>
     coords = c("longitude", "latitude"),
     crs = "WGS84") |>
   st_transform(mycrs) |>
-  arrange(desc(cluster)) |>
+  mutate(cluster = ifelse(cluster == 99,0, cluster)) |>
+  arrange(cluster) |>
   mutate(
     cluster = as.character(cluster),
-    cluster = ifelse(cluster == 99, "No Cluster", cluster),
+    cluster = ifelse(cluster == 0, "No Cluster", cluster),
     cluster = factor(cluster,
                      levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "No Cluster")),
     type = case_when(
@@ -64,7 +65,7 @@ dat = tbl(con, "clusterTimeSeries_meancvi") |>
 g_us = ggplot()+
   geom_sf(data = world)+
   geom_sf(data = filter(dat, region == "United States of America"),
-          aes(colour = cluster))+
+          aes(colour = cluster),size = 0.5)+
   scale_y_continuous(limits = st_coordinates(limUS)[,2])+
   scale_x_continuous(limits = st_coordinates(limUS)[,1])+
   scale_colour_manual(
@@ -91,7 +92,7 @@ g_us = ggplot()+
 g_eu = ggplot()+
   geom_sf(data = world)+
   geom_sf(data = filter(dat, region == "Europe"),
-          aes(colour = cluster))+
+          aes(colour = cluster),size = 0.5)+
   scale_y_continuous(limits = st_coordinates(limEU)[,2])+
   scale_x_continuous(limits = st_coordinates(limEU)[,1])+
   scale_colour_manual(
