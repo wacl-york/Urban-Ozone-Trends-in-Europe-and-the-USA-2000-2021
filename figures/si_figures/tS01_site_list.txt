@@ -154,7 +154,6 @@ Europe & bg0051a & background & 42.143 & 24.765 \\
 Europe & ch0010a & background & 47.378 & 8.530 \\ 
 Europe & ch0011a & background & 46.011 & 8.957 \\ 
 Europe & ch0013a & traffic & 47.387 & 8.540 \\ 
-Europe & ch0017a & background & 47.566 & 7.582 \\ 
 Europe & ch0031a & traffic & 46.951 & 7.441 \\ 
 Europe & cz0toff & background & 49.839 & 18.264 \\ 
 Europe & cz0ttro & background & 49.668 & 18.678 \\ 
@@ -163,6 +162,10 @@ Europe & cz0uulm & background & 50.661 & 14.043 \\
 Europe & debb021 & background & 52.401 & 13.060 \\ 
 Europe & debe010 & background & 52.543 & 13.349 \\ 
 Europe & debw009 & background & 49.420 & 8.677 \\ 
+Europe & bg0050a & background & 42.681 & 23.297 \\ 
+Europe & ch0017a & background & 47.566 & 7.582 \\ 
+Europe & cz0mprr & background & 49.452 & 17.454 \\ 
+Europe & debe034 & background & 52.489 & 13.431 \\ 
 Europe & debw013 & background & 48.809 & 9.230 \\ 
 Europe & debw015 & background & 49.166 & 9.225 \\ 
 Europe & debw019 & background & 48.397 & 9.979 \\ 
@@ -342,9 +345,6 @@ United States of America & 2226 & suburban & 38.712 & -121.381 \\
 United States of America & 2799 & suburban & 32.631 & -117.059 \\ 
 United States of America & 3084 & suburban & 39.311 & -76.474 \\ 
 United States of America & 8263 & urban & 34.051 & -118.456 \\ 
-Europe & bg0050a & background & 42.681 & 23.297 \\ 
-Europe & cz0mprr & background & 49.452 & 17.454 \\ 
-Europe & debe034 & background & 52.489 & 13.431 \\ 
 Europe & deby052 & background & 48.397 & 10.008 \\ 
 Europe & dehb002 & background & 53.060 & 8.917 \\ 
 Europe & dehb005 & background & 53.562 & 8.569 \\ 

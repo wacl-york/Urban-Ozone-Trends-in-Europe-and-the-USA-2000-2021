@@ -19,8 +19,8 @@ dbListTables(con)
 opts = tribble(
   ~piecewiseTable, ~clusterType, ~title,
   "piecewise_stats_freeTau_mda8_anom_all",    "mda8", "MDA8O<sub>3</sub> Trend / ppbv yr<sup>-1</sup>",
-  "piecewise_stats_freeTau_mda8_anom_cold",   "mda8_warm", "MDA8O<sub>3</sub> Warm Season Trend / ppbv yr<sup>-1</sup>",
-  "piecewise_stats_freeTau_mda8_anom_warm",   "mda8_cold", "MDA8O<sub>3</sub> Cold Season Trend / ppbv yr<sup>-1</sup>"
+  "piecewise_stats_freeTau_mda8_anom_warm",   "mda8_warm", "MDA8O<sub>3</sub> Warm Season Trend / ppbv yr<sup>-1</sup>",
+  "piecewise_stats_freeTau_mda8_anom_cold",   "mda8_cold", "MDA8O<sub>3</sub> Cold Season Trend / ppbv yr<sup>-1</sup>"
 )
 
 for(i in 1:nrow(opts)){

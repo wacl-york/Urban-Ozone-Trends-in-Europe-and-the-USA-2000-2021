@@ -12,14 +12,14 @@ remove_sites_inspect = tribble(
   "bg0043a", "o3",
   "bg0040a", "no2",
   "bg0052a", "o3",
-  "es1529a", "o3",
+  # "es1529a", "o3",
   "es1529a", "ox",
-  "gr0030a", "o3",
+  # "gr0030a", "o3",
   "it0963a", "no2",
   "pt03072", "no2",
   "gr0031a", "ox",
-  "ie0028a", "no2",
-  "es1131a", "o3"
+  "ie0028a", "no2"
+  # "es1131a", "o3"
 )
 
 # Have we removed site used in an Ox calculation?  ------------------------
