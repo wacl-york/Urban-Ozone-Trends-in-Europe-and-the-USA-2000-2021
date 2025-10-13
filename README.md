@@ -1,5 +1,5 @@
 # Urban Ozone Trends in Europe and the USA 2000-2021
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14538198.svg)](https://doi.org/10.5281/zenodo.14538198)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14538197.svg)](https://doi.org/10.5281/zenodo.14538197)
 
 Repository for the research paper "Urban Ozone Trends in Europe and the USA 2000-2021"
 
