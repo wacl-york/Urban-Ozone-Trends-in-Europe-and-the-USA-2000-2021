@@ -92,7 +92,6 @@ regions = c("Europe", "United States of America")
 for(i in 1:length(regions)){
 
   rgn = regions[i]
-  title = paste0("O<sub>3</sub> - ", rgn)
 
   g2 = regs_by_type |>
     left_join(
@@ -130,7 +129,7 @@ for(i in 1:length(regions)){
       title = element_markdown(),
       legend.position = "bottom"
     )+
-    ggtitle(title)
+    ggtitle(rgn)
 
 
   grDevices::cairo_pdf(here::here('figures','si_figures',paste0("fS",str_pad(i, 2, pad = "0"),"_cp_year_o3_",str_replace_all(rgn, " ", "-"),".pdf")), width = 7.5, height = 7.5)
